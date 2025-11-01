@@ -1,0 +1,19 @@
+# ApeBrain.cloud - robots.txt
+
+User-agent: *
+Allow: /
+Allow: /blog
+Allow: /shop
+Allow: /impressum
+Allow: /privacy
+Allow: /terms
+
+# Disallow admin areas
+Disallow: /shroomsadmin/
+Disallow: /dashboard
+
+# Disallow payment pages
+Disallow: /payment/
+
+# Sitemap
+Sitemap: https://apebrain.cloud/sitemap.xml
