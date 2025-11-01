@@ -1,24 +1,78 @@
 <!doctype html>
-<html lang="en">
+<html lang="de">
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="theme-color" content="#000000" />
-        <meta name="description" content="A product of emergent.sh" />
-        <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
-        <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
-
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-        <title>Emergent | Fullstack App</title>
+        <meta name="theme-color" content="#7a9053" />
+        
+        <!-- SEO Meta Tags -->
+        <title>ApeBrain.cloud 🍄 | Natürliche Gesundheit, Pilze & Wellness Shop</title>
+        <meta name="description" content="Entdecke ApeBrain.cloud - Dein Portal für natürliche Gesundheit, Pilzkunde, Wellness-Blog und nachhaltige Produkte. Bewusstsein, Natur und Wissenschaft vereint." />
+        <meta name="keywords" content="Pilze, Gesundheit, Wellness, Naturheilkunde, Bewusstsein, Spiritualität, Mushrooms, Blog, Shop, Apebrain" />
+        <meta name="author" content="ApeBrain.cloud" />
+        <link rel="canonical" href="https://apebrain.cloud" />
+        
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://apebrain.cloud/" />
+        <meta property="og:title" content="ApeBrain.cloud 🍄 | Natürliche Gesundheit & Wellness" />
+        <meta property="og:description" content="Entdecke ApeBrain.cloud - Portal für natürliche Gesundheit, Pilzkunde, Wellness-Blog und nachhaltige Produkte." />
+        <meta property="og:image" content="https://apebrain.cloud/og-image.png" />
+        <meta property="og:site_name" content="ApeBrain.cloud" />
+        <meta property="og:locale" content="de_DE" />
+        
+        <!-- Twitter Card -->
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content="https://apebrain.cloud/" />
+        <meta name="twitter:title" content="ApeBrain.cloud 🍄 | Natürliche Gesundheit & Wellness" />
+        <meta name="twitter:description" content="Portal für natürliche Gesundheit, Pilzkunde und Wellness. Blog, Shop & Community." />
+        <meta name="twitter:image" content="https://apebrain.cloud/twitter-image.png" />
+        
+        <!-- Favicon & Icons -->
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        <link rel="manifest" href="/manifest.json" />
+        
+        <!-- Structured Data (JSON-LD) -->
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          "name": "ApeBrain.cloud",
+          "url": "https://apebrain.cloud",
+          "description": "Portal für natürliche Gesundheit, Pilzkunde, Wellness und nachhaltige Produkte",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://apebrain.cloud/blog?search={search_term_string}",
+            "query-input": "required name=search_term_string"
+          }
+        }
+        </script>
+        
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          "name": "ApeBrain.cloud",
+          "url": "https://apebrain.cloud",
+          "logo": "https://apebrain.cloud/logo.png",
+          "sameAs": [
+            "https://www.instagram.com/apebrain.cloud"
+          ],
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "email": "apebrain333@gmail.com",
+            "contactType": "Customer Service"
+          }
+        }
+        </script>
+        
+        <!-- Performance & Preload -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+        
+        <title>ApeBrain.cloud 🍄 | Natürliche Gesundheit & Wellness</title>
         <script src="https://assets.emergent.sh/scripts/emergent-main.js"></script>
         <script src="https://accounts.google.com/gsi/client" async defer></script>
         <!--
