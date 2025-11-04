@@ -1096,10 +1096,10 @@ h1, h2, h3, h4, h5, h6 {
   position: fixed;
   top: 80px;
   left: 20px;
-  background: linear-gradient(135deg, #ffc439 0%, #ffb100 100%);
+  background: linear-gradient(135deg, #ff1744 0%, #ec4899 100%);
   padding: 1rem 1.5rem;
   border-radius: 16px;
-  box-shadow: 0 8px 30px rgba(255, 196, 57, 0.4);
+  box-shadow: 0 8px 30px rgba(255, 23, 68, 0.6), 0 0 20px rgba(236, 72, 153, 0.4);
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -1107,12 +1107,12 @@ h1, h2, h3, h4, h5, h6 {
   animation: floatCoupon 4s ease-in-out infinite;
   cursor: pointer;
   transition: all 0.3s;
-  border: 2px solid rgba(255, 177, 0, 0.5);
+  border: 1px solid rgba(255, 23, 68, 0.7);
 }
 
 .floating-coupon:hover {
   transform: translateY(-4px) scale(1.05);
-  box-shadow: 0 12px 40px rgba(255, 196, 57, 0.6);
+  box-shadow: 0 12px 40px rgba(255, 23, 68, 0.8), 0 0 30px rgba(236, 72, 153, 0.6);
 }
 
 @keyframes floatCoupon {
@@ -1125,7 +1125,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .floating-coupon svg {
-  color: #003087;
+  color: white;
 }
 
 .coupon-content {
@@ -1138,13 +1138,14 @@ h1, h2, h3, h4, h5, h6 {
   font-family: 'Courier New', monospace;
   font-weight: 700;
   font-size: 1.2rem;
-  color: #003087;
+  color: white;
   letter-spacing: 1px;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }
 
 .coupon-discount {
   font-size: 0.85rem;
-  color: #003087;
+  color: rgba(255, 255, 255, 0.9);
   font-weight: 600;
 }
 
