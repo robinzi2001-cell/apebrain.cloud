@@ -390,18 +390,19 @@ h1, h2, h3, h4, h5, h6 {
 /* Landing Page */
 .landing-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667c59 0%, #4a5942 25%, #7a9053 50%, #5a6c3a 75%, #3a4520 100%);
+  background: radial-gradient(ellipse at top, #1a0f1f 0%, #0a0a0f 50%, #000000 100%);
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 2rem;
+  overflow: hidden;
 }
 
 .landing-overlay {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.1) 0%, transparent 70%);
+  background: radial-gradient(circle at 50% 50%, rgba(255, 23, 68, 0.05) 0%, transparent 70%);
 }
 
 .landing-content {
@@ -414,12 +415,12 @@ h1, h2, h3, h4, h5, h6 {
 .landing-header {
   text-align: center;
   margin-bottom: 4rem;
-  color: white;
+  color: #f8e8f0;
 }
 
 .landing-logo {
   animation: float 3s ease-in-out infinite;
-  filter: drop-shadow(0 0 20px rgba(167, 139, 250, 0.6));
+  filter: drop-shadow(0 0 30px rgba(255, 23, 68, 0.7));
 }
 
 @keyframes float {
@@ -430,15 +431,17 @@ h1, h2, h3, h4, h5, h6 {
 .landing-title {
   font-size: clamp(3rem, 8vw, 5rem);
   margin: 1rem 0;
-  color: white;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+  color: #f8e8f0;
+  text-shadow: 0 0 30px rgba(255, 23, 68, 0.7), 0 0 60px rgba(236, 72, 153, 0.4);
 }
 
 .landing-tagline {
   font-size: 1.5rem;
   font-style: italic;
-  opacity: 0.9;
+  font-family: 'Playfair Display', serif;
+  opacity: 0.85;
   letter-spacing: 2px;
+  color: #d4b5d9;
 }
 
 .landing-cards {
