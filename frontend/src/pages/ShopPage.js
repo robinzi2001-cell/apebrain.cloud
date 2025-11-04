@@ -303,6 +303,58 @@ const ShopPage = () => {
             ))
           )}
         </div>
+
+        {/* Educational Section */}
+        <div className="educational-section">
+          <h2 className="section-title">The APEBRAIN Philosophy</h2>
+          <div className="education-grid">
+            <div className="education-card">
+              <div className="edu-icon">🌿</div>
+              <h3>Traditional Wisdom</h3>
+              <p>Siberian shamans have used Amanita muscaria for millennia in sacred rituals. This ancient knowledge guides our understanding of muscimol's consciousness-expanding properties.</p>
+            </div>
+            <div className="education-card">
+              <div className="edu-icon">🧠</div>
+              <h3>Consciousness Evolution</h3>
+              <p>The Stoned Ape Theory suggests psychoactive compounds catalyzed human brain development. We honor this evolutionary relationship between humans and fungi.</p>
+            </div>
+            <div className="education-card">
+              <div className="edu-icon">📦</div>
+              <h3>Modern Standards</h3>
+              <p>Lab-tested muscimol content ensures consistency and safety. We bridge ancient wisdom with contemporary quality control for responsible exploration.</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Safety Information Section */}
+        <div className="safety-section">
+          <h2 className="section-title">Safety & Responsibility</h2>
+          <div className="safety-grid">
+            <div className="safety-card">
+              <div className="safety-icon">⚠️</div>
+              <h3>Lab Verified</h3>
+              <p>All products are third-party tested for muscimol content, heavy metals, and contaminants. Certificates available upon request.</p>
+            </div>
+            <div className="safety-card">
+              <div className="safety-icon">🎯</div>
+              <h3>Start Low</h3>
+              <p>Begin with minimal doses. Amanita effects are dose-dependent. Respect the mushroom and allow time to understand your response.</p>
+            </div>
+            <div className="safety-card">
+              <div className="safety-icon">📚</div>
+              <h3>Set & Setting</h3>
+              <p>Create a safe, comfortable environment. Mental preparation and proper context are essential for meaningful experiences.</p>
+            </div>
+            <div className="safety-card">
+              <div className="safety-icon">📖</div>
+              <h3>Educational Purpose</h3>
+              <p>These products are sold for educational and research purposes. Not for human consumption. Not evaluated by FDA.</p>
+            </div>
+          </div>
+          <div className="legal-disclaimer">
+            <p><strong>Legal Notice:</strong> These statements have not been evaluated by the Food and Drug Administration. These products are not intended to diagnose, treat, cure, or prevent any disease. For educational purposes only.</p>
+          </div>
+        </div>
       </div>
 
       {/* Shopping Cart Sidebar */}
