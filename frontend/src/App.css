@@ -568,22 +568,23 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .product-card {
-  background: white;
+  background: rgba(30, 20, 35, 0.6);
   border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 25px rgba(0,0,0,0.6);
+  border: 1px solid rgba(255, 23, 68, 0.2);
   transition: all 0.3s;
 }
 
 .product-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 12px 40px rgba(251, 191, 36, 0.5);
-  border: 2px solid rgba(251, 191, 36, 0.7);
+  transform: translateY(-10px);
+  box-shadow: 0 15px 50px rgba(255, 23, 68, 0.6), 0 0 30px rgba(236, 72, 153, 0.4);
+  border: 1px solid rgba(255, 23, 68, 0.7);
 }
 
 .product-image-placeholder {
   height: 200px;
-  background: linear-gradient(135deg, #7a9053 0%, #5a6c3a 100%);
+  background: linear-gradient(135deg, #ff1744 0%, #ec4899 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -597,22 +598,23 @@ h1, h2, h3, h4, h5, h6 {
 .product-category {
   display: inline-block;
   padding: 0.25rem 0.75rem;
-  background: #e8ebe0;
-  color: #5a6c3a;
+  background: rgba(255, 23, 68, 0.2);
+  color: #ff6b8a;
   border-radius: 20px;
   font-size: 0.85rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
+  border: 1px solid rgba(255, 23, 68, 0.3);
 }
 
 .product-name {
   font-size: 1.4rem;
   margin: 0.5rem 0;
-  color: #3a4520;
+  color: #f8e8f0;
 }
 
 .product-description {
-  color: #5a6c3a;
+  color: #c9b8ce;
   margin-bottom: 1rem;
   line-height: 1.5;
 }
@@ -627,7 +629,8 @@ h1, h2, h3, h4, h5, h6 {
 .product-price {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #7a9053;
+  color: #ff6b8a;
+  text-shadow: 0 0 10px rgba(255, 23, 68, 0.4);
 }
 
 .shop-notice {
