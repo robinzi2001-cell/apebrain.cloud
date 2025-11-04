@@ -103,35 +103,36 @@ const UserDropdown = () => {
           alignItems: 'center',
           gap: '0.5rem',
           padding: '0.5rem 1rem',
-          background: 'white',
-          border: '1px solid #e5e7eb',
+          background: 'rgba(30, 20, 35, 0.8)',
+          border: '1px solid rgba(255, 23, 68, 0.3)',
           borderRadius: '20px',
           cursor: 'pointer',
           transition: 'all 0.2s',
-          boxShadow: isOpen ? '0 4px 12px rgba(0,0,0,0.1)' : 'none'
+          boxShadow: isOpen ? '0 4px 20px rgba(255, 23, 68, 0.4)' : 'none'
         }}
       >
         <div style={{
           width: '32px',
           height: '32px',
           borderRadius: '50%',
-          background: 'linear-gradient(135deg, #7a9053 0%, #5a7039 100%)',
+          background: 'linear-gradient(135deg, #ff1744 0%, #ec4899 100%)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           color: 'white',
           fontWeight: '600',
-          fontSize: '0.9rem'
+          fontSize: '0.9rem',
+          boxShadow: '0 0 15px rgba(255, 23, 68, 0.5)'
         }}>
           {user.first_name ? user.first_name.charAt(0).toUpperCase() : user.email.charAt(0).toUpperCase()}
         </div>
         <div style={{ textAlign: 'left' }}>
-          <div style={{ fontSize: '0.75rem', color: '#9ca3af' }}>Hallo,</div>
-          <div style={{ fontSize: '0.9rem', color: '#3a4520', fontWeight: '600' }}>
+          <div style={{ fontSize: '0.75rem', color: '#d4b5d9' }}>Hallo,</div>
+          <div style={{ fontSize: '0.9rem', color: '#f8e8f0', fontWeight: '600' }}>
             {user.first_name || user.email.split('@')[0]}
           </div>
         </div>
-        <ChevronDown size={16} style={{ color: '#9ca3af', transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.2s' }} />
+        <ChevronDown size={16} style={{ color: '#d4b5d9', transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.2s' }} />
       </button>
 
       {isOpen && (
