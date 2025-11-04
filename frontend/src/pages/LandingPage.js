@@ -135,40 +135,67 @@ const LandingPage = () => {
       ))}
 
       <div className="landing-content">
+        {/* Hero Section with Icon Combination */}
         <div className="landing-header">
-          <div className="landing-logo" style={{ fontSize: '4rem' }}>🍄</div>
-          <h1 className="landing-title" data-testid="landing-title">ApeBrain.cloud</h1>
-          <p className="landing-tagline" data-testid="landing-tagline">god knows how</p>
+          <div className="icon-combination">
+            <span className="mushroom-icon">🍄</span>
+            <span className="plus-icon">+</span>
+            <span className="brain-icon">🧠</span>
+          </div>
+          <h1 className="landing-title" data-testid="landing-title">APEBRAIN</h1>
+          <div className="consciousness-tagline">
+            <span>Consciousness</span>
+            <span className="separator">•</span>
+            <span>Mycology</span>
+            <span className="separator">•</span>
+            <span>Evolution</span>
+          </div>
+          <blockquote className="mckenna-quote">
+            "The history of the human race is a history of the human race's relationship with psychoactive plants."
+            <cite>— Terence McKenna</cite>
+          </blockquote>
         </div>
 
+        {/* Featured Quote Section - Stoned Ape Theory */}
+        <div className="featured-quote-section">
+          <div className="theory-badge">STONED APE THEORY</div>
+          <p className="theory-text">
+            What if consciousness expansion through psilocybin mushrooms catalyzed human evolution? 
+            Terence McKenna proposed that our ancestors' encounter with psychedelic fungi 
+            accelerated brain development, language, and self-awareness — transforming apes into humans.
+          </p>
+        </div>
+
+        {/* Navigation Cards */}
         <div className="landing-cards" data-testid="landing-cards">
           {showBlog && renderGalleryCard(
             'blog',
             <BookOpen size={48} />,
-            'Blog',
-            'Explore health, nature, consciousness and the mysteries of life',
+            'Knowledge Portal',
+            'Explore consciousness, mycology & evolutionary philosophy',
             '/blog'
           )}
 
           {showShop && renderGalleryCard(
             'shop',
             <ShoppingBag size={48} />,
-            'Shop',
-            'Discover natural products for your wellness journey',
+            'Sacred Shop',
+            'Premium Amanita muscaria products for conscious exploration',
             '/shop'
           )}
 
           {showMinigames && renderGalleryCard(
             'minigames',
             <Sparkles size={48} />,
-            'Minigames',
-            'Coming Soon',
+            'Consciousness Games',
+            'Interactive experiences • Coming Soon',
             null
           )}
         </div>
 
         <div className="landing-footer">
-          <p>Embracing the unknown, one discovery at a time</p>
+          <p>"Nature loves courage. You make the commitment and nature will respond to that commitment by removing impossible obstacles."</p>
+          <cite>— Terence McKenna</cite>
         </div>
       </div>
 
