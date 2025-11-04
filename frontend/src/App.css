@@ -452,38 +452,39 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .landing-card {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
+  background: rgba(30, 20, 35, 0.5);
+  backdrop-filter: blur(15px);
   border-radius: 20px;
   padding: 3rem 2rem;
   cursor: pointer;
   transition: all 0.4s ease;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.7);
+  border: 1px solid rgba(255, 23, 68, 0.3);
 }
 
 .landing-card:hover {
-  transform: translateY(-10px) scale(1.02);
+  transform: translateY(-15px) scale(1.03);
 }
 
 .blog-card-landing:hover {
-  box-shadow: 0 20px 60px rgba(220, 38, 38, 0.6);
-  border: 2px solid rgba(220, 38, 38, 0.8);
+  box-shadow: 0 25px 70px rgba(255, 23, 68, 0.8), 0 0 40px rgba(236, 72, 153, 0.6);
+  border: 1px solid rgba(255, 23, 68, 0.9);
 }
 
 .shop-card-landing:hover {
-  box-shadow: 0 20px 60px rgba(251, 191, 36, 0.6);
-  border: 2px solid rgba(251, 191, 36, 0.8);
+  box-shadow: 0 25px 70px rgba(236, 72, 153, 0.8), 0 0 40px rgba(255, 23, 68, 0.6);
+  border: 1px solid rgba(236, 72, 153, 0.9);
 }
 
 .coming-soon-card:hover {
-  box-shadow: 0 20px 60px rgba(167, 139, 250, 0.6);
-  border: 2px solid rgba(167, 139, 250, 0.8);
+  box-shadow: 0 25px 70px rgba(147, 51, 234, 0.6), 0 0 40px rgba(168, 85, 247, 0.5);
+  border: 1px solid rgba(147, 51, 234, 0.8);
   opacity: 0.7;
 }
 
 .landing-card .card-icon {
   margin-bottom: 1.5rem;
-  color: #7a9053;
+  color: #ff6b8a;
   display: flex;
   justify-content: center;
 }
@@ -491,11 +492,11 @@ h1, h2, h3, h4, h5, h6 {
 .landing-card h2 {
   font-size: 2rem;
   margin-bottom: 1rem;
-  color: #3a4520;
+  color: #f8e8f0;
 }
 
 .landing-card p {
-  color: #5a6c3a;
+  color: #c9b8ce;
   font-size: 1.1rem;
 }
 
@@ -505,15 +506,16 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .coming-soon-card:hover {
-  transform: none;
+  transform: translateY(-10px) scale(1.02);
 }
 
 .landing-footer {
   text-align: center;
   margin-top: 4rem;
-  color: white;
-  opacity: 0.8;
+  color: #d4b5d9;
+  opacity: 0.7;
   font-style: italic;
+  font-family: 'Playfair Display', serif;
 }
 
 /* Shop Page */
