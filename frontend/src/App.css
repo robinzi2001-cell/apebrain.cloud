@@ -1314,10 +1314,11 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Footer */
 .footer {
-  background: #3a4520;
-  color: #e8ebe0;
+  background: rgba(15, 8, 18, 0.9);
+  color: #e0d5e5;
   padding: 3rem 2rem 2rem;
   margin-top: 4rem;
+  border-top: 1px solid rgba(255, 23, 68, 0.3);
 }
 
 .footer-content {
@@ -1330,29 +1331,31 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .footer-section h3 {
-  color: #fff;
+  color: #f8e8f0;
   margin-bottom: 1rem;
   font-size: 1.2rem;
+  text-shadow: 0 0 10px rgba(255, 23, 68, 0.3);
 }
 
 .footer-section a {
-  color: #e8ebe0;
+  color: #d4b5d9;
   text-decoration: none;
   display: block;
   margin-bottom: 0.5rem;
-  transition: color 0.3s;
+  transition: all 0.3s;
 }
 
 .footer-section a:hover {
-  color: #7a9053;
+  color: #ff6b8a;
+  text-shadow: 0 0 10px rgba(255, 23, 68, 0.5);
 }
 
 .footer-bottom {
   max-width: 1200px;
   margin: 0 auto;
   padding-top: 2rem;
-  border-top: 1px solid rgba(232, 235, 224, 0.2);
+  border-top: 1px solid rgba(255, 23, 68, 0.2);
   text-align: center;
-  color: #e8ebe0;
-  opacity: 0.8;
+  color: #d4b5d9;
+  opacity: 0.7;
 }
