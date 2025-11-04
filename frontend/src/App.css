@@ -309,7 +309,7 @@ h1, h2, h3, h4, h5, h6 {
 .form-group label {
   display: block;
   margin-bottom: 0.5rem;
-  color: #3a4520;
+  color: #e0d5e5;
   font-weight: 500;
 }
 
@@ -317,17 +317,21 @@ h1, h2, h3, h4, h5, h6 {
 .form-group textarea {
   width: 100%;
   padding: 0.8rem;
-  border: 2px solid #e8ebe0;
+  border: 2px solid rgba(255, 23, 68, 0.3);
   border-radius: 8px;
   font-family: inherit;
   font-size: 1rem;
-  transition: border-color 0.3s;
+  background: rgba(20, 10, 25, 0.6);
+  color: #e0d5e5;
+  transition: all 0.3s;
 }
 
 .form-group input:focus,
 .form-group textarea:focus {
   outline: none;
-  border-color: #7a9053;
+  border-color: #ff1744;
+  box-shadow: 0 0 15px rgba(255, 23, 68, 0.4);
+  background: rgba(30, 15, 35, 0.8);
 }
 
 .form-group textarea {
