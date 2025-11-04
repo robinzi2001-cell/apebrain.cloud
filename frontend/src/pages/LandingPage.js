@@ -200,22 +200,145 @@ const LandingPage = () => {
       </div>
 
       <style>{`
+        /* Icon Combination */
+        .icon-combination {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 1rem;
+          font-size: 4rem;
+          margin-bottom: 1.5rem;
+          animation: iconFloat 4s ease-in-out infinite;
+        }
+
+        .mushroom-icon, .brain-icon {
+          filter: drop-shadow(0 0 30px rgba(255, 23, 68, 0.7));
+        }
+
+        .plus-icon {
+          font-size: 2.5rem;
+          color: #ff6b8a;
+          font-weight: 300;
+          opacity: 0.8;
+        }
+
+        @keyframes iconFloat {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-15px); }
+        }
+
+        /* Consciousness Tagline */
+        .consciousness-tagline {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 1rem;
+          font-size: 1.2rem;
+          font-weight: 500;
+          letter-spacing: 3px;
+          text-transform: uppercase;
+          color: #d4b5d9;
+          margin-bottom: 2rem;
+          font-family: 'Inter', sans-serif;
+        }
+
+        .consciousness-tagline .separator {
+          color: #ff6b8a;
+          font-size: 0.8rem;
+        }
+
+        /* McKenna Quote */
+        .mckenna-quote {
+          max-width: 800px;
+          margin: 0 auto 3rem;
+          font-family: 'Playfair Display', serif;
+          font-size: 1.3rem;
+          font-style: italic;
+          line-height: 1.8;
+          color: #f8e8f0;
+          text-align: center;
+          padding: 2rem;
+          background: rgba(255, 23, 68, 0.08);
+          border-left: 4px solid #ff1744;
+          border-radius: 12px;
+          box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .mckenna-quote cite {
+          display: block;
+          margin-top: 1rem;
+          font-size: 1rem;
+          font-style: normal;
+          color: #ff6b8a;
+          font-family: 'Inter', sans-serif;
+        }
+
+        /* Featured Quote Section - Stoned Ape Theory */
+        .featured-quote-section {
+          max-width: 900px;
+          margin: 0 auto 4rem;
+          padding: 3rem;
+          background: rgba(30, 20, 35, 0.7);
+          border-radius: 20px;
+          border: 1px solid rgba(255, 23, 68, 0.3);
+          box-shadow: 0 10px 50px rgba(0, 0, 0, 0.7), 0 0 40px rgba(255, 23, 68, 0.15);
+          text-align: center;
+        }
+
+        .theory-badge {
+          display: inline-block;
+          padding: 0.5rem 1.5rem;
+          background: linear-gradient(135deg, #ff1744 0%, #ec4899 100%);
+          color: white;
+          font-weight: 700;
+          font-size: 0.9rem;
+          letter-spacing: 2px;
+          border-radius: 50px;
+          margin-bottom: 1.5rem;
+          box-shadow: 0 0 20px rgba(255, 23, 68, 0.6);
+        }
+
+        .theory-text {
+          font-size: 1.15rem;
+          line-height: 1.9;
+          color: #e0d5e5;
+          font-family: 'Inter', sans-serif;
+        }
+
+        /* Landing Footer Quote */
+        .landing-footer p {
+          font-family: 'Playfair Display', serif;
+          font-size: 1.1rem;
+          font-style: italic;
+          max-width: 700px;
+          margin: 0 auto 0.5rem;
+        }
+
+        .landing-footer cite {
+          display: block;
+          font-size: 0.95rem;
+          color: #ff6b8a;
+          font-family: 'Inter', sans-serif;
+          font-style: normal;
+        }
+
+        /* Gallery Cards */
         .landing-gallery-card {
           position: relative;
-          background: linear-gradient(135deg, rgba(122, 144, 83, 0.1) 0%, rgba(58, 69, 32, 0.1) 100%);
+          background: rgba(30, 20, 35, 0.5);
           border-radius: 20px;
           padding: 2.5rem;
           min-height: 300px;
           transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
           overflow: hidden;
-          border: 2px solid rgba(255, 255, 255, 0.1);
-          backdrop-filter: blur(10px);
+          border: 1px solid rgba(255, 23, 68, 0.3);
+          backdrop-filter: blur(15px);
         }
 
         .landing-gallery-card:hover {
-          transform: translateY(-10px) scale(1.02);
-          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
-          border-color: rgba(255, 255, 255, 0.2);
+          transform: translateY(-15px) scale(1.03);
+          box-shadow: 0 25px 70px rgba(255, 23, 68, 0.8), 0 0 40px rgba(236, 72, 153, 0.6);
+          border-color: rgba(255, 23, 68, 0.9);
         }
 
         .gallery-background {
