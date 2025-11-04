@@ -1012,6 +1012,8 @@ test_plan:
 
 agent_communication:
   - agent: "main"
+    message: "Completed comprehensive dark mystical theme redesign. Updated global CSS (index.css, App.css) with dark purple/black backgrounds, red/pink glowing accents, and elegant serif fonts. Modified all major sections: navbar, landing page, blog, shop, forms, cart, admin pages, legal pages, and footer. Added floating mushroom animation CSS. Updated UserDropdown component inline styles to match new theme. Theme transformation complete with glowing effects and minimalist centered layouts."
+  - agent: "main"
     message: "Implemented product image upload feature. Backend has new upload endpoint at POST /api/products/{product_id}/upload-image. Frontend AdminProducts.js has image upload field with preview. ShopPage.js now fetches products from backend and displays images. Ready for backend testing. Note: Image upload happens AFTER product creation, not during."
   - agent: "testing"
     message: "✅ BACKEND TESTING COMPLETE - Product image upload feature fully functional. All test scenarios passed: product creation, image upload, image retrieval, product updates, and error handling. Fixed minor HTTPException handling issue. Backend APIs ready for production use."
