@@ -1312,6 +1312,40 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
+/* Floating Mushrooms Animation */
+.floating-mushroom {
+  position: fixed;
+  pointer-events: none;
+  z-index: 1;
+  font-size: 2rem;
+  opacity: 0.3;
+  animation: mushroomFloat linear infinite;
+}
+
+@keyframes mushroomFloat {
+  0% {
+    transform: translateY(100vh) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.3;
+  }
+  90% {
+    opacity: 0.3;
+  }
+  100% {
+    transform: translateY(-100px) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+.floating-mushroom:nth-child(1) { left: 10%; animation-duration: 25s; animation-delay: 0s; }
+.floating-mushroom:nth-child(2) { left: 25%; animation-duration: 30s; animation-delay: 5s; }
+.floating-mushroom:nth-child(3) { left: 40%; animation-duration: 28s; animation-delay: 3s; }
+.floating-mushroom:nth-child(4) { left: 60%; animation-duration: 26s; animation-delay: 7s; }
+.floating-mushroom:nth-child(5) { left: 75%; animation-duration: 32s; animation-delay: 2s; }
+.floating-mushroom:nth-child(6) { left: 90%; animation-duration: 29s; animation-delay: 6s; }
+
 /* Footer */
 .footer {
   background: rgba(15, 8, 18, 0.9);
