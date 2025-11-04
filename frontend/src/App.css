@@ -25,10 +25,11 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Navbar */
 .navbar {
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(10px);
+  background: rgba(20, 10, 25, 0.85);
+  backdrop-filter: blur(15px);
   padding: 1rem 2rem;
-  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 30px rgba(255, 23, 68, 0.2);
+  border-bottom: 1px solid rgba(255, 23, 68, 0.15);
   position: sticky;
   top: 0;
   z-index: 100;
@@ -46,11 +47,12 @@ h1, h2, h3, h4, h5, h6 {
   font-family: 'Playfair Display', serif;
   font-size: 1.8rem;
   font-weight: 700;
-  color: #5a6c3a;
+  color: #ff6b8a;
   text-decoration: none;
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  text-shadow: 0 0 15px rgba(255, 23, 68, 0.5);
 }
 
 .nav-links {
@@ -60,15 +62,15 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .nav-links a {
-  color: #3a4520;
+  color: #e0d5e5;
   text-decoration: none;
   font-weight: 500;
   transition: all 0.3s;
 }
 
 .nav-links a:hover {
-  color: #7a9053;
-  text-shadow: 0 0 8px rgba(122, 144, 83, 0.6);
+  color: #ff6b8a;
+  text-shadow: 0 0 15px rgba(255, 23, 68, 0.8);
 }
 
 /* Hero Section */
