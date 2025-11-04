@@ -183,7 +183,233 @@ const BlogHomePage = () => {
           )}
         </div>
       )}
+
+      {/* Newsletter Section */}
+      <div className="newsletter-section">
+        <div className="newsletter-content">
+          <h2>Join the Consciousness Collective</h2>
+          <p>Expand your mind with weekly insights on mycology, consciousness, and human evolution</p>
+          <div className="newsletter-form">
+            <input
+              type="email"
+              placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="newsletter-input"
+            />
+            <button className="newsletter-btn">
+              Subscribe
+            </button>
+          </div>
+          <div className="apebrain-branding">
+            <span>🍄 + 🧠</span>
+            <span>APEBRAIN</span>
+          </div>
+        </div>
+      </div>
+
       <Footer />
+
+      <style>{`
+        /* Knowledge Portal Hero */
+        .knowledge-portal-hero {
+          text-align: center;
+          padding: 4rem 2rem 3rem;
+          background: linear-gradient(135deg, rgba(255, 23, 68, 0.08) 0%, rgba(236, 72, 153, 0.08) 100%);
+        }
+
+        .hero-icon-combo {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 1rem;
+          font-size: 3rem;
+          margin-bottom: 1rem;
+        }
+
+        .hero-icon-combo .plus {
+          font-size: 1.8rem;
+          color: #ff6b8a;
+          opacity: 0.8;
+        }
+
+        .knowledge-portal-hero h1 {
+          font-size: clamp(2.5rem, 5vw, 4rem);
+          margin-bottom: 1rem;
+          background: linear-gradient(135deg, #ff1744 0%, #ec4899 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+        }
+
+        .hero-subtitle-line {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 1rem;
+          font-size: 1.1rem;
+          font-weight: 500;
+          letter-spacing: 2px;
+          text-transform: uppercase;
+          color: #d4b5d9;
+          margin-bottom: 2rem;
+        }
+
+        .hero-subtitle-line .dot {
+          color: #ff6b8a;
+        }
+
+        .hero-mckenna-quote {
+          max-width: 800px;
+          margin: 0 auto;
+          font-family: 'Playfair Display', serif;
+          font-size: 1.2rem;
+          font-style: italic;
+          line-height: 1.8;
+          color: #f8e8f0;
+          padding: 2rem;
+          background: rgba(255, 23, 68, 0.08);
+          border-left: 4px solid #ff1744;
+          border-radius: 12px;
+        }
+
+        .hero-mckenna-quote cite {
+          display: block;
+          margin-top: 1rem;
+          font-size: 0.95rem;
+          font-style: normal;
+          color: #ff6b8a;
+          font-family: 'Inter', sans-serif;
+        }
+
+        /* Category Navigation */
+        .category-navigation {
+          display: flex;
+          justify-content: center;
+          gap: 1rem;
+          padding: 2rem;
+          flex-wrap: wrap;
+          max-width: 1000px;
+          margin: 0 auto;
+        }
+
+        .category-btn {
+          padding: 0.75rem 1.5rem;
+          background: rgba(30, 20, 35, 0.6);
+          border: 1px solid rgba(255, 23, 68, 0.3);
+          border-radius: 50px;
+          color: #e0d5e5;
+          font-weight: 500;
+          font-size: 0.95rem;
+          cursor: pointer;
+          transition: all 0.3s;
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+        }
+
+        .category-btn:hover {
+          background: rgba(255, 23, 68, 0.2);
+          border-color: rgba(255, 23, 68, 0.6);
+          box-shadow: 0 0 20px rgba(255, 23, 68, 0.4);
+          transform: translateY(-2px);
+        }
+
+        .category-btn.active {
+          background: linear-gradient(135deg, #ff1744 0%, #ec4899 100%);
+          border-color: rgba(255, 23, 68, 0.7);
+          color: white;
+          box-shadow: 0 0 25px rgba(255, 23, 68, 0.6);
+        }
+
+        .cat-icon {
+          font-size: 1.2rem;
+        }
+
+        /* Newsletter Section */
+        .newsletter-section {
+          background: rgba(30, 20, 35, 0.8);
+          border-top: 1px solid rgba(255, 23, 68, 0.3);
+          padding: 4rem 2rem;
+          margin-top: 4rem;
+        }
+
+        .newsletter-content {
+          max-width: 700px;
+          margin: 0 auto;
+          text-align: center;
+        }
+
+        .newsletter-content h2 {
+          font-size: 2.5rem;
+          margin-bottom: 1rem;
+          color: #f8e8f0;
+          text-shadow: 0 0 20px rgba(255, 23, 68, 0.5);
+        }
+
+        .newsletter-content p {
+          font-size: 1.15rem;
+          color: #d4b5d9;
+          margin-bottom: 2rem;
+        }
+
+        .newsletter-form {
+          display: flex;
+          gap: 1rem;
+          max-width: 500px;
+          margin: 0 auto 2rem;
+        }
+
+        .newsletter-input {
+          flex: 1;
+          padding: 1rem 1.5rem;
+          background: rgba(20, 10, 25, 0.8);
+          border: 2px solid rgba(255, 23, 68, 0.3);
+          border-radius: 50px;
+          color: #e0d5e5;
+          font-size: 1rem;
+          transition: all 0.3s;
+        }
+
+        .newsletter-input:focus {
+          outline: none;
+          border-color: #ff1744;
+          box-shadow: 0 0 20px rgba(255, 23, 68, 0.4);
+        }
+
+        .newsletter-btn {
+          padding: 1rem 2.5rem;
+          background: linear-gradient(135deg, #ff1744 0%, #ec4899 100%);
+          border: none;
+          border-radius: 50px;
+          color: white;
+          font-weight: 600;
+          font-size: 1rem;
+          cursor: pointer;
+          transition: all 0.3s;
+          box-shadow: 0 0 20px rgba(255, 23, 68, 0.5);
+        }
+
+        .newsletter-btn:hover {
+          box-shadow: 0 0 30px rgba(255, 23, 68, 0.8);
+          transform: translateY(-2px);
+        }
+
+        .apebrain-branding {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 0.75rem;
+          font-size: 1.1rem;
+          color: #ff6b8a;
+          font-weight: 600;
+          margin-top: 2rem;
+        }
+
+        .apebrain-branding span:first-child {
+          font-size: 1.5rem;
+        }
+      `}</style>
     </div>
   );
 };
