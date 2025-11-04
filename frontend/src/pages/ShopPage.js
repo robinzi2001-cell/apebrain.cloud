@@ -226,9 +226,18 @@ const ShopPage = () => {
         </div>
       </nav>
 
-      <div className="hero" data-testid="shop-hero">
-        <h1>Natural Wellness Shop</h1>
-        <p>Premium mushroom products & digital resources for your health journey</p>
+      {/* Sacred Shop Hero with Alternating Quotes */}
+      <div className="sacred-shop-hero" data-testid="shop-hero">
+        <div className="hero-icon-combo">
+          <span>🍄</span>
+          <span className="plus">+</span>
+          <span>🧠</span>
+        </div>
+        <h1>APEBRAIN Sacred Shop</h1>
+        <div className="alternating-quote">
+          {heroQuotes[currentQuote]}
+        </div>
+        <p className="hero-description">Premium Amanita muscaria products for conscious exploration</p>
       </div>
 
       <div className="shop-container" data-testid="shop-container">
