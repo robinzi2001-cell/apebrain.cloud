@@ -549,6 +549,188 @@ const ShopPage = () => {
       {showCart && <div className="cart-overlay" onClick={() => setShowCart(false)}></div>}
       
       <FloatingCoupon />
+
+      <style>{`
+        /* Sacred Shop Hero */
+        .sacred-shop-hero {
+          text-align: center;
+          padding: 4rem 2rem 3rem;
+          background: linear-gradient(135deg, rgba(255, 23, 68, 0.08) 0%, rgba(236, 72, 153, 0.08) 100%);
+        }
+
+        .sacred-shop-hero .hero-icon-combo {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 1rem;
+          font-size: 3rem;
+          margin-bottom: 1rem;
+        }
+
+        .sacred-shop-hero .plus {
+          font-size: 1.8rem;
+          color: #ff6b8a;
+          opacity: 0.8;
+        }
+
+        .sacred-shop-hero h1 {
+          font-size: clamp(2.5rem, 5vw, 4rem);
+          margin-bottom: 1rem;
+          background: linear-gradient(135deg, #ff1744 0%, #ec4899 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+        }
+
+        .alternating-quote {
+          font-family: 'Playfair Display', serif;
+          font-size: 1.8rem;
+          font-style: italic;
+          color: #f8e8f0;
+          margin-bottom: 1rem;
+          min-height: 60px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: opacity 0.5s ease;
+        }
+
+        .hero-description {
+          font-size: 1.15rem;
+          color: #d4b5d9;
+          max-width: 600px;
+          margin: 0 auto;
+        }
+
+        /* Educational Section */
+        .educational-section {
+          max-width: 1200px;
+          margin: 4rem auto;
+          padding: 3rem 2rem;
+          background: rgba(30, 20, 35, 0.7);
+          border-radius: 20px;
+          border: 1px solid rgba(255, 23, 68, 0.3);
+          box-shadow: 0 10px 50px rgba(0, 0, 0, 0.7);
+        }
+
+        .section-title {
+          text-align: center;
+          font-size: 2.5rem;
+          color: #f8e8f0;
+          margin-bottom: 3rem;
+          text-shadow: 0 0 20px rgba(255, 23, 68, 0.5);
+        }
+
+        .education-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+          gap: 2rem;
+        }
+
+        .education-card {
+          background: rgba(20, 10, 25, 0.6);
+          padding: 2rem;
+          border-radius: 16px;
+          border: 1px solid rgba(255, 23, 68, 0.2);
+          transition: all 0.3s;
+        }
+
+        .education-card:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 10px 30px rgba(255, 23, 68, 0.4);
+          border-color: rgba(255, 23, 68, 0.5);
+        }
+
+        .edu-icon {
+          font-size: 3rem;
+          margin-bottom: 1rem;
+          text-align: center;
+        }
+
+        .education-card h3 {
+          font-size: 1.5rem;
+          color: #ff6b8a;
+          margin-bottom: 1rem;
+          text-align: center;
+        }
+
+        .education-card p {
+          color: #e0d5e5;
+          line-height: 1.7;
+          text-align: center;
+        }
+
+        /* Safety Section */
+        .safety-section {
+          max-width: 1200px;
+          margin: 4rem auto;
+          padding: 3rem 2rem;
+          background: rgba(30, 20, 35, 0.7);
+          border-radius: 20px;
+          border: 1px solid rgba(255, 23, 68, 0.3);
+          box-shadow: 0 10px 50px rgba(0, 0, 0, 0.7);
+        }
+
+        .safety-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+          gap: 1.5rem;
+          margin-bottom: 2rem;
+        }
+
+        .safety-card {
+          background: rgba(20, 10, 25, 0.6);
+          padding: 1.5rem;
+          border-radius: 12px;
+          border: 1px solid rgba(255, 23, 68, 0.2);
+          transition: all 0.3s;
+        }
+
+        .safety-card:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 8px 25px rgba(255, 23, 68, 0.3);
+          border-color: rgba(255, 23, 68, 0.4);
+        }
+
+        .safety-icon {
+          font-size: 2.5rem;
+          margin-bottom: 1rem;
+          text-align: center;
+        }
+
+        .safety-card h3 {
+          font-size: 1.3rem;
+          color: #ff6b8a;
+          margin-bottom: 0.75rem;
+          text-align: center;
+        }
+
+        .safety-card p {
+          color: #e0d5e5;
+          line-height: 1.6;
+          font-size: 0.95rem;
+          text-align: center;
+        }
+
+        .legal-disclaimer {
+          background: rgba(255, 23, 68, 0.1);
+          padding: 1.5rem;
+          border-radius: 12px;
+          border-left: 4px solid #ff1744;
+          margin-top: 2rem;
+        }
+
+        .legal-disclaimer p {
+          color: #e0d5e5;
+          line-height: 1.7;
+          font-size: 0.9rem;
+          margin: 0;
+        }
+
+        .legal-disclaimer strong {
+          color: #ff6b8a;
+        }
+      `}</style>
     </div>
   );
 };
