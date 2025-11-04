@@ -18,7 +18,21 @@ const ShopPage = () => {
   const [couponCode, setCouponCode] = useState('');
   const [appliedCoupon, setAppliedCoupon] = useState(null);
   const [couponError, setCouponError] = useState('');
+  const [currentQuote, setCurrentQuote] = useState(0);
   const navigate = useNavigate();
+
+  const heroQuotes = [
+    "What expanded primate minds can restore yours",
+    "god knows how"
+  ];
+
+  useEffect(() => {
+    // Rotate quotes every 5 seconds
+    const quoteInterval = setInterval(() => {
+      setCurrentQuote(prev => (prev + 1) % heroQuotes.length);
+    }, 5000);
+    return () => clearInterval(quoteInterval);
+  }, []);
 
   useEffect(() => {
     fetchProducts();
