@@ -84,11 +84,47 @@ const BlogHomePage = () => {
         </div>
       </nav>
 
-      <div className="hero" data-testid="hero-section">
-        <h1 data-testid="hero-title">Discover the Mysteries of Health & Nature</h1>
-        <p data-testid="hero-subtitle">
-          Dive into consciousness, explore natural remedies, and unlock the secrets of wellness
-        </p>
+      {/* Knowledge Portal Hero */}
+      <div className="knowledge-portal-hero" data-testid="hero-section">
+        <div className="hero-icon-combo">
+          <span>🍄</span>
+          <span className="plus">+</span>
+          <span>🧠</span>
+        </div>
+        <h1 data-testid="hero-title">APEBRAIN Knowledge Portal</h1>
+        <div className="hero-subtitle-line">
+          <span>Consciousness</span>
+          <span className="dot">•</span>
+          <span>Mycology</span>
+          <span className="dot">•</span>
+          <span>Evolution</span>
+        </div>
+        <blockquote className="hero-mckenna-quote">
+          "The syntactical nature of reality, the real secret of magic, is that the world is made of words. 
+          And if you know the words that the world is made of, you can make of it whatever you wish."
+          <cite>— Terence McKenna</cite>
+        </blockquote>
+      </div>
+
+      {/* Category Navigation */}
+      <div className="category-navigation">
+        {[
+          { id: 'all', label: 'All Articles', icon: '📚' },
+          { id: 'philosophy', label: 'Philosophy', icon: '🧠' },
+          { id: 'science', label: 'Science', icon: '🔬' },
+          { id: 'guides', label: 'Guides', icon: '📖' },
+          { id: 'history', label: 'History', icon: '🏛️' },
+          { id: 'experiences', label: 'Experiences', icon: '✨' }
+        ].map(cat => (
+          <button
+            key={cat.id}
+            className={`category-btn ${selectedCategory === cat.id ? 'active' : ''}`}
+            onClick={() => setSelectedCategory(cat.id)}
+          >
+            <span className="cat-icon">{cat.icon}</span>
+            {cat.label}
+          </button>
+        ))}
       </div>
 
       {loading ? (
