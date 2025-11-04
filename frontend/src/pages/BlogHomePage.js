@@ -11,6 +11,8 @@ const API = `${BACKEND_URL}/api`;
 const BlogHomePage = () => {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [email, setEmail] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
