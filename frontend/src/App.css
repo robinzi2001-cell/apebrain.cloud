@@ -896,7 +896,7 @@ h1, h2, h3, h4, h5, h6 {
   align-items: center;
   gap: 1rem;
   margin-bottom: 2rem;
-  color: #3a4520;
+  color: #f8e8f0;
 }
 
 .checkout-grid {
@@ -906,15 +906,16 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .checkout-section {
-  background: white;
+  background: rgba(30, 20, 35, 0.7);
   padding: 2rem;
   border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  box-shadow: 0 8px 40px rgba(0,0,0,0.6), 0 0 20px rgba(255, 23, 68, 0.15);
+  border: 1px solid rgba(255, 23, 68, 0.2);
 }
 
 .checkout-section h2 {
   margin-bottom: 1.5rem;
-  color: #3a4520;
+  color: #f8e8f0;
 }
 
 .order-items {
