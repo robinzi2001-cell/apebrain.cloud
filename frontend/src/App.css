@@ -152,9 +152,10 @@ h1, h2, h3, h4, h5, h6 {
   max-width: 800px;
   margin: 3rem auto;
   padding: 2rem;
-  background: white;
+  background: rgba(30, 20, 35, 0.7);
   border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(255, 23, 68, 0.15);
+  border: 1px solid rgba(255, 23, 68, 0.2);
 }
 
 .blog-detail-image {
@@ -163,39 +164,42 @@ h1, h2, h3, h4, h5, h6 {
   object-fit: cover;
   border-radius: 12px;
   margin-bottom: 2rem;
+  box-shadow: 0 5px 20px rgba(255, 23, 68, 0.3);
 }
 
 .blog-detail h1 {
   font-size: 2.5rem;
   margin-bottom: 1rem;
-  color: #3a4520;
+  color: #f8e8f0;
+  text-shadow: 0 0 15px rgba(255, 23, 68, 0.4);
 }
 
 .blog-detail-meta {
-  color: #7a9053;
+  color: #d4b5d9;
   margin-bottom: 2rem;
   padding-bottom: 1rem;
-  border-bottom: 2px solid #e8ebe0;
+  border-bottom: 2px solid rgba(255, 23, 68, 0.2);
 }
 
 .blog-detail-content {
   font-size: 1.1rem;
   line-height: 1.8;
-  color: #2d3319;
+  color: #e0d5e5;
 }
 
 .blog-detail-content h2 {
   margin-top: 2rem;
   margin-bottom: 1rem;
   font-size: 1.8rem;
-  color: #3a4520;
+  color: #f8e8f0;
+  text-shadow: 0 0 10px rgba(255, 23, 68, 0.3);
 }
 
 .blog-detail-content h3 {
   margin-top: 1.5rem;
   margin-bottom: 0.8rem;
   font-size: 1.4rem;
-  color: #5a6c3a;
+  color: #ff6b8a;
 }
 
 /* Admin Pages */
