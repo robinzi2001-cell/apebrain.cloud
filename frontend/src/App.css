@@ -534,27 +534,30 @@ h1, h2, h3, h4, h5, h6 {
 
 .shop-tab {
   padding: 1rem 2rem;
-  border: none;
+  border: 1px solid rgba(255, 23, 68, 0.3);
   border-radius: 50px;
-  background: white;
-  color: #5a6c3a;
+  background: rgba(30, 20, 35, 0.6);
+  color: #e0d5e5;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s;
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.5);
 }
 
 .shop-tab:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  box-shadow: 0 6px 25px rgba(255, 23, 68, 0.4);
+  border-color: rgba(255, 23, 68, 0.6);
 }
 
 .shop-tab.active {
-  background: #7a9053;
+  background: linear-gradient(135deg, #ff1744 0%, #ec4899 100%);
   color: white;
+  border-color: rgba(255, 23, 68, 0.7);
+  box-shadow: 0 6px 25px rgba(255, 23, 68, 0.6);
 }
 
 .products-grid {
