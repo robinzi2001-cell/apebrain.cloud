@@ -1151,31 +1151,36 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Coupon Form */
 .coupon-form-container {
-  background: white;
+  background: rgba(30, 20, 35, 0.7);
   padding: 2rem;
   border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  box-shadow: 0 8px 40px rgba(0,0,0,0.6), 0 0 20px rgba(255, 23, 68, 0.15);
+  border: 1px solid rgba(255, 23, 68, 0.2);
   margin-bottom: 2rem;
 }
 
 .coupon-form-container h2 {
   margin-bottom: 1.5rem;
-  color: #3a4520;
+  color: #f8e8f0;
 }
 
 .coupon-form-container select {
   width: 100%;
   padding: 0.8rem;
-  border: 2px solid #e8ebe0;
+  border: 2px solid rgba(255, 23, 68, 0.3);
   border-radius: 8px;
   font-family: inherit;
   font-size: 1rem;
-  transition: border-color 0.3s;
+  background: rgba(20, 10, 25, 0.6);
+  color: #e0d5e5;
+  transition: all 0.3s;
 }
 
 .coupon-form-container select:focus {
   outline: none;
-  border-color: #7a9053;
+  border-color: #ff1744;
+  box-shadow: 0 0 15px rgba(255, 23, 68, 0.4);
+  background: rgba(30, 15, 35, 0.8);
 }
 
 /* Legal Pages */
