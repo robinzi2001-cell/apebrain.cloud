@@ -343,28 +343,30 @@ h1, h2, h3, h4, h5, h6 {
 .loading {
   text-align: center;
   padding: 3rem;
-  color: #7a9053;
+  color: #ff6b8a;
   font-size: 1.2rem;
 }
 
 /* Error Message */
 .error {
-  background: #fdeaea;
-  color: #d84c4c;
+  background: rgba(220, 38, 38, 0.15);
+  color: #ff6b8a;
   padding: 1rem;
   border-radius: 8px;
   margin-bottom: 1rem;
-  border-left: 4px solid #d84c4c;
+  border-left: 4px solid #ff1744;
+  border: 1px solid rgba(220, 38, 38, 0.3);
 }
 
 /* Success Message */
 .success {
-  background: #e8f5e9;
-  color: #4caf50;
+  background: rgba(76, 175, 80, 0.15);
+  color: #81c784;
   padding: 1rem;
   border-radius: 8px;
   margin-bottom: 1rem;
   border-left: 4px solid #4caf50;
+  border: 1px solid rgba(76, 175, 80, 0.3);
 }
 
 /* Preview */
