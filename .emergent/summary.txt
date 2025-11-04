@@ -1,24 +1,26 @@
 <analysis>
-The AI engineer successfully progressed the apebrain.cloud application, iteratively building out features and resolving critical bugs. Initial work focused on product image uploads and strengthening admin panel security against client-side bypasses. Significant new features included configurable Instagram links on various pages, dynamic toggles for landing page buttons, and a comprehensive multimedia blog section with video/audio embeds and an AI image fetching system. Challenges included persistent MongoDB serialization errors, PayPal checkout validation issues, and React  double calls, all effectively resolved. The text-to-speech feature was implemented but later removed due to user feedback and headless browser limitations. The latest work centered on a robust order management system, integrating PayPal, email notifications for customers, and detailed tracking functionalities with DHL, along with admin controls for order status and deletion. The development process consistently involved user feedback, backend and frontend testing, and environment setup.
+The AI engineer successfully built out the apebrain.cloud application from its MVP stage, adding significant features and addressing critical issues. Initial work focused on securing the admin panel, implementing product image uploads, and adding configurable Instagram links and dynamic landing page button toggles. A robust multimedia blog section was developed, including video/audio embeds and AI image fetching. Key challenges included MongoDB serialization, PayPal checkout validation, and React  double calls, all resolved. The text-to-speech feature was removed due to user feedback. A comprehensive order management system was integrated, featuring PayPal, email notifications (customer and admin), and DHL tracking. User authentication was added, including email/password registration, login, and Google OAuth (with initial configuration challenges). Landing page dynamic galleries, a mini-mushroom rain easter egg, and admin-configurable RGB background gradients were implemented. SEO optimization (meta tags, robots.txt, sitemap, manifest) was completed, and deployment guides for GitHub/Hostinger were created, requiring a Git history cleanup to remove sensitive data. The immediate work involves a complete site redesign to a dark, mystical theme based on user-provided imagery.
 </analysis>
 
 <product_requirements>
-The user initially requested apebrain.cloud, a full-stack blog for health/nature (mushroom-focused) with automated posting and e-commerce, deployable on Hostinger.
+The apebrain.cloud application aims to be a full-stack blog focused on health/nature (specifically mushrooms) with automated posting capabilities and an integrated e-commerce shop, designed for Hostinger deployment.
 
 **Implemented Features:**
-*   **AI Blog Generation**: Blogs from keywords, with manual image upload.
-*   **Admin Panel ()**: Login protection, CRUD for blogs, coupons, products. Image upload for blogs and products. Configurability for various features.
-*   **UI/UX**: Landing page (blog/shop/mini-games), dynamic themes, animations, specific hover effects. Configurable Instagram icon next to top navigation (blog, shop, impressum pages). Landing page buttons (shop, blog, minigames) can be activated/deactivated via admin settings.
-*   **E-commerce Shop**: PayPal payment with cart, coupon system (admin CRUD, animated floating display, input field). Order management in admin, including new order email notifications for customers, order deletion, and status updates (paid, packed, shipped, in_transit, delivered, cancelled). DHL tracking integration with auto-generated links and email updates.
+*   **AI Blog Generation**: Blogs can be generated from keywords, with manual image upload and automatic image fetching from Pexels (2-3 distributed images).
+*   **Admin Panel ()**: Secure login, full CRUD operations for blogs, coupons, and products. Product and blog image upload, and settings to configure various features like landing page button visibility (Blog, Shop, Minigames), blog multimedia toggles (video, audio). Includes a notification badge for unread orders.
+*   **UI/UX**: Dynamic landing page featuring Blog, Shop, and Minigames buttons with visibility toggles. Configurable Instagram icon across navigation (blog, shop, impressum). The landing page now includes image galleries for each card (Shop, Blog, Minigames) with dynamic layouts (1 image fullscreen, 2 half, 3 grid) and a default subtle purple background when no images are chosen. An Easter egg mini-mushroom rain effect is also present. Admin settings now allow RGB gradient background color customization for the landing page cards with profile saving.
+*   **E-commerce Shop**: PayPal payment integration with a shopping cart and a coupon system (admin CRUD, animated floating display, input field on ShopPage with validation). A comprehensive order management system in the admin panel includes customer email notifications for new orders and status updates (paid, packed, shipped, in_transit, delivered, cancelled), order deletion, and DHL tracking integration.
+*   **Customer Account System**: User registration and login (email/password), User Dashboard with order overview, password reset via Gmail SMTP, and Google OAuth login integration. Admin receives email notifications for new user registrations.
 *   **Legal Pages**: Impressum, Privacy, Terms.
-*   **Blog Multimedia**: Option to add YouTube videos and audio files (hosted externally) to blog posts. Automatic image fetching from Pexels (2-3 images, distributed in content) based on blog topic.
-*   **Deployment**: Detailed server setup and payment integration guides.
+*   **SEO**: Global meta tags, robots.txt, sitemap.xml, and manifest.json for PWA.
+*   **Deployment**: Detailed server setup, payment integration guides, and GitHub + Hostinger deployment instructions including secure handling of environment variables.
 </product_requirements>
 
 <key_technical_concepts>
--   **Backend**: FastAPI (Python), MongoDB (NoSQL DB), , ,  (SMTP client),  (HTTP client for Pexels).
--   **Frontend**: React.js, Tailwind CSS, Shadcn UI,  (toasts),  (icons).
--   **AI**: Gemini Flash Lite (Text Generation).
+-   **Backend**: FastAPI (Python), MongoDB, , , , , , , .
+-   **Frontend**: React.js, Tailwind CSS, Shadcn UI, , .
+-   **AI**: Gemini Flash Lite (Text Generation), Pexels API (Image Fetching).
+-   **Auth**: JWT, bcrypt (password hashing), Google OAuth, Environment variables.
 -   **Deployment**: Supervisor, Kubernetes, yarn install v1.22.22
 [1/4] Resolving packages...
 success Already up-to-date.
@@ -98,84 +100,99 @@ General Options:
                               removed in the future.
   --resume-retries <resume_retries>
                               Maximum attempts to resume or restart an
-                              incomplete download. (default: 5).
--   **Data Handling**: Pydantic models, MongoDB ObjectId serialization (fixed), Environment variables, JWT for authentication.
--   **Payment**: PayPal REST API integration.
--   **Image/Video/Audio**: Pexels API, YouTube embeds, external audio hosting.
+                              incomplete download. (default: 5),  files, .
 </key_technical_concepts>
 
 <code_architecture>
 
 
--   **/app/backend/server.py**: The core FastAPI backend.
-    -   **Importance**: Implements all API endpoints.
-    -   **Changes**: Extensive modifications:  model updated (, , ); new endpoints for product image upload, audio upload, blog feature settings, landing page settings; PayPal order creation/execution endpoints; order management endpoints (GET all, count unread, DELETE, UPDATE status, public tracking); email sending functionality for new orders and status updates;  integration for image fetching;  integration. Crucially, the MongoDB ObjectId serialization issue was addressed, and the  model was extended to include .
+-   **/app/backend/server.py**: Core FastAPI backend.
+    -   **Importance**: Implements all API endpoints and backend logic.
+    -   **Changes**: Extensive updates for  model (multimedia support); new endpoints for product/audio upload, blog/landing page settings, PayPal order management (create, execute, status updates, tracking, email notifications); Pexels API integration for image fetching;  for email; MongoDB ObjectId serialization fixed. Major additions for customer authentication (register, login, password reset), user models (, ), JWT tokens, Google OAuth. Coupon validation logic for PayPal adjusted to modify item prices directly. Landing page settings extended to include gallery image URLs, card background colors, and color profile management endpoints. Admin new user registration email notification added.
 -   **/app/frontend/src/App.js**: Main React application entry point.
-    -   **Importance**: Defines routes.
-    -   **Changes**: Added route for the new  page.
+    -   **Importance**: Defines application routes.
+    -   **Changes**: Added routes for , , , and  pages.
 -   **/app/frontend/src/components/FloatingCoupon.js**: Reusable coupon display.
     -   **Importance**: Displays active coupon codes.
     -   **Changes**: Removed from .
--   **/app/frontend/src/pages/AdminCoupons.js**: Admin view for coupons.
-    -   **Importance**: Manages coupon CRUD.
-    -   **Changes**: Implemented client-side authentication guard ().
+-   **/app/frontend/src/components/UserDropdown.js**: (NEW FILE) Component for user authentication dropdown.
+    -   **Importance**: Provides user-specific navigation like logout and dashboard access.
+    -   **Changes**: Created to display Hello {Name} and link to user dashboard/logout.
 -   **/app/frontend/src/pages/AdminDashboard.js**: Admin landing page.
     -   **Importance**: Overview for admin.
-    -   **Changes**: Implemented client-side authentication guard; added a notification badge for unread orders.
--   **/app/frontend/src/pages/AdminLogin.js**: Admin login page.
-    -   **Importance**: Secure access to admin panel.
-    -   **Changes**: No direct changes in this trajectory.
+    -   **Changes**: Added a notification badge for unread orders.
 -   **/app/frontend/src/pages/AdminOrders.js**: (NEW FILE) Admin view for orders.
     -   **Importance**: Manages customer orders.
-    -   **Changes**: Created to list all orders, display order details, provide options to delete orders, update order status with tracking information, and filter orders. Includes a new  icon for deletion and a dropdown for status.
+    -   **Changes**: Created to list all orders, display details, delete, update status with tracking, and filter orders.
 -   **/app/frontend/src/pages/AdminProducts.js**: Admin view for products.
     -   **Importance**: Manages product CRUD.
-    -   **Changes**: Implemented product image upload functionality; implemented client-side authentication guard.
+    -   **Changes**: Implemented product image upload.
 -   **/app/frontend/src/pages/AdminSettings.js**: Admin settings.
     -   **Importance**: Configures application settings.
-    -   **Changes**: Added UI and logic for toggling landing page button visibility (Blog, Shop, Minigames); added UI and logic for blog feature toggles (Video, Audio, Text-to-Speech initially, then TTS removed); implemented client-side authentication guard.
+    -   **Changes**: Added UI and logic for toggling landing page buttons, blog multimedia features (TTS removed), and comprehensive UI for landing page gallery settings (multiple image upload, automatic/manual/no images) with dynamic layout options. Introduced UI for RGB color sliders and opacity for landing page card background gradients, including profile save/load/delete functionalities.
 -   **/app/frontend/src/pages/BlogHomePage.js**: Public blog homepage.
     -   **Importance**: Displays blog posts.
-    -   **Changes**: Added Instagram icon to navigation; removed  component.
+    -   **Changes**: Integrated  into navigation. Instagram icon integration.
 -   **/app/frontend/src/pages/BlogPage.js**: Individual blog post display.
     -   **Importance**: Renders a single blog post.
-    -   **Changes**: Added Instagram icon to navigation; integrated ; implemented video (YouTube embed) and audio player (external host) functionality; initially added Text-to-Speech (TTS) with language/voice selection but this feature was subsequently removed; refactored image display to show 2-3 images distributed within the blog content instead of a gallery.
+    -   **Changes**: Integrated , video (YouTube), audio players. Image display refactored for 2-3 distributed images.
 -   **/app/frontend/src/pages/CreateBlog.js**: Admin form for creating blogs.
     -   **Importance**: Allows admin to create new blog posts.
-    -   **Changes**: Added fields for video URL and audio file upload; added a Get picture from web checkbox for automated image fetching (Pexels integration); implemented client-side authentication guard.
--   **/app/frontend/src/pages/EditBlog.js**: Admin form for editing blogs.
-    -   **Importance**: Allows admin to modify existing blog posts.
-    -   **Changes**: Implemented client-side authentication guard.
--   **/app/frontend/src/pages/Impressum.js**: Legal page.
-    -   **Importance**: Displays legal information.
-    -   **Changes**: Added Instagram icon to navigation.
+    -   **Changes**: Added fields for video/audio URLs and Get picture from web (Pexels).
+-   **/app/frontend/src/pages/Dashboard.js**: (NEW FILE) User Dashboard.
+    -   **Importance**: Displays user-specific information, including order history.
+    -   **Changes**: Created as a placeholder for user account functionalities.
 -   **/app/frontend/src/pages/LandingPage.js**: Main landing page.
     -   **Importance**: Entry point to blog/shop/mini-games.
-    -   **Changes**: Implemented conditional rendering of Blog, Shop, and Minigames buttons based on admin settings.
+    -   **Changes**: Replaced with a new implementation for dynamic rendering of Blog, Shop, Minigames buttons as gallery cards. Includes logic for multiple image displays, default purple background, and the mini-mushroom rain easter egg. Dynamically loads card background colors from admin settings.
+-   **/app/frontend/src/pages/Login.js**: (NEW FILE) User login page.
+    -   **Importance**: Allows customers to log in.
+    -   **Changes**: Created with email/password login and Google OAuth button. Improved error message display.
 -   **/app/frontend/src/pages/PaymentSuccess.js**: Payment success page.
     -   **Importance**: Handles PayPal payment execution.
-    -   **Changes**: Fixed  double-call issue by using a ref to ensure payment execution logic runs only once.
+    -   **Changes**: Fixed  double-call issue.
+-   **/app/frontend/src/pages/Register.js**: (NEW FILE) User registration page.
+    -   **Importance**: Allows new customers to register.
+    -   **Changes**: Created with email/password registration and Google OAuth button. Improved error message display.
 -   **/app/frontend/src/pages/ShopPage.js**: Public shop page.
     -   **Importance**: Displays products and handles shopping cart.
-    -   **Changes**: Updated to fetch products from the backend (previously hardcoded); displays product images; added Instagram icon to navigation; updated  to correctly call the PayPal order creation endpoint ().
+    -   **Changes**: Fetches products from backend, displays images.  updated for PayPal. Added coupon input field to cart sidebar with validation, discount calculation, and sends coupon code to backend. Integrated . Customer email pre-filling for logged-in users.
 -   **/app/backend/.env** & **/app/frontend/.env**: Environment configuration files.
     -   **Importance**: Securely store non-hardcoded configurations.
-    -   **Changes**: Updated with , PayPal client ID/secret, SMTP email username/password, and  for PayPal redirects.
+    -   **Changes**: Updated with , PayPal keys, SMTP credentials, , , , .
+-   **/app/backend/.env.example** & **/app/frontend/.env.example**: (NEW FILES) Examples for environment variables.
+    -   **Importance**: Guides users on required environment variables without exposing secrets.
+    -   **Changes**: Created to list expected environment variables.
 -   **/app/backend/requirements.txt**: Python dependencies.
     -   **Importance**: Manages backend libraries.
-    -   **Changes**: Added .  was confirmed to be present.
+    -   **Changes**: Added , , , , .
+-   **/app/frontend/public/index.html**: Main HTML file.
+    -   **Importance**: Base HTML structure.
+    -   **Changes**: Added meta tags for SEO, Google Sign-In Script.
+-   **/app/frontend/public/robots.txt**: (NEW FILE)
+    -   **Importance**: Guides search engine crawlers.
+    -   **Changes**: Created for basic SEO.
+-   **/app/frontend/public/sitemap.xml**: (NEW FILE)
+    -   **Importance**: Provides sitemap for search engines.
+    -   **Changes**: Created for basic SEO.
+-   **/app/frontend/public/manifest.json**: (NEW FILE)
+    -   **Importance**: Manifest for Progressive Web App.
+    -   **Changes**: Created for PWA capabilities.
+-   **/app/GITHUB_HOSTINGER_DEPLOY.md**: (NEW FILE) Deployment guide.
+    -   **Importance**: Provides instructions for deploying to Hostinger via GitHub.
+    -   **Changes**: Created to consolidate deployment instructions and securely handle environment variables.
 </code_architecture>
 
 <pending_tasks>
--   **Instagram Automation**: Automate posting generated blog content to Instagram. (Initial request, not addressed yet).
--   **Mini-games Integration**: Add a mini-games section to the landing page. (Initial request, currently only the button visibility is controlled).
+-   **Instagram Automation**: Automate posting generated blog content to Instagram.
+-   **Mini-games Integration**: Add a mini-games section to the landing page (currently only button visibility is controlled).
+-   **PayPal OAuth Login**: Integrate PayPal for customer login options.
 </pending_tasks>
 
 <current_work>
-Immediately before this summary request, the AI engineer was finalizing the order management system. Specifically, the last task was to implement a mechanism for the administrator to receive a notification when a customer's order status is updated to delivered. This involved updating the backend () to include the logic for sending an email notification to the admin upon a delivered status change. The AI engineer successfully added this functionality and was in the process of restarting the backend server to apply these changes. This completes the full loop of order status management and notifications, ensuring the admin is informed at key stages, particularly for package delivery.
+Immediately before this summary request, the AI engineer was tasked with a comprehensive theme change for the entire application, as per the user's explicit request and an uploaded image. The user wants the site to adopt a dark, mystical theme with glowing red/pink accents, elegant serif fonts for quotes, floating mushroom animations, and minimalist, centered layouts. The AI engineer has just completed the analysis of the provided image, understanding the design requirements thoroughly. The current work has just begun with the plan to start by modifying the global CSS to implement the dark, mystical theme and then proceed to adjust individual pages to match this new design aesthetic. This represents a significant UI/UX overhaul.
 </current_work>
 
 <optional_next_step>
-Test the newly implemented admin delivery notification feature.
-Quote: Jetzt Backend neustarten:
+Implement the global CSS changes to establish the dark, mystical theme across the application.
 </optional_next_step>
