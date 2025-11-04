@@ -370,7 +370,7 @@ const LandingPage = () => {
           left: 0;
           right: 0;
           bottom: 0;
-          background: linear-gradient(135deg, rgba(122, 144, 83, 0.75) 0%, rgba(58, 69, 32, 0.85) 100%);
+          background: linear-gradient(135deg, rgba(255, 23, 68, 0.75) 0%, rgba(236, 72, 153, 0.85) 100%);
           backdrop-filter: blur(2px);
         }
 
