@@ -8,14 +8,15 @@
 
 body {
   font-family: 'Inter', sans-serif;
-  background: linear-gradient(135deg, #f5f1e8 0%, #e8ebe0 100%);
-  color: #2d3319;
+  background: radial-gradient(ellipse at top, #1a0f1f 0%, #0a0a0f 50%, #000000 100%);
+  color: #e0d5e5;
   line-height: 1.6;
+  min-height: 100vh;
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Playfair Display', serif;
-  color: #3a4520;
+  color: #f8e8f0;
 }
 
 .App {
