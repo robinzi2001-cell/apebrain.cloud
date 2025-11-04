@@ -141,10 +141,11 @@ const UserDropdown = () => {
           top: 'calc(100% + 0.5rem)',
           right: 0,
           minWidth: '200px',
-          background: 'white',
-          border: '1px solid #e5e7eb',
+          background: 'rgba(20, 10, 25, 0.98)',
+          backdropFilter: 'blur(15px)',
+          border: '1px solid rgba(255, 23, 68, 0.3)',
           borderRadius: '12px',
-          boxShadow: '0 10px 25px rgba(0,0,0,0.15)',
+          boxShadow: '0 10px 40px rgba(0,0,0,0.8), 0 0 20px rgba(255, 23, 68, 0.2)',
           overflow: 'hidden',
           zIndex: 1000
         }}>
@@ -157,12 +158,18 @@ const UserDropdown = () => {
               gap: '0.75rem',
               padding: '0.75rem 1rem',
               textDecoration: 'none',
-              color: '#3a4520',
-              transition: 'background 0.2s',
-              borderBottom: '1px solid #f3f4f6'
+              color: '#e0d5e5',
+              transition: 'all 0.2s',
+              borderBottom: '1px solid rgba(255, 23, 68, 0.2)'
             }}
-            onMouseEnter={(e) => e.currentTarget.style.background = '#f8f9fa'}
-            onMouseLeave={(e) => e.currentTarget.style.background = 'white'}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = 'rgba(255, 23, 68, 0.15)';
+              e.currentTarget.style.color = '#ff6b8a';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = 'transparent';
+              e.currentTarget.style.color = '#e0d5e5';
+            }}
           >
             <User size={18} />
             <span>Mein Dashboard</span>
@@ -176,12 +183,18 @@ const UserDropdown = () => {
               gap: '0.75rem',
               padding: '0.75rem 1rem',
               textDecoration: 'none',
-              color: '#3a4520',
-              transition: 'background 0.2s',
-              borderBottom: '1px solid #f3f4f6'
+              color: '#e0d5e5',
+              transition: 'all 0.2s',
+              borderBottom: '1px solid rgba(255, 23, 68, 0.2)'
             }}
-            onMouseEnter={(e) => e.currentTarget.style.background = '#f8f9fa'}
-            onMouseLeave={(e) => e.currentTarget.style.background = 'white'}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = 'rgba(255, 23, 68, 0.15)';
+              e.currentTarget.style.color = '#ff6b8a';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = 'transparent';
+              e.currentTarget.style.color = '#e0d5e5';
+            }}
           >
             <Package size={18} />
             <span>Meine Bestellungen</span>
@@ -194,16 +207,22 @@ const UserDropdown = () => {
               alignItems: 'center',
               gap: '0.75rem',
               padding: '0.75rem 1rem',
-              background: 'white',
+              background: 'transparent',
               border: 'none',
-              color: '#ef4444',
+              color: '#ff6b8a',
               cursor: 'pointer',
               textAlign: 'left',
-              transition: 'background 0.2s',
+              transition: 'all 0.2s',
               fontSize: '1rem'
             }}
-            onMouseEnter={(e) => e.currentTarget.style.background = '#fef2f2'}
-            onMouseLeave={(e) => e.currentTarget.style.background = 'white'}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = 'rgba(239, 68, 68, 0.15)';
+              e.currentTarget.style.color = '#ef4444';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = 'transparent';
+              e.currentTarget.style.color = '#ff6b8a';
+            }}
           >
             <LogOut size={18} />
             <span>Abmelden</span>
