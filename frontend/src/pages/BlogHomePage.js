@@ -63,8 +63,8 @@ const BlogHomePage = () => {
       <nav className="navbar" data-testid="navbar">
         <div className="navbar-content">
           <a href="/" className="logo" data-testid="logo-link">
-            <Leaf size={32} />
-            ApeBrain.cloud
+            🍄
+            APEBRAIN
           </a>
           <div className="nav-links">
             <a href="/" data-testid="home-link"><Home size={20} /> Home</a>
