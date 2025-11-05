@@ -410,7 +410,7 @@ const ShopPage = () => {
                 <div className="coupon-section" style={{ 
                   marginBottom: '1rem', 
                   padding: '0.75rem', 
-                  backgroundColor: '#f8f9fa', 
+                  backgroundColor: '#1a1a1a', 
                   borderRadius: '8px' 
                 }}>
                   {!appliedCoupon ? (
@@ -427,9 +427,11 @@ const ShopPage = () => {
                           style={{
                             flex: 1,
                             padding: '0.5rem',
-                            border: couponError ? '2px solid #ef4444' : '1px solid #d1d5db',
+                            border: couponError ? '2px solid #ef4444' : '1px solid #4a4a4a',
                             borderRadius: '6px',
-                            fontSize: '0.9rem'
+                            fontSize: '0.9rem',
+                            backgroundColor: '#2a2a2a',
+                            color: '#ffffff'
                           }}
                           data-testid="coupon-input"
                         />
