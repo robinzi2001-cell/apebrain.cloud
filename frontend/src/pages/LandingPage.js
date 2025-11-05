@@ -142,7 +142,10 @@ const LandingPage = () => {
             <span className="plus-icon">+</span>
             <span className="brain-icon">🧠</span>
           </div>
-          <h1 className="landing-title" data-testid="landing-title">APEBRAIN</h1>
+          <h1 className="landing-title" data-testid="landing-title">
+            <span style={{ color: 'white' }}>APE</span>
+            <span style={{ color: '#dc2626' }}>BRAIN</span>
+          </h1>
           <div className="consciousness-tagline">
             <span>Consciousness</span>
             <span className="separator">•</span>
