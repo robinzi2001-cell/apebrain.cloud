@@ -430,6 +430,8 @@ mongorestore --db apebrain_blog /root/backups/DATUM/apebrain_blog
 ## 📚 Weitere Dokumentation
 
 - **[DEPLOYMENT.md](DEPLOYMENT.md)** - Detaillierte Deployment-Anleitung
+- **[KNOWN-ISSUES.md](KNOWN-ISSUES.md)** - Häufige Probleme & Lösungen
+- **[FIX-GITHUB-PUSH.md](FIX-GITHUB-PUSH.md)** - GitHub Secret Protection Fix
 - **[API Docs](https://yourdomain.com/api/docs)** - Automatische FastAPI Dokumentation
 - **Frontend Components** - Siehe `/frontend/src/components/`
 
