@@ -1699,6 +1699,27 @@ async def mark_order_viewed(order_id: str):
         logging.error(f"Error marking order as viewed: {str(e)}")
         raise HTTPException(status_code=500, detail="Failed to update order")
 
+
+# Mark order as viewed - Alias endpoint (shorter URL)
+@api_router.post("/orders/{order_id}/viewed")
+async def mark_order_viewed_alias(order_id: str):
+    """Alias for /orders/{order_id}/mark-viewed for convenience"""
+    try:
+        result = await db.orders.update_one(
+            {"id": order_id},
+            {"$set": {"viewed": True}}
+        )
+        
+        if result.matched_count == 0:
+            raise HTTPException(status_code=404, detail="Order not found")
+        
+        return {"success": True}
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error marking order as viewed: {str(e)}")
+        raise HTTPException(status_code=500, detail="Failed to update order")
+
 # Get unviewed orders count (for notification badge)
 @api_router.get("/orders/unviewed/count")
 async def get_unviewed_count():
