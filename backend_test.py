@@ -2784,15 +2784,675 @@ class MushroomBlogAPITester:
         
         return auth_passed, auth_total
 
+    # ============= COMPREHENSIVE API TESTS AS REQUESTED =============
+    
+    def test_comprehensive_blog_crud(self):
+        """Test comprehensive blog CRUD operations as requested"""
+        print("\n📝 COMPREHENSIVE BLOG CRUD TESTING")
+        
+        # 1. GET /api/blogs - List all published blogs
+        success, response = self.run_test(
+            "GET /api/blogs - List all published blogs",
+            "GET",
+            "blogs",
+            200
+        )
+        if not success:
+            return False
+        print(f"   Found {len(response)} published blogs")
+        
+        # 2. POST /api/blogs - Create new blog
+        blog_data = {
+            "id": f"api-test-blog-{int(time.time())}",
+            "title": "API Test Blog",
+            "content": "Test content for comprehensive API testing",
+            "keywords": "api test blog",
+            "status": "draft"
+        }
+        
+        success, response = self.run_test(
+            "POST /api/blogs - Create new blog",
+            "POST",
+            "blogs",
+            200,
+            data=blog_data
+        )
+        if not success:
+            return False
+        
+        blog_id = response.get('id')
+        if not blog_id:
+            print("❌ No blog ID returned from creation")
+            return False
+        
+        # 3. GET /api/blogs/{blog_id} - Get single blog
+        success, response = self.run_test(
+            f"GET /api/blogs/{blog_id} - Get single blog",
+            "GET",
+            f"blogs/{blog_id}",
+            200
+        )
+        if not success:
+            return False
+        
+        # 4. PUT /api/blogs/{blog_id} - Update blog
+        update_data = {
+            "title": "Updated API Test Blog"
+        }
+        
+        success, response = self.run_test(
+            f"PUT /api/blogs/{blog_id} - Update blog title",
+            "PUT",
+            f"blogs/{blog_id}",
+            200,
+            data=update_data
+        )
+        if not success:
+            return False
+        
+        # 5. POST /api/blogs/{blog_id}/publish - Publish blog
+        success, response = self.run_test(
+            f"POST /api/blogs/{blog_id}/publish - Publish blog",
+            "POST",
+            f"blogs/{blog_id}/publish",
+            200
+        )
+        if not success:
+            return False
+        
+        # 6. DELETE /api/blogs/{blog_id} - Delete test blog
+        success, response = self.run_test(
+            f"DELETE /api/blogs/{blog_id} - Delete test blog",
+            "DELETE",
+            f"blogs/{blog_id}",
+            200
+        )
+        if not success:
+            return False
+        
+        print("✅ COMPREHENSIVE BLOG CRUD - ALL TESTS PASSED")
+        return True
+    
+    def test_comprehensive_product_crud(self):
+        """Test comprehensive product CRUD operations as requested"""
+        print("\n🛍️ COMPREHENSIVE PRODUCT CRUD TESTING")
+        
+        # 1. GET /api/products - List all products
+        success, response = self.run_test(
+            "GET /api/products - List all products",
+            "GET",
+            "products",
+            200
+        )
+        if not success:
+            return False
+        print(f"   Found {len(response)} products")
+        
+        # 2. POST /api/products - Create product
+        product_data = {
+            "id": f"api-test-product-{int(time.time())}",
+            "name": "Test Product",
+            "price": 29.99,
+            "description": "Test product for API testing",
+            "category": "Test",
+            "type": "physical"
+        }
+        
+        success, response = self.run_test(
+            "POST /api/products - Create product",
+            "POST",
+            "products",
+            200,
+            data=product_data
+        )
+        if not success:
+            return False
+        
+        product_id = response.get('id')
+        if not product_id:
+            print("❌ No product ID returned from creation")
+            return False
+        
+        # 3. PUT /api/products/{product_id} - Update product
+        update_data = {
+            "price": 39.99
+        }
+        
+        success, response = self.run_test(
+            f"PUT /api/products/{product_id} - Update product price",
+            "PUT",
+            f"products/{product_id}",
+            200,
+            data=update_data
+        )
+        if not success:
+            return False
+        
+        # 4. DELETE /api/products/{product_id} - Delete test product
+        success, response = self.run_test(
+            f"DELETE /api/products/{product_id} - Delete test product",
+            "DELETE",
+            f"products/{product_id}",
+            200
+        )
+        if not success:
+            return False
+        
+        print("✅ COMPREHENSIVE PRODUCT CRUD - ALL TESTS PASSED")
+        return True
+    
+    def test_comprehensive_coupon_system(self):
+        """Test comprehensive coupon system as requested"""
+        print("\n🎫 COMPREHENSIVE COUPON SYSTEM TESTING")
+        
+        # 1. GET /api/coupons - List all coupons
+        success, response = self.run_test(
+            "GET /api/coupons - List all coupons",
+            "GET",
+            "coupons",
+            200
+        )
+        if not success:
+            return False
+        print(f"   Found {len(response)} coupons")
+        
+        # 2. POST /api/coupons - Create coupon
+        coupon_data = {
+            "code": "APITEST10",
+            "discount_value": 10,
+            "discount_type": "percentage",
+            "is_active": True
+        }
+        
+        success, response = self.run_test(
+            "POST /api/coupons - Create coupon",
+            "POST",
+            "coupons",
+            200,
+            data=coupon_data
+        )
+        if not success:
+            return False
+        
+        coupon_id = response.get('id')
+        if not coupon_id:
+            print("❌ No coupon ID returned from creation")
+            return False
+        
+        # 3. POST /api/coupons/validate - Validate coupon
+        validate_data = {
+            "code": "WELCOME10",
+            "order_total": 100.0
+        }
+        
+        success, response = self.run_test(
+            "POST /api/coupons/validate - Validate coupon WELCOME10",
+            "POST",
+            "coupons/validate",
+            200,
+            data=validate_data
+        )
+        if not success:
+            return False
+        
+        # 4. DELETE /api/coupons/{coupon_id} - Delete test coupon
+        success, response = self.run_test(
+            f"DELETE /api/coupons/{coupon_id} - Delete test coupon",
+            "DELETE",
+            f"coupons/{coupon_id}",
+            200
+        )
+        if not success:
+            return False
+        
+        print("✅ COMPREHENSIVE COUPON SYSTEM - ALL TESTS PASSED")
+        return True
+    
+    def test_comprehensive_order_management(self):
+        """Test comprehensive order management as requested"""
+        print("\n📦 COMPREHENSIVE ORDER MANAGEMENT TESTING")
+        
+        # 1. GET /api/orders - Get all orders
+        success, response = self.run_test(
+            "GET /api/orders - Get all orders",
+            "GET",
+            "orders",
+            200
+        )
+        if not success:
+            return False
+        print(f"   Found {len(response)} orders")
+        
+        # 2. GET /api/orders/unviewed/count - Check unviewed count
+        success, response = self.run_test(
+            "GET /api/orders/unviewed/count - Check unviewed count",
+            "GET",
+            "orders/unviewed/count",
+            200
+        )
+        if not success:
+            return False
+        print(f"   Unviewed orders: {response.get('count', 0)}")
+        
+        # If orders exist, test order operations
+        orders_response = self.run_test(
+            "GET /api/orders - Get orders for testing",
+            "GET",
+            "orders",
+            200
+        )
+        
+        if orders_response[0] and len(orders_response[1]) > 0:
+            order_id = orders_response[1][0].get('id')
+            if order_id:
+                # 3. PUT /api/orders/{order_id}/status - Update status
+                success, response = self.run_test(
+                    f"PUT /api/orders/{order_id}/status - Update status to packed",
+                    "PUT",
+                    f"orders/{order_id}/status?status=packed",
+                    200
+                )
+                if not success:
+                    return False
+                
+                # 4. PUT /api/orders/{order_id}/tracking - Add tracking
+                success, response = self.run_test(
+                    f"PUT /api/orders/{order_id}/tracking - Add tracking info",
+                    "PUT",
+                    f"orders/{order_id}/tracking?tracking_number=TEST123&shipping_carrier=DHL",
+                    200
+                )
+                if not success:
+                    return False
+                
+                # 5. POST /api/orders/{order_id}/viewed - Mark as viewed
+                success, response = self.run_test(
+                    f"POST /api/orders/{order_id}/viewed - Mark as viewed",
+                    "POST",
+                    f"orders/{order_id}/viewed",
+                    200
+                )
+                if not success:
+                    return False
+        
+        print("✅ COMPREHENSIVE ORDER MANAGEMENT - ALL TESTS PASSED")
+        return True
+    
+    def test_comprehensive_paypal_integration(self):
+        """Test comprehensive PayPal integration as requested"""
+        print("\n💳 COMPREHENSIVE PAYPAL INTEGRATION TESTING")
+        
+        # 1. POST /api/shop/create-order - Create order WITHOUT coupon
+        order_data_no_coupon = {
+            "items": [
+                {
+                    "product_id": "phys-1",
+                    "name": "Test Product",
+                    "price": 29.99,
+                    "quantity": 1,
+                    "product_type": "physical"
+                }
+            ],
+            "total": 29.99,
+            "customer_email": "test@test.com"
+        }
+        
+        success, response = self.run_test(
+            "POST /api/shop/create-order - Create order WITHOUT coupon",
+            "POST",
+            "shop/create-order",
+            200,
+            data=order_data_no_coupon,
+            timeout=60
+        )
+        if not success:
+            return False
+        
+        # Verify PayPal response structure
+        required_fields = ['success', 'approval_url', 'order_id', 'payment_id']
+        for field in required_fields:
+            if field not in response:
+                print(f"❌ Missing required field: {field}")
+                return False
+        
+        print(f"   Order created: {response.get('order_id')}")
+        print(f"   PayPal URL: {response.get('approval_url')[:50]}...")
+        
+        # 2. POST /api/shop/create-order - Create order WITH coupon
+        order_data_with_coupon = {
+            "items": [
+                {
+                    "product_id": "phys-1",
+                    "name": "Test Product",
+                    "price": 29.99,
+                    "quantity": 1,
+                    "product_type": "physical"
+                }
+            ],
+            "total": 26.99,  # Assuming 10% discount
+            "customer_email": "test@test.com",
+            "coupon_code": "WELCOME10"
+        }
+        
+        success, response = self.run_test(
+            "POST /api/shop/create-order - Create order WITH coupon WELCOME10",
+            "POST",
+            "shop/create-order",
+            200,
+            data=order_data_with_coupon,
+            timeout=60
+        )
+        if not success:
+            return False
+        
+        print(f"   Order with coupon created: {response.get('order_id')}")
+        
+        print("✅ COMPREHENSIVE PAYPAL INTEGRATION - ALL TESTS PASSED")
+        return True
+    
+    def test_comprehensive_admin_settings(self):
+        """Test comprehensive admin settings as requested"""
+        print("\n⚙️ COMPREHENSIVE ADMIN SETTINGS TESTING")
+        
+        # 1. GET /api/landing-settings - Get landing page settings
+        success, response = self.run_test(
+            "GET /api/landing-settings - Get landing page settings",
+            "GET",
+            "landing-settings",
+            200
+        )
+        if not success:
+            return False
+        
+        # 2. POST /api/landing-settings - Update settings
+        settings_data = {
+            "show_blog": True,
+            "show_shop": True,
+            "show_minigames": False
+        }
+        
+        success, response = self.run_test(
+            "POST /api/landing-settings - Update settings",
+            "POST",
+            "landing-settings",
+            200,
+            data=settings_data
+        )
+        if not success:
+            return False
+        
+        # 3. GET /api/blog-features - Get blog features
+        success, response = self.run_test(
+            "GET /api/blog-features - Get blog features",
+            "GET",
+            "blog-features",
+            200
+        )
+        if not success:
+            return False
+        
+        # 4. POST /api/blog-features - Update features
+        features_data = {
+            "enable_video": True,
+            "enable_audio": True,
+            "enable_text_to_speech": False
+        }
+        
+        success, response = self.run_test(
+            "POST /api/blog-features - Update features",
+            "POST",
+            "blog-features",
+            200,
+            data=features_data
+        )
+        if not success:
+            return False
+        
+        print("✅ COMPREHENSIVE ADMIN SETTINGS - ALL TESTS PASSED")
+        return True
+    
+    def test_comprehensive_user_authentication(self):
+        """Test comprehensive user authentication as requested"""
+        print("\n👤 COMPREHENSIVE USER AUTHENTICATION TESTING")
+        
+        # Generate unique email for this test run
+        timestamp = int(time.time())
+        test_email = f"api-test-{timestamp}@test.com"
+        
+        # 1. POST /api/auth/register - Register user
+        register_data = {
+            "email": test_email,
+            "password": "Test123!",
+            "first_name": "API",
+            "last_name": "Tester"
+        }
+        
+        success, response = self.run_test(
+            f"POST /api/auth/register - Register user {test_email}",
+            "POST",
+            "auth/register",
+            200,
+            data=register_data
+        )
+        if not success:
+            return False
+        
+        # Verify response structure
+        required_fields = ['success', 'access_token', 'token_type', 'user']
+        for field in required_fields:
+            if field not in response:
+                print(f"❌ Missing required field: {field}")
+                return False
+        
+        access_token = response.get('access_token')
+        print(f"   User registered: {test_email}")
+        print(f"   Token: {access_token[:20]}...")
+        
+        # 2. POST /api/auth/login - Login with registered user
+        login_data = {
+            "email": test_email,
+            "password": "Test123!"
+        }
+        
+        success, response = self.run_test(
+            f"POST /api/auth/login - Login with registered user",
+            "POST",
+            "auth/login",
+            200,
+            data=login_data
+        )
+        if not success:
+            return False
+        
+        # Update token from login
+        access_token = response.get('access_token')
+        
+        # 3. GET /api/auth/me - Get user info (with Bearer token)
+        url = f"{self.api_url}/auth/me"
+        headers = {
+            'Authorization': f'Bearer {access_token}',
+            'Content-Type': 'application/json'
+        }
+        
+        self.tests_run += 1
+        print(f"\n🔍 Testing GET /api/auth/me - Get user info with Bearer token...")
+        print(f"   URL: {url}")
+        
+        try:
+            response = requests.get(url, headers=headers, timeout=30)
+            
+            success = response.status_code == 200
+            if success:
+                self.tests_passed += 1
+                print(f"✅ Passed - Status: {response.status_code}")
+                
+                response_data = response.json()
+                if response_data.get('email') != test_email:
+                    print(f"❌ Email mismatch in user info")
+                    return False
+                
+                print(f"   User info retrieved: {response_data.get('email')}")
+            else:
+                print(f"❌ Failed - Expected 200, got {response.status_code}")
+                return False
+                
+        except Exception as e:
+            print(f"❌ Failed - Error: {str(e)}")
+            return False
+        
+        print("✅ COMPREHENSIVE USER AUTHENTICATION - ALL TESTS PASSED")
+        return True
+    
+    def test_comprehensive_image_media_apis(self):
+        """Test comprehensive image & media APIs as requested"""
+        print("\n🖼️ COMPREHENSIVE IMAGE & MEDIA API TESTING")
+        
+        # 1. GET /api/fetch-image?keywords=nature+forest - Fetch single image
+        success, response = self.run_test(
+            "GET /api/fetch-image?keywords=nature+forest - Fetch single image",
+            "GET",
+            "fetch-image?keywords=nature+forest",
+            200,
+            timeout=60
+        )
+        if not success:
+            return False
+        
+        # Verify image response
+        if not response.get('success') or not response.get('image_url'):
+            print("❌ Invalid image response structure")
+            return False
+        
+        image_url = response.get('image_url')
+        if not image_url.startswith('data:image/'):
+            print(f"❌ Invalid image URL format: {image_url[:50]}...")
+            return False
+        
+        print(f"   Single image fetched: {image_url[:50]}...")
+        
+        # 2. GET /api/fetch-images?keywords=mushroom&count=3 - Fetch multiple Pexels images
+        success, response = self.run_test(
+            "GET /api/fetch-images?keywords=mushroom&count=3 - Fetch multiple images",
+            "GET",
+            "fetch-images?keywords=mushroom&count=3",
+            200,
+            timeout=60
+        )
+        if not success:
+            return False
+        
+        # Verify multiple images response
+        if not response.get('success') or not response.get('image_urls'):
+            print("❌ Invalid multiple images response structure")
+            return False
+        
+        image_urls = response.get('image_urls', [])
+        if len(image_urls) < 2:
+            print(f"❌ Expected at least 2 images, got {len(image_urls)}")
+            return False
+        
+        # Verify all images have correct format
+        for i, img_url in enumerate(image_urls):
+            if not img_url.startswith('data:image/'):
+                print(f"❌ Invalid image URL format for image {i+1}")
+                return False
+        
+        print(f"   Multiple images fetched: {len(image_urls)} images")
+        
+        print("✅ COMPREHENSIVE IMAGE & MEDIA APIs - ALL TESTS PASSED")
+        return True
+
+    def run_comprehensive_api_tests(self):
+        """Run all comprehensive API tests as requested in the review"""
+        print("🍄 COMPREHENSIVE BACKEND API TESTING - APEBRAIN.CLOUD")
+        print(f"🌐 Backend URL: {self.base_url}")
+        print(f"🔗 API URL: {self.api_url}")
+        print("=" * 80)
+
+        # COMPREHENSIVE TEST SEQUENCE AS REQUESTED IN REVIEW
+        comprehensive_tests = [
+            # 1. BLOG CRUD OPERATIONS
+            ("1. BLOG CRUD OPERATIONS", [
+                self.test_comprehensive_blog_crud,
+            ]),
+            
+            # 2. PRODUCT CRUD OPERATIONS  
+            ("2. PRODUCT CRUD OPERATIONS", [
+                self.test_comprehensive_product_crud,
+            ]),
+            
+            # 3. COUPON SYSTEM
+            ("3. COUPON SYSTEM", [
+                self.test_comprehensive_coupon_system,
+            ]),
+            
+            # 4. ORDER MANAGEMENT
+            ("4. ORDER MANAGEMENT", [
+                self.test_comprehensive_order_management,
+            ]),
+            
+            # 5. PAYPAL INTEGRATION
+            ("5. PAYPAL INTEGRATION", [
+                self.test_comprehensive_paypal_integration,
+            ]),
+            
+            # 6. ADMIN SETTINGS
+            ("6. ADMIN SETTINGS", [
+                self.test_comprehensive_admin_settings,
+            ]),
+            
+            # 7. USER AUTHENTICATION
+            ("7. USER AUTHENTICATION", [
+                self.test_comprehensive_user_authentication,
+            ]),
+            
+            # 8. IMAGE & MEDIA APIs
+            ("8. IMAGE & MEDIA APIs", [
+                self.test_comprehensive_image_media_apis,
+            ]),
+            
+            # ADDITIONAL DETAILED TESTS
+            ("ADDITIONAL DETAILED TESTS", [
+                self.test_admin_login_valid,
+                self.test_admin_login_invalid,
+            ]),
+        ]
+
+        # Run comprehensive tests
+        for category, test_functions in comprehensive_tests:
+            print(f"\n{'='*20} {category} {'='*20}")
+            for test_func in test_functions:
+                try:
+                    test_func()
+                except Exception as e:
+                    print(f"❌ Test {test_func.__name__} failed with exception: {str(e)}")
+                    self.tests_run += 1
+
+        # Print comprehensive summary
+        print("\n" + "="*80)
+        print("🍄 COMPREHENSIVE BACKEND API TEST SUMMARY - APEBRAIN.CLOUD")
+        print("="*80)
+        print(f"Total Tests Run: {self.tests_run}")
+        print(f"Tests Passed: {self.tests_passed}")
+        print(f"Tests Failed: {self.tests_run - self.tests_passed}")
+        print(f"Success Rate: {(self.tests_passed/self.tests_run)*100:.1f}%")
+        
+        if self.tests_passed == self.tests_run:
+            print("🎉 ALL COMPREHENSIVE API TESTS PASSED!")
+        else:
+            print("⚠️  Some tests failed. Check the output above for details.")
+        
+        return self.tests_passed == self.tests_run
+
 def main():
-    """Main function to run customer authentication tests"""
+    """Main function to run comprehensive API tests as requested"""
     
     tester = MushroomBlogAPITester()
     
-    # Run the customer authentication tests
-    passed_tests, total_tests = tester.run_customer_auth_tests()
+    # Run the comprehensive API tests as requested in the review
+    success = tester.run_comprehensive_api_tests()
     
-    return 0 if passed_tests == total_tests else 1
+    return 0 if success else 1
 
 if __name__ == "__main__":
     sys.exit(main())
