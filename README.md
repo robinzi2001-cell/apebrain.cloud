@@ -1,346 +1,419 @@
-# 🍄🧠 APEBRAIN.CLOUD - Stoned Ape Theory Platform
+# 🍄🧠 APEBRAIN.CLOUD
 
-> Eine Full-Stack-Webanwendung rund um die Stoned Ape Theory, Bewusstsein und Mykologie.
+**Stoned Ape Theory Blog & E-Commerce Platform**
 
-## 📋 Übersicht
+Eine Full-Stack Webanwendung mit AI-gestützter Content-Generierung, integriertem E-Commerce-Shop und Admin-Panel. Optimiert für Ubuntu 24.04 Server (Hostinger VPS).
 
-APEBRAIN.CLOUD ist eine moderne Web-Plattform mit:
-- **Knowledge Portal** - AI-generierte Blog-Artikel über Bewusstsein, Mykologie und Evolution
-- **Sacred Shop** - E-Commerce-Shop mit PayPal-Integration
-- **Admin-Dashboard** - Vollständiges CMS für Blogs, Produkte, Bestellungen und Coupons
-- **User Authentication** - Email/Passwort und Google OAuth Login
+---
 
-## 🛠️ Tech Stack
+## ✨ Features
 
-### Backend
-- **FastAPI** (Python 3.12) - REST API
-- **MongoDB** - Datenbank
-- **PyJWT** - Authentifizierung
-- **PayPal SDK** - Zahlungsabwicklung
-- **Emergent Integrations** - AI-Integrationen (Gemini)
-- **SMTP** - Email-Benachrichtigungen
+### 🎨 Frontend
+- **Dark Mystical Design** - Stoned Ape Theory Theme mit Fliegenpilz-Rot Akzenten
+- **Landing Page** - 🍄 + 🧠 Icon, Terence McKenna Zitate, Stoned Ape Theory Erklärung
+- **Blog System** - Knowledge Portal mit 6 Kategorien, Newsletter-Integration
+- **E-Commerce Shop** - Sacred Shop mit PayPal-Integration, Warenkorb, Bestellverwaltung
+- **Responsive Design** - React 19 + Tailwind CSS + Shadcn UI
 
-### Frontend
-- **React** (Create React App)
-- **Tailwind CSS** - Styling
-- **Shadcn UI** - UI-Komponenten
-- **React Router** - Navigation
-- **Axios** - HTTP-Client
+### 🔧 Backend
+- **FastAPI** - Moderne Python API mit automatischer OpenAPI-Dokumentation
+- **MongoDB** - NoSQL-Datenbank für flexible Datenspeicherung
+- **AI Blog-Generierung** - Gemini AI für automatische Content-Erstellung
+- **Pexels Integration** - Automatische Bildsuche für Blog-Posts
+- **PayPal LIVE Integration** - Sichere Zahlungsabwicklung
+- **Email-System** - Gmail SMTP für Benachrichtigungen
+- **Google OAuth** - Social Login für Kunden
 
-### Deployment
-- **Nginx** - Reverse Proxy & Static File Server
-- **PM2** - Process Manager für Backend
-- **Certbot** - SSL/TLS-Zertifikate (Let's Encrypt)
-- **UFW** - Firewall
+### 👤 Admin Panel
+- Blog-Post Management (Erstellen, Bearbeiten, Löschen)
+- Produkt-Verwaltung
+- Coupon-System
+- Bestellverwaltung
+- AI-gestützte Content-Generierung
 
-## 🚀 Schnellstart - Hostinger VPS Deployment
+### 🔐 Authentifizierung
+- Admin Login (Email/Password)
+- Kunden-Accounts (Email/Password + Google OAuth)
+- JWT-basierte Authentifizierung
+
+---
+
+## 🚀 Schnellstart-Deployment (Ubuntu 24.04)
 
 ### Voraussetzungen
 
-1. **Hostinger VPS** mit Ubuntu 24.04
-2. **Domain** (z.B. apebrain.cloud) mit DNS A-Records:
-   - `@` → Server-IP
-   - `www` → Server-IP
-3. **GitHub Repository** mit diesem Code
-4. **API Keys** (siehe unten)
+1. **Ubuntu 24.04 Server** (z.B. Hostinger VPS)
+2. **Root-Zugriff** via SSH
+3. **Domain konfiguriert** mit DNS A-Records:
+   ```
+   A-Record: yourdomain.com → SERVER-IP
+   A-Record: www.yourdomain.com → SERVER-IP
+   ```
+4. **API Keys bereit** (siehe unten)
 
-### 1-Schritt Installation
+---
+
+### 🎯 One-Command Installation
 
 ```bash
-# SSH zum Server verbinden
-ssh root@YOUR_SERVER_IP
+# 1. SSH Login auf deinen Server
+ssh root@DEINE-SERVER-IP
 
-# Setup-Script herunterladen und ausführen
-wget -O setup.sh https://raw.githubusercontent.com/robinzi2001-cell/apebrain.cloud/main/setup-server.sh
-chmod +x setup.sh
-./setup.sh
+# 2. Setup-Script herunterladen
+wget https://raw.githubusercontent.com/robinzi2001-cell/apebrain.cloud/main/ULTIMATE-SETUP.sh
+
+# 3. Script bearbeiten (Domain anpassen)
+nano ULTIMATE-SETUP.sh
+# Ändere: DOMAIN="apebrain.cloud" → DOMAIN="deine-domain.com"
+
+# 4. Ausführbar machen
+chmod +x ULTIMATE-SETUP.sh
+
+# 5. Installation starten (dauert 15-20 Min)
+./ULTIMATE-SETUP.sh
 ```
 
-**Das war's!** 🎉
+**Das Script installiert automatisch:**
+- ✅ System-Updates & Firewall
+- ✅ Node.js 20, Python 3.12, MongoDB 7.0, Nginx
+- ✅ GitHub Repository klonen
+- ✅ Backend & Frontend Dependencies
+- ✅ PM2 Backend-Server
+- ✅ Nginx Reverse Proxy
+- ✅ SSL-Zertifikat (optional)
+- ✅ Management-Scripts
 
-Das Script installiert automatisch:
-- Node.js, Python, MongoDB, Nginx, Certbot, PM2
-- Klont das Repository
-- Installiert alle Dependencies
-- Konfiguriert Services
-- Richtet SSL ein
+---
 
-### Manuelle Installation
+## 🔑 API Keys Konfiguration
 
-Für eine detaillierte Schritt-für-Schritt-Anleitung siehe [DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUIDE.md)
+### Benötigte API Keys
 
-## 🔑 Benötigte API Keys
+1. **Gemini AI** (Blog-Generierung)
+   - Holen: https://makersuite.google.com/app/apikey
+   - Kostenlos verfügbar
 
-Erstellen Sie eine `.env` Datei im `backend/` Ordner:
+2. **Pexels API** (Bilder)
+   - Holen: https://www.pexels.com/api/
+   - Kostenlos verfügbar
+
+3. **PayPal** (Zahlungen)
+   - Holen: https://developer.paypal.com/
+   - Live Credentials für Production
+
+4. **Gmail App Password** (Email-Versand)
+   - Holen: https://myaccount.google.com/apppasswords
+   - Nicht normales Gmail-Passwort!
+
+5. **Google OAuth** (Social Login)
+   - Holen: https://console.cloud.google.com/apis/credentials
+   - OAuth 2.0 Client ID erstellen
+
+### API Keys einfügen
 
 ```bash
+# Nach Installation:
+nano /var/www/apebrain/backend/.env
+```
+
+**Beispiel `.env` Datei:**
+```env
 # MongoDB
 MONGO_URL="mongodb://localhost:27017"
 DB_NAME="apebrain_blog"
 
 # Security
 JWT_SECRET_KEY="your-random-secret-key-here"
-CORS_ORIGINS="https://yourdomain.com,https://www.yourdomain.com"
-FRONTEND_URL="https://yourdomain.com"
 
 # AI Integration
-GEMINI_API_KEY="your-gemini-api-key"  # https://makersuite.google.com/app/apikey
-EMERGENT_LLM_KEY="your-emergent-key"   # Optional
+GEMINI_API_KEY="your-gemini-api-key-here"
 
-# Images
-PEXELS_API_KEY="your-pexels-key"  # https://www.pexels.com/api/
+# Pexels (Bilder)
+PEXELS_API_KEY="your-pexels-api-key-here"
 
-# Admin Credentials
+# Admin Credentials (ÄNDERN!)
 ADMIN_USERNAME="admin"
-ADMIN_PASSWORD="your-secure-password"
+ADMIN_PASSWORD="your-secure-password-here"
 
-# PayPal (Sandbox oder Live)
-PAYPAL_MODE="sandbox"  # oder "live"
+# PayPal
+PAYPAL_MODE="live"  # oder "sandbox" für Tests
 PAYPAL_CLIENT_ID="your-paypal-client-id"
-PAYPAL_CLIENT_SECRET="your-paypal-secret"
+PAYPAL_CLIENT_SECRET="your-paypal-client-secret"
 
 # Email (Gmail)
 SMTP_HOST="smtp.gmail.com"
 SMTP_PORT="587"
 SMTP_USER="your-email@gmail.com"
-SMTP_PASSWORD="your-app-password"  # Gmail App-Passwort!
+SMTP_PASSWORD="your-gmail-app-password"
 NOTIFICATION_EMAIL="your-email@gmail.com"
 
 # Google OAuth
-GOOGLE_CLIENT_ID="your-google-client-id"
-GOOGLE_CLIENT_SECRET="your-google-secret"
+GOOGLE_CLIENT_ID="your-google-client-id.apps.googleusercontent.com"
+GOOGLE_CLIENT_SECRET="your-google-client-secret"
+
+# URLs
+FRONTEND_URL="https://yourdomain.com"
+CORS_ORIGINS="https://yourdomain.com,https://www.yourdomain.com"
 ```
 
-## 📁 Projektstruktur
+**Backend neu starten:**
+```bash
+pm2 restart apebrain-backend
+```
+
+---
+
+## 🔧 Management & Wartung
+
+### Nützliche Befehle
+
+```bash
+# System-Status prüfen
+/root/apebrain-health.sh
+
+# Ausführliche Debug-Info
+/root/apebrain-debug.sh
+
+# Backend Logs live ansehen
+pm2 logs apebrain-backend
+
+# Backend neu starten
+pm2 restart apebrain-backend
+
+# Nginx neu laden
+systemctl reload nginx
+
+# MongoDB Status
+systemctl status mongod
+
+# App Updates von GitHub
+/root/apebrain-update.sh
+```
+
+### SSL-Zertifikat manuell einrichten
+
+```bash
+certbot --nginx -d yourdomain.com -d www.yourdomain.com
+```
+
+### Logs durchsuchen
+
+```bash
+# Backend Logs
+tail -f /var/log/apebrain-backend-error.log
+
+# Nginx Logs
+tail -f /var/log/nginx/apebrain-error.log
+
+# MongoDB Logs
+journalctl -xeu mongod
+
+# PM2 Logs
+pm2 logs --lines 50
+```
+
+---
+
+## 🌐 Zugriff
+
+### Website
+- **Frontend**: `https://yourdomain.com`
+- **Admin-Panel**: `https://yourdomain.com/shroomsadmin`
+- **API Docs**: `https://yourdomain.com/api/docs`
+
+### Standard-Login
+- **Admin Username**: `admin`
+- **Admin Password**: (in `.env` festgelegt)
+
+---
+
+## 📁 Projekt-Struktur
 
 ```
 apebrain.cloud/
 ├── backend/
-│   ├── server.py              # Haupt-API-Server
-│   ├── auth_endpoints.py      # Auth-Endpunkte (Referenz)
-│   ├── requirements.txt       # Python-Dependencies
-│   ├── .env                   # Umgebungsvariablen (nicht im Git!)
-│   └── .env.example          # Beispiel-Konfiguration
+│   ├── server.py              # Haupt-API (FastAPI)
+│   ├── auth_endpoints.py      # Kunden-Authentifizierung
+│   ├── requirements.txt       # Python Dependencies
+│   ├── .env                   # Environment Variables (API Keys)
+│   └── ecosystem.config.js    # PM2 Konfiguration
 ├── frontend/
 │   ├── src/
-│   │   ├── App.js            # Haupt-App-Komponente
-│   │   ├── index.js          # Entry Point
-│   │   ├── components/       # Wiederverwendbare Komponenten
-│   │   └── pages/            # Seiten-Komponenten
-│   ├── public/
-│   ├── package.json          # Node.js-Dependencies
-│   ├── .env                  # Frontend-Konfiguration
-│   └── .env.example         # Beispiel-Konfiguration
-├── setup-server.sh           # Server-Setup-Script
-├── deploy-app.sh             # Deployment-Script
-├── update-app.sh             # Update-Script
-├── DEPLOYMENT_GUIDE.md       # Ausführliche Anleitung
-├── TROUBLESHOOTING.md        # Fehlerbehebung
-└── README.md                 # Diese Datei
+│   │   ├── App.js            # Haupt-Komponente
+│   │   ├── pages/            # Seiten (Landing, Blog, Shop)
+│   │   └── components/       # Wiederverwendbare Komponenten
+│   ├── package.json          # Node Dependencies
+│   └── .env                  # Backend URL
+├── ULTIMATE-SETUP.sh         # One-Command Installation
+├── README.md                 # Diese Datei
+└── DEPLOYMENT.md             # Detaillierte Deployment-Anleitung
 ```
 
-## 🔧 Lokale Entwicklung
+---
 
-### Backend starten
+## 🛠️ Technologie-Stack
+
+### Frontend
+- **React 19** - UI Library
+- **Tailwind CSS** - Utility-First CSS
+- **Shadcn UI** - Component Library
+- **React Router** - Navigation
+- **Axios** - HTTP Client
+- **Sonner** - Toast Notifications
+
+### Backend
+- **FastAPI** - Python Web Framework
+- **Motor** - Async MongoDB Driver
+- **PyMongo** - MongoDB Integration
+- **Pydantic** - Data Validation
+- **Python-Jose** - JWT Authentication
+- **Bcrypt** - Password Hashing
+- **Google Generative AI** - AI Content Generation
+- **PayPal REST SDK** - Payment Processing
+- **Aiosmtplib** - Async Email Sending
+
+### Infrastructure
+- **Ubuntu 24.04** - Server OS
+- **Nginx** - Reverse Proxy & Static Files
+- **PM2** - Process Manager (Backend)
+- **MongoDB 7.0** - Database
+- **Certbot** - SSL/TLS Certificates
+- **UFW** - Firewall
+
+---
+
+## 🐛 Troubleshooting
+
+### Backend startet nicht
 
 ```bash
-cd backend
-python3 -m venv venv
+# Logs prüfen
+pm2 logs apebrain-backend --lines 50
+
+# .env Datei prüfen
+cat /var/www/apebrain/backend/.env
+
+# Virtual Environment prüfen
+cd /var/www/apebrain/backend
 source venv/bin/activate
-pip install -r requirements.txt
-uvicorn server:app --reload --port 8001
+python --version
+pip list
 ```
 
-Backend läuft auf: http://localhost:8001
-
-### Frontend starten
+### Frontend zeigt 502 Bad Gateway
 
 ```bash
-cd frontend
-yarn install
-yarn start
-```
-
-Frontend läuft auf: http://localhost:3000
-
-## 📚 API-Dokumentation
-
-Nach dem Start des Backends ist die interaktive API-Dokumentation verfügbar:
-- **Swagger UI**: http://localhost:8001/docs
-- **ReDoc**: http://localhost:8001/redoc
-
-### Wichtige Endpoints
-
-#### Authentication
-- `POST /api/auth/register` - Neuen User registrieren
-- `POST /api/auth/login` - User-Login
-- `POST /api/auth/google/verify` - Google OAuth
-- `POST /api/admin/login` - Admin-Login
-
-#### Blogs
-- `GET /api/blogs/public` - Alle öffentlichen Blogs
-- `GET /api/blogs/{blog_id}` - Einzelner Blog
-- `POST /api/blogs/generate` - AI-Blog generieren (Admin)
-- `PUT /api/blogs/{blog_id}` - Blog bearbeiten (Admin)
-
-#### Shop
-- `GET /api/products` - Alle Produkte
-- `POST /api/shop/create-order` - PayPal-Bestellung erstellen
-- `GET /api/orders` - Bestellungen abrufen (Admin)
-
-#### Admin
-- `GET /api/admin/stats` - Dashboard-Statistiken
-- `GET /api/coupons` - Alle Coupons
-- `POST /api/coupons` - Neuen Coupon erstellen
-
-## 🎨 Design-System
-
-### Farben
-- **Primary**: Fliegenpilz-Rot (#dc2626, #ef4444)
-- **Background**: Dunkle mystische Töne (#0a0a0a, #1a1a1a)
-- **Accent**: Rosa/Pink Glows (#ec4899, #f43f5e)
-- **Text**: Warme Weißtöne (#f5f5f5, #e5e5e5)
-
-### Typografie
-- **Headings**: 'Playfair Display' (Serif)
-- **Body**: 'Inter', sans-serif
-- **Mono**: 'Courier New', monospace
-
-## 🔐 Sicherheit
-
-### Best Practices (implementiert)
-- ✅ JWT-basierte Authentifizierung
-- ✅ Bcrypt Passwort-Hashing
-- ✅ CORS-Konfiguration
-- ✅ Environment Variables für Secrets
-- ✅ HTTPS via Let's Encrypt
-- ✅ UFW Firewall
-- ✅ Fail2Ban gegen Brute-Force
-
-### Empfohlene Maßnahmen
-- [ ] SSH Key Authentication (statt Passwort)
-- [ ] Rate Limiting für API-Endpoints
-- [ ] Input Validation & Sanitization
-- [ ] CSP Headers
-- [ ] Regular Security Updates
-
-## 📊 Monitoring & Logs
-
-### Backend Logs
-```bash
-pm2 logs apebrain-backend
-pm2 monit  # Live-Monitoring
-```
-
-### Nginx Logs
-```bash
-tail -f /var/log/nginx/access.log
-tail -f /var/log/nginx/error.log
-```
-
-### MongoDB Logs
-```bash
-tail -f /var/log/mongodb/mongod.log
-```
-
-### System Status
-```bash
-htop              # CPU, RAM, Prozesse
-df -h             # Disk Space
-systemctl status nginx
-systemctl status mongod
+# Backend Status prüfen
 pm2 status
+
+# Backend neu starten
+pm2 restart apebrain-backend
+
+# Nginx Logs prüfen
+tail -f /var/log/nginx/apebrain-error.log
 ```
 
-## 🔄 Updates deployen
+### MongoDB verbindet nicht
 
-### Automatisch (via Script)
 ```bash
-cd /var/www/apebrain
-./update-app.sh
+# MongoDB Status
+systemctl status mongod
+
+# MongoDB neu starten
+systemctl restart mongod
+
+# MongoDB Logs
+journalctl -xeu mongod
 ```
 
-### Manuell
+### SSL-Zertifikat Fehler
+
+```bash
+# DNS prüfen
+ping yourdomain.com
+
+# Certbot erneut ausführen
+certbot --nginx -d yourdomain.com -d www.yourdomain.com
+
+# Certbot Logs
+journalctl -xeu certbot
+```
+
+### Port 8001 bereits belegt
+
+```bash
+# Prozess finden
+lsof -i :8001
+
+# Prozess beenden
+kill -9 PID
+
+# PM2 neu starten
+pm2 restart apebrain-backend
+```
+
+---
+
+## 🔄 Updates & Maintenance
+
+### App von GitHub aktualisieren
+
+```bash
+/root/apebrain-update.sh
+```
+
+**Oder manuell:**
 ```bash
 cd /var/www/apebrain
 git pull origin main
 
-# Backend updaten
+# Backend aktualisieren
 cd backend
 source venv/bin/activate
 pip install -r requirements.txt
 deactivate
 pm2 restart apebrain-backend
 
-# Frontend updaten
+# Frontend aktualisieren
 cd ../frontend
 yarn install
 yarn build
 systemctl reload nginx
 ```
 
-## 🆘 Hilfe & Troubleshooting
+### Datenbank-Backup
 
-Bei Problemen:
-1. Siehe [TROUBLESHOOTING.md](./TROUBLESHOOTING.md)
-2. Logs überprüfen (siehe oben)
-3. Services neu starten:
-   ```bash
-   pm2 restart apebrain-backend
-   systemctl restart nginx
-   systemctl restart mongod
-   ```
+```bash
+# Backup erstellen
+mongodump --db apebrain_blog --out /root/backups/$(date +%Y%m%d)
 
-## 📝 Features
-
-### ✅ Implementiert
-- [x] AI-Blog-Generierung (Gemini)
-- [x] Admin-Panel (CRUD für Blogs/Produkte/Coupons)
-- [x] E-Commerce mit PayPal
-- [x] Shopping Cart
-- [x] Coupon-System
-- [x] User Authentication (Email + Google OAuth)
-- [x] Order Management mit Email-Benachrichtigungen
-- [x] Image Upload
-- [x] SEO (Meta Tags, Sitemap, Robots.txt)
-- [x] Responsive Design
-- [x] Dark Theme (Stoned Ape Theory Design)
-
-### 🚧 Geplant
-- [ ] Instagram-Integration (Auto-Posting)
-- [ ] Mini-Games Section
-- [ ] PayPal OAuth Login
-- [ ] Newsletter-System
-- [ ] Blog-Kommentare
-- [ ] Produktbewertungen
-- [ ] Multi-Language Support
-
-## 👥 Mitwirken
-
-1. Fork das Repository
-2. Erstelle einen Feature-Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit deine Änderungen (`git commit -m 'Add some AmazingFeature'`)
-4. Push zum Branch (`git push origin feature/AmazingFeature`)
-5. Öffne einen Pull Request
-
-## 📄 Lizenz
-
-Dieses Projekt ist privat und proprietär.
-
-## 📧 Kontakt
-
-Bei Fragen: apebrain333@gmail.com
-
-## 🙏 Credits
-
-- **Terence McKenna** - Inspiration und Stoned Ape Theory
-- **Emergent AI** - Entwicklungsplattform
-- **Pexels** - Kostenlose Bilder
-- **FastAPI** - Backend Framework
-- **React** - Frontend Framework
+# Backup wiederherstellen
+mongorestore --db apebrain_blog /root/backups/DATUM/apebrain_blog
+```
 
 ---
 
-**Made with 🍄 and 🧠**
+## 📚 Weitere Dokumentation
 
-*"What expanded primate minds can restore yours."*
+- **[DEPLOYMENT.md](DEPLOYMENT.md)** - Detaillierte Deployment-Anleitung
+- **[API Docs](https://yourdomain.com/api/docs)** - Automatische FastAPI Dokumentation
+- **Frontend Components** - Siehe `/frontend/src/components/`
+
+---
+
+## 🤝 Support
+
+Bei Problemen:
+1. Logs prüfen: `/root/apebrain-debug.sh`
+2. Health Check: `/root/apebrain-health.sh`
+3. Setup Log: `cat /root/apebrain-setup.log`
+
+---
+
+## 📄 Lizenz
+
+Privates Projekt - Alle Rechte vorbehalten.
+
+---
+
+**🍄🧠 Built with Love & Consciousness Expansion**

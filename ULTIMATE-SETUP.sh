@@ -1,8 +1,8 @@
 #!/bin/bash
 #############################################
 # APEBRAIN.CLOUD - ULTIMATE 1-COMMAND SETUP
-# Komplettes automatisches Setup für Ubuntu 24.04
-# Mit Debugging, Logging & Auto-Update
+# Vollautomatisches Setup für Ubuntu 24.04
+# Optimiert für Hostinger VPS
 #############################################
 
 set -e  # Exit bei Fehler
@@ -23,12 +23,13 @@ echo -e "${GREEN}"
 cat << "EOF"
 ╔══════════════════════════════════════════╗
 ║   🍄🧠 APEBRAIN.CLOUD ULTIMATE SETUP   ║
+║   Stoned Ape Theory Design             ║
 ║   Vollautomatische Installation         ║
 ╚══════════════════════════════════════════╝
 EOF
 echo -e "${NC}"
 
-# Konfiguration
+# Konfiguration - ANPASSEN!
 GITHUB_REPO="robinzi2001-cell/apebrain.cloud"
 DOMAIN="apebrain.cloud"
 APP_DIR="/var/www/apebrain"
@@ -44,7 +45,7 @@ echo ""
 #############################################
 echo -e "${GREEN}[1/12] System wird aktualisiert...${NC}"
 apt update && apt upgrade -y
-apt install -y curl wget git ufw fail2ban htop vim nano software-properties-common jq net-tools
+apt install -y curl wget git ufw fail2ban htop vim nano software-properties-common jq net-tools build-essential
 
 #############################################
 # SCHRITT 2: FIREWALL
@@ -57,12 +58,12 @@ ufw --force enable
 ufw status
 
 #############################################
-# SCHRITT 3: NODE.JS & YARN
+# SCHRITT 3: NODE.JS 20 & YARN
 #############################################
-echo -e "${GREEN}[3/12] Node.js & Yarn werden installiert...${NC}"
+echo -e "${GREEN}[3/12] Node.js 20 & Yarn werden installiert...${NC}"
 curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
 apt install -y nodejs
-npm install -g yarn pm2
+npm install -g yarn@1.22.22 pm2
 
 echo -e "${BLUE}Node.js: $(node --version)${NC}"
 echo -e "${BLUE}NPM: $(npm --version)${NC}"
@@ -73,7 +74,7 @@ echo -e "${BLUE}PM2: $(pm2 --version)${NC}"
 # SCHRITT 4: PYTHON 3.12
 #############################################
 echo -e "${GREEN}[4/12] Python 3.12 wird installiert...${NC}"
-apt install -y python3 python3-pip python3-venv python3-dev build-essential
+apt install -y python3 python3-pip python3-venv python3-dev
 
 echo -e "${BLUE}Python: $(python3 --version)${NC}"
 echo -e "${BLUE}Pip: $(pip3 --version)${NC}"
@@ -152,50 +153,25 @@ python3 -m venv venv
 source venv/bin/activate
 
 pip install --upgrade pip
+
+# WICHTIG: emergentintegrations mit speziellem Index installieren
+echo -e "${YELLOW}[INFO] Installiere emergentintegrations...${NC}"
+pip install emergentintegrations --extra-index-url https://d33sy5i8bnduwe.cloudfront.net/simple/ || {
+    echo -e "${YELLOW}⚠️  emergentintegrations Installation fehlgeschlagen - wird übersprungen${NC}"
+}
+
+echo -e "${YELLOW}[INFO] Installiere restliche Backend Dependencies...${NC}"
 pip install -r requirements.txt
 
-# .env Datei erstellen
+# .env Datei erstellen (WICHTIG: API Keys müssen manuell eingefügt werden!)
 echo -e "${YELLOW}[INFO] Erstelle Backend .env Datei...${NC}"
-cat > .env << EOF
-# MongoDB
-MONGO_URL="mongodb://localhost:27017"
-DB_NAME="apebrain_blog"
-
-# CORS & Security
-CORS_ORIGINS="https://${DOMAIN},https://www.${DOMAIN},http://${DOMAIN},http://www.${DOMAIN}"
-FRONTEND_URL="https://${DOMAIN}"
-JWT_SECRET_KEY="$(openssl rand -hex 32)"
-
-# ⚠️ WICHTIG: Fügen Sie Ihre echten API Keys hier ein!
-# Anleitung: nano /var/www/apebrain/backend/.env
-
-# AI Integration
-GEMINI_API_KEY="AIzaSyAzgWsRn-KbO9qLJZ1A0_ZvJZZ9AxL2Aok"
-EMERGENT_LLM_KEY="sk-emergent-130C20f3fB753C8F9D"
-
-# Pexels (Bilder)
-PEXELS_API_KEY="yXxO4WFMwcmGA9XcjDolPJ6rDQKfALaZJ0T0xGWaQQF9AusyO7umw7Vm"
-
-# Admin Credentials
-ADMIN_USERNAME="admin"
-ADMIN_PASSWORD="apebrain2024"
-
-# PayPal Integration (LIVE KEYS)
-PAYPAL_MODE="live"
-PAYPAL_CLIENT_ID="AWjyyJVME51tjwiVT0z5G7o9Ym3Mhx9-fuQcTHiV5-Hch9i_VVbgx7Jg9JBb77FBkky707aaYPT8RwCD"
-PAYPAL_CLIENT_SECRET="EFD-znjsCz6qgICb8RWGUQL-r9sviePFsceju7D-AugsgveDalt81giZzgUl5veeqyOumRRvqEYTJOD1"
-
-# Email (Gmail)
-SMTP_HOST="smtp.gmail.com"
-SMTP_PORT="587"
-SMTP_USER="apebrain333@gmail.com"
-SMTP_PASSWORD="eozyartxejsdueqs"
-NOTIFICATION_EMAIL="apebrain333@gmail.com"
-
-# Google OAuth
-GOOGLE_CLIENT_ID="843038928917-156ufq5uhk19ebvs3umao28gv15r0q0e.apps.googleusercontent.com"
-GOOGLE_CLIENT_SECRET="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"
-EOF
+if [ ! -f ".env" ]; then
+    cp .env.example .env
+    echo -e "${YELLOW}⚠️  WICHTIG: Bitte API Keys in /var/www/apebrain/backend/.env einfügen!${NC}"
+    echo -e "${YELLOW}   Anleitung: nano /var/www/apebrain/backend/.env${NC}"
+else
+    echo -e "${GREEN}✅ .env bereits vorhanden${NC}"
+fi
 
 deactivate
 echo -e "${GREEN}✅ Backend konfiguriert${NC}"
@@ -206,11 +182,13 @@ echo -e "${GREEN}✅ Backend konfiguriert${NC}"
 echo -e "${GREEN}[10/12] Frontend wird eingerichtet...${NC}"
 cd ${APP_DIR}/frontend
 
-yarn install
-
+# .env für Frontend
 cat > .env << EOF
 REACT_APP_BACKEND_URL=https://${DOMAIN}
 EOF
+
+echo -e "${BLUE}[INFO] Installiere Frontend Dependencies (dauert 2-3 Min)...${NC}"
+yarn install
 
 echo -e "${BLUE}[INFO] Frontend wird gebaut (dauert 3-5 Min)...${NC}"
 yarn build
@@ -230,7 +208,7 @@ echo -e "${GREEN}[11/12] Nginx wird konfiguriert...${NC}"
 cat > /etc/nginx/sites-available/apebrain << 'EOFNGINX'
 server {
     listen 80;
-    server_name DOMAIN_PLACEHOLDER www.DOMAIN_PLACEHOLDER;
+    server_name apebrain.cloud www.apebrain.cloud;
 
     root /var/www/apebrain/frontend/build;
     index index.html;
@@ -246,12 +224,12 @@ server {
     gzip_min_length 1000;
     gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
 
-    # React Router
+    # React Router - Frontend
     location / {
         try_files $uri $uri/ /index.html;
     }
 
-    # Backend API
+    # Backend API Proxy
     location /api {
         proxy_pass http://127.0.0.1:8001;
         proxy_http_version 1.1;
@@ -263,12 +241,12 @@ server {
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
         
-        # Timeouts for large uploads
+        # Timeouts
         proxy_read_timeout 300s;
         proxy_connect_timeout 75s;
     }
 
-    # Static Files mit Caching
+    # Static Files Caching
     location /static {
         alias /var/www/apebrain/frontend/build/static;
         expires 1y;
@@ -280,9 +258,6 @@ server {
     error_log /var/log/nginx/apebrain-error.log;
 }
 EOFNGINX
-
-# Domain ersetzen
-sed -i "s/DOMAIN_PLACEHOLDER/${DOMAIN}/g" /etc/nginx/sites-available/apebrain
 
 ln -sf /etc/nginx/sites-available/apebrain /etc/nginx/sites-enabled/
 rm -f /etc/nginx/sites-enabled/default
@@ -335,84 +310,7 @@ echo -e "${GREEN}✅ Backend gestartet${NC}"
 #############################################
 # MONITORING & DEBUG SCRIPTS ERSTELLEN
 #############################################
-echo -e "${GREEN}[BONUS] Erstelle Debug & Update Scripts...${NC}"
-
-# Debug Script
-cat > /root/apebrain-debug.sh << 'EOFDEBUG'
-#!/bin/bash
-echo "🔍 APEBRAIN.CLOUD - SYSTEM DEBUG"
-echo "================================"
-echo ""
-echo "📊 SERVICES STATUS:"
-echo "-------------------"
-echo "Backend (PM2):"
-pm2 status
-echo ""
-echo "Nginx:"
-systemctl status nginx --no-pager | head -5
-echo ""
-echo "MongoDB:"
-systemctl status mongod --no-pager | head -5
-echo ""
-echo "🔥 Firewall:"
-ufw status
-echo ""
-echo "📝 LETZTE LOGS:"
-echo "-------------------"
-echo "Backend (letzte 20 Zeilen):"
-pm2 logs apebrain-backend --lines 20 --nostream
-echo ""
-echo "Nginx Fehler (letzte 10 Zeilen):"
-tail -10 /var/log/nginx/apebrain-error.log
-echo ""
-echo "💾 DISK SPACE:"
-df -h | grep -E "Filesystem|/dev/"
-echo ""
-echo "🧠 MEMORY:"
-free -h
-echo ""
-echo "🌐 NETWORK TEST:"
-curl -s -o /dev/null -w "Backend API Status: %{http_code}\n" http://localhost:8001/api/products
-EOFDEBUG
-
-chmod +x /root/apebrain-debug.sh
-
-# Update Script
-cat > /root/apebrain-update.sh << 'EOFUPDATE'
-#!/bin/bash
-echo "🔄 APEBRAIN.CLOUD - UPDATE"
-echo "=========================="
-echo ""
-
-cd /var/www/apebrain
-
-echo "📥 Pulling latest changes from GitHub..."
-git pull origin main || git pull origin master
-
-echo ""
-echo "🐍 Updating Backend..."
-cd /var/www/apebrain/backend
-source venv/bin/activate
-pip install -r requirements.txt
-deactivate
-
-echo ""
-echo "⚛️  Updating Frontend..."
-cd /var/www/apebrain/frontend
-yarn install
-yarn build
-
-echo ""
-echo "🔄 Restarting Services..."
-pm2 restart apebrain-backend
-systemctl reload nginx
-
-echo ""
-echo "✅ UPDATE COMPLETE!"
-pm2 status
-EOFUPDATE
-
-chmod +x /root/apebrain-update.sh
+echo -e "${GREEN}[BONUS] Erstelle Management Scripts...${NC}"
 
 # Health Check Script
 cat > /root/apebrain-health.sh << 'EOFHEALTH'
@@ -467,22 +365,83 @@ EOFHEALTH
 
 chmod +x /root/apebrain-health.sh
 
-# Cron Job für Auto-Updates (optional)
-cat > /root/setup-auto-update.sh << 'EOFCRON'
+# Debug Script
+cat > /root/apebrain-debug.sh << 'EOFDEBUG'
 #!/bin/bash
-echo "Möchten Sie automatische Updates aktivieren?"
-echo "Dies führt jeden Tag um 3 Uhr morgens ein Update durch."
-read -p "Aktivieren? (y/n) " -n 1 -r
-echo
-if [[ $REPLY =~ ^[Yy]$ ]]; then
-    (crontab -l 2>/dev/null; echo "0 3 * * * /root/apebrain-update.sh >> /var/log/apebrain-auto-update.log 2>&1") | crontab -
-    echo "✅ Auto-Update aktiviert (täglich 3 Uhr)"
-else
-    echo "Auto-Update nicht aktiviert"
-fi
-EOFCRON
+echo "🔍 APEBRAIN.CLOUD - SYSTEM DEBUG"
+echo "================================"
+echo ""
+echo "📊 SERVICES STATUS:"
+echo "-------------------"
+echo "Backend (PM2):"
+pm2 status
+echo ""
+echo "Nginx:"
+systemctl status nginx --no-pager | head -5
+echo ""
+echo "MongoDB:"
+systemctl status mongod --no-pager | head -5
+echo ""
+echo "🔥 Firewall:"
+ufw status
+echo ""
+echo "📝 LETZTE LOGS:"
+echo "-------------------"
+echo "Backend (letzte 30 Zeilen):"
+pm2 logs apebrain-backend --lines 30 --nostream
+echo ""
+echo "Nginx Fehler (letzte 10 Zeilen):"
+tail -10 /var/log/nginx/apebrain-error.log
+echo ""
+echo "💾 DISK SPACE:"
+df -h | grep -E "Filesystem|/dev/"
+echo ""
+echo "🧠 MEMORY:"
+free -h
+echo ""
+echo "🌐 NETWORK TEST:"
+curl -s -o /dev/null -w "Backend API Status: %{http_code}\n" http://localhost:8001/api/products
+EOFDEBUG
 
-chmod +x /root/setup-auto-update.sh
+chmod +x /root/apebrain-debug.sh
+
+# Update Script
+cat > /root/apebrain-update.sh << 'EOFUPDATE'
+#!/bin/bash
+echo "🔄 APEBRAIN.CLOUD - UPDATE"
+echo "=========================="
+echo ""
+
+cd /var/www/apebrain
+
+echo "📥 Pulling latest changes from GitHub..."
+git pull origin main || git pull origin master
+
+echo ""
+echo "🐍 Updating Backend..."
+cd /var/www/apebrain/backend
+source venv/bin/activate
+pip install emergentintegrations --extra-index-url https://d33sy5i8bnduwe.cloudfront.net/simple/ || true
+pip install -r requirements.txt
+deactivate
+
+echo ""
+echo "⚛️  Updating Frontend..."
+cd /var/www/apebrain/frontend
+yarn install
+yarn build
+
+echo ""
+echo "🔄 Restarting Services..."
+pm2 restart apebrain-backend
+systemctl reload nginx
+
+echo ""
+echo "✅ UPDATE COMPLETE!"
+pm2 status
+EOFUPDATE
+
+chmod +x /root/apebrain-update.sh
 
 #############################################
 # SSL EINRICHTEN
@@ -493,7 +452,7 @@ echo -e "${YELLOW}WICHTIG: DNS muss auf diese Server-IP zeigen!${NC}"
 echo -e "${YELLOW}Prüfen Sie: ping ${DOMAIN}${NC}"
 echo ""
 
-read -p "DNS korrekt konfiguriert und möchten Sie SSL jetzt einrichten? (y/n) " -n 1 -r
+read -p "DNS korrekt konfiguriert und SSL jetzt einrichten? (y/n) " -n 1 -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
     certbot --nginx -d ${DOMAIN} -d www.${DOMAIN} --non-interactive --agree-tos --register-unsafely-without-email || {
@@ -513,40 +472,48 @@ echo -e "${GREEN}"
 cat << "EOF"
 ╔══════════════════════════════════════════╗
 ║   ✅ SETUP ERFOLGREICH ABGESCHLOSSEN!   ║
+║   🍄🧠 APEBRAIN.CLOUD IST BEREIT!      ║
 ╚══════════════════════════════════════════╝
 EOF
 echo -e "${NC}"
 echo ""
-echo -e "${BLUE}📊 INSTALLATION ZUSAMMENFASSUNG:${NC}"
+echo -e "${BLUE}📊 INSTALLIERTE FEATURES:${NC}"
 echo "=================================="
-echo -e "✅ System aktualisiert"
-echo -e "✅ Firewall konfiguriert"
-echo -e "✅ Node.js, Python, MongoDB installiert"
-echo -e "✅ Nginx konfiguriert"
-echo -e "✅ GitHub Repository geklont"
-echo -e "✅ Backend & Frontend installiert"
-echo -e "✅ PM2 Backend gestartet"
-echo -e "✅ Debug-Scripts erstellt"
+echo "✅ System aktualisiert (Ubuntu 24.04)"
+echo "✅ Firewall konfiguriert (UFW)"
+echo "✅ Node.js 20 + Yarn installiert"
+echo "✅ Python 3.12 + Virtual Environment"
+echo "✅ MongoDB 7.0 installiert & läuft"
+echo "✅ Nginx konfiguriert"
+echo "✅ GitHub Repository geklont"
+echo "✅ Backend installiert (FastAPI + Motor)"
+echo "✅ Frontend gebaut (React 19 + Tailwind)"
+echo "✅ PM2 Backend gestartet"
+echo ""
+echo -e "${GREEN}🎨 DESIGN:${NC}"
+echo "=================================="
+echo "✅ APEBRAIN Stoned Ape Theory Design"
+echo "✅ Landing Page (🍄 + 🧠)"
+echo "✅ Blog (Knowledge Portal)"
+echo "✅ Shop (Sacred Shop)"
+echo "✅ Dark mystical theme"
+echo "✅ Fliegenpilz-Rot accents"
 echo ""
 echo -e "${YELLOW}⚠️  WICHTIGE NÄCHSTE SCHRITTE:${NC}"
 echo "=================================="
 echo ""
-echo "1. API KEYS KONFIGURIEREN (ERFORDERLICH!):"
+echo "1. API KEYS KONFIGURIEREN:"
 echo "   nano /var/www/apebrain/backend/.env"
 echo ""
-echo "   Fügen Sie echte Werte ein für:"
+echo "   Fügen Sie Ihre API Keys ein:"
 echo "   - GEMINI_API_KEY"
 echo "   - PEXELS_API_KEY"
 echo "   - PAYPAL_CLIENT_ID & SECRET"
 echo "   - SMTP_USER & PASSWORD (Gmail)"
 echo "   - GOOGLE_CLIENT_ID & SECRET"
-echo "   - ADMIN_PASSWORD ändern!"
 echo ""
 echo "2. BACKEND NEU STARTEN:"
 echo "   pm2 restart apebrain-backend"
-echo ""
-echo "3. SSL EINRICHTEN (falls noch nicht):"
-echo "   certbot --nginx -d ${DOMAIN} -d www.${DOMAIN}"
 echo ""
 echo -e "${GREEN}🔧 NÜTZLICHE BEFEHLE:${NC}"
 echo "=================================="
@@ -555,7 +522,9 @@ echo "🔍 Debug-Informationen:     /root/apebrain-debug.sh"
 echo "🔄 App aktualisieren:       /root/apebrain-update.sh"
 echo "📝 Backend Logs:            pm2 logs apebrain-backend"
 echo "📝 Nginx Logs:              tail -f /var/log/nginx/apebrain-error.log"
-echo "🔄 Services neu starten:    pm2 restart apebrain-backend && systemctl reload nginx"
+echo "🔄 Backend neu starten:     pm2 restart apebrain-backend"
+echo "🔄 Nginx neu laden:         systemctl reload nginx"
+echo "🔄 MongoDB neu starten:     systemctl restart mongod"
 echo ""
 echo -e "${GREEN}🌐 IHRE WEBSITE:${NC}"
 echo "=================================="
@@ -568,3 +537,8 @@ echo "Vollständiges Log: ${LOGFILE}"
 echo ""
 echo -e "${GREEN}🎉 VIEL ERFOLG MIT APEBRAIN.CLOUD! 🍄🧠${NC}"
 echo ""
+
+# Health Check am Ende
+echo -e "${GREEN}Führe abschließenden Health Check aus...${NC}"
+sleep 3
+/root/apebrain-health.sh
