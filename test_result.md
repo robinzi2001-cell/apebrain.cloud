@@ -209,6 +209,9 @@ backend:
       - working: true
         agent: "testing"
         comment: "✅ FIXED & PASSED - Replaced deprecated Unsplash Source API with Lorem Picsum API (picsum.photos). All test scenarios now pass: 1) Fetch with good keywords returns valid base64 image URL starting with 'data:image/jpeg;base64,', 2) Different keywords (ocean nature, mountain landscape, abstract art) all return valid images, 3) Empty keywords use fallback image (seed=42), 4) Image size validation confirms reasonable base64 size (30KB-90KB decoded). Fixed critical integration issue - endpoint now fully functional."
+      - working: true
+        agent: "main"
+        comment: "✅ RE-FIXED - Added missing GET /api/fetch-image endpoint (singular) that was returning 404. Created new endpoint using Pexels API that fetches single image with keywords parameter. Tested and verified working: returns success=true with base64 image_url, supports different keywords (nature, ocean, mushroom), proper error handling. Endpoint now functional alongside existing /api/fetch-images (plural) endpoint."
 
   - task: "Pexels multiple image fetch endpoint"
     implemented: true
