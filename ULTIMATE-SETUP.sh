@@ -3,6 +3,7 @@
 # APEBRAIN.CLOUD - ULTIMATE 1-COMMAND SETUP
 # Vollautomatisches Setup für Ubuntu 24.04
 # Optimiert für Hostinger VPS
+# GitHub-Safe: Keine API Keys im Script!
 #############################################
 
 set -e  # Exit bei Fehler
@@ -163,18 +164,11 @@ pip install emergentintegrations --extra-index-url https://d33sy5i8bnduwe.cloudf
 echo -e "${YELLOW}[INFO] Installiere restliche Backend Dependencies...${NC}"
 pip install -r requirements.txt
 
-# .env Datei erstellen (WICHTIG: API Keys müssen manuell eingefügt werden!)
-echo -e "${YELLOW}[INFO] Erstelle Backend .env Datei...${NC}"
-if [ ! -f ".env" ]; then
-    cp .env.example .env
-    echo -e "${YELLOW}⚠️  WICHTIG: Bitte API Keys in /var/www/apebrain/backend/.env einfügen!${NC}"
-    echo -e "${YELLOW}   Anleitung: nano /var/www/apebrain/backend/.env${NC}"
-else
-    echo -e "${GREEN}✅ .env bereits vorhanden${NC}"
-fi
-
 deactivate
-echo -e "${GREEN}✅ Backend konfiguriert${NC}"
+echo -e "${GREEN}✅ Backend Dependencies installiert${NC}"
+
+# .env Datei NICHT automatisch erstellen - User macht das später!
+echo -e "${YELLOW}⚠️  .env Datei muss noch konfiguriert werden (siehe Ende)${NC}"
 
 #############################################
 # SCHRITT 10: FRONTEND SETUP
@@ -273,9 +267,9 @@ else
 fi
 
 #############################################
-# SCHRITT 12: PM2 BACKEND STARTEN
+# SCHRITT 12: PM2 SETUP (Backend noch nicht starten!)
 #############################################
-echo -e "${GREEN}[12/12] Backend wird mit PM2 gestartet...${NC}"
+echo -e "${GREEN}[12/12] PM2 wird konfiguriert...${NC}"
 cd ${APP_DIR}/backend
 
 cat > ecosystem.config.js << 'EOFPM2'
@@ -300,12 +294,7 @@ module.exports = {
 };
 EOFPM2
 
-pm2 delete apebrain-backend 2>/dev/null || true
-pm2 start ecosystem.config.js
-pm2 save
-pm2 startup systemd -u root --hp /root
-
-echo -e "${GREEN}✅ Backend gestartet${NC}"
+echo -e "${YELLOW}⚠️  Backend wird NICHT automatisch gestartet (API Keys fehlen noch)${NC}"
 
 #############################################
 # MONITORING & DEBUG SCRIPTS ERSTELLEN
@@ -477,7 +466,7 @@ cat << "EOF"
 EOF
 echo -e "${NC}"
 echo ""
-echo -e "${BLUE}📊 INSTALLIERTE FEATURES:${NC}"
+echo -e "${BLUE}📊 INSTALLIERTE KOMPONENTEN:${NC}"
 echo "=================================="
 echo "✅ System aktualisiert (Ubuntu 24.04)"
 echo "✅ Firewall konfiguriert (UFW)"
@@ -486,34 +475,122 @@ echo "✅ Python 3.12 + Virtual Environment"
 echo "✅ MongoDB 7.0 installiert & läuft"
 echo "✅ Nginx konfiguriert"
 echo "✅ GitHub Repository geklont"
-echo "✅ Backend installiert (FastAPI + Motor)"
+echo "✅ Backend Dependencies installiert"
 echo "✅ Frontend gebaut (React 19 + Tailwind)"
-echo "✅ PM2 Backend gestartet"
-echo ""
-echo -e "${GREEN}🎨 DESIGN:${NC}"
-echo "=================================="
-echo "✅ APEBRAIN Stoned Ape Theory Design"
-echo "✅ Landing Page (🍄 + 🧠)"
-echo "✅ Blog (Knowledge Portal)"
-echo "✅ Shop (Sacred Shop)"
-echo "✅ Dark mystical theme"
-echo "✅ Fliegenpilz-Rot accents"
+echo "✅ PM2 konfiguriert"
 echo ""
 echo -e "${YELLOW}⚠️  WICHTIGE NÄCHSTE SCHRITTE:${NC}"
 echo "=================================="
 echo ""
-echo "1. API KEYS KONFIGURIEREN:"
-echo "   nano /var/www/apebrain/backend/.env"
+echo -e "${RED}SCHRITT 1: API KEYS KONFIGURIEREN${NC}"
+echo "-----------------------------------"
+echo "Die .env Datei muss JETZT erstellt werden!"
 echo ""
-echo "   Fügen Sie Ihre API Keys ein:"
-echo "   - GEMINI_API_KEY"
-echo "   - PEXELS_API_KEY"
-echo "   - PAYPAL_CLIENT_ID & SECRET"
-echo "   - SMTP_USER & PASSWORD (Gmail)"
-echo "   - GOOGLE_CLIENT_ID & SECRET"
+echo "Option A - Interaktiv (empfohlen):"
+echo "  nano /var/www/apebrain/backend/.env"
 echo ""
-echo "2. BACKEND NEU STARTEN:"
-echo "   pm2 restart apebrain-backend"
+echo "Option B - Vorlage kopieren:"
+echo "  cp /var/www/apebrain/backend/.env.example /var/www/apebrain/backend/.env"
+echo "  nano /var/www/apebrain/backend/.env"
+echo ""
+echo "Benötigte API Keys:"
+echo "  - GEMINI_API_KEY (https://makersuite.google.com/app/apikey)"
+echo "  - PEXELS_API_KEY (https://www.pexels.com/api/)"
+echo "  - PAYPAL_CLIENT_ID & SECRET (https://developer.paypal.com/)"
+echo "  - SMTP_USER & PASSWORD (Gmail App Password)"
+echo "  - GOOGLE_CLIENT_ID & SECRET (Google OAuth)"
+echo "  - ADMIN_PASSWORD (ÄNDERN!)"
+echo ""
+read -p "Möchtest du JETZT die .env Datei erstellen? (y/n) " -n 1 -r
+echo
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+    echo ""
+    echo -e "${GREEN}Öffne Editor für .env Konfiguration...${NC}"
+    echo -e "${YELLOW}Füge deine API Keys ein und speichere mit Strg+X, Y, Enter${NC}"
+    sleep 3
+    
+    # Erstelle .env mit Template falls nicht vorhanden
+    if [ ! -f "/var/www/apebrain/backend/.env" ]; then
+        if [ -f "/var/www/apebrain/backend/.env.example" ]; then
+            cp /var/www/apebrain/backend/.env.example /var/www/apebrain/backend/.env
+        else
+            # Fallback: Erstelle minimale .env
+            cat > /var/www/apebrain/backend/.env << 'ENVEOF'
+# MongoDB
+MONGO_URL="mongodb://localhost:27017"
+DB_NAME="apebrain_blog"
+
+# CORS & Security
+CORS_ORIGINS="*"
+FRONTEND_URL="https://apebrain.cloud"
+JWT_SECRET_KEY="CHANGE-THIS-SECRET-KEY"
+
+# Admin Credentials (ÄNDERN!)
+ADMIN_USERNAME="admin"
+ADMIN_PASSWORD="CHANGE-THIS-PASSWORD"
+
+# AI Integration
+GEMINI_API_KEY="YOUR-GEMINI-API-KEY-HERE"
+EMERGENT_LLM_KEY="YOUR-EMERGENT-KEY-HERE-OPTIONAL"
+
+# Pexels (Bilder)
+PEXELS_API_KEY="YOUR-PEXELS-API-KEY-HERE"
+
+# PayPal Integration
+PAYPAL_MODE="sandbox"
+PAYPAL_CLIENT_ID="YOUR-PAYPAL-CLIENT-ID"
+PAYPAL_CLIENT_SECRET="YOUR-PAYPAL-CLIENT-SECRET"
+
+# Email (Gmail)
+SMTP_HOST="smtp.gmail.com"
+SMTP_PORT="587"
+SMTP_USER="YOUR-EMAIL@gmail.com"
+SMTP_PASSWORD="YOUR-GMAIL-APP-PASSWORD"
+NOTIFICATION_EMAIL="YOUR-EMAIL@gmail.com"
+
+# Google OAuth
+GOOGLE_CLIENT_ID="YOUR-GOOGLE-CLIENT-ID"
+GOOGLE_CLIENT_SECRET="YOUR-GOOGLE-CLIENT-SECRET"
+ENVEOF
+        fi
+    fi
+    
+    nano /var/www/apebrain/backend/.env
+    
+    echo ""
+    echo -e "${GREEN}✅ .env Datei gespeichert${NC}"
+    echo ""
+    echo -e "${RED}SCHRITT 2: BACKEND STARTEN${NC}"
+    echo "---------------------------"
+    read -p "Backend jetzt starten? (y/n) " -n 1 -r
+    echo
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+        cd /var/www/apebrain/backend
+        pm2 start ecosystem.config.js
+        pm2 save
+        pm2 startup systemd -u root --hp /root
+        echo ""
+        echo -e "${GREEN}✅ Backend gestartet!${NC}"
+        echo ""
+        sleep 2
+        /root/apebrain-health.sh
+    else
+        echo ""
+        echo -e "${YELLOW}Backend später manuell starten:${NC}"
+        echo "  cd /var/www/apebrain/backend"
+        echo "  pm2 start ecosystem.config.js"
+        echo "  pm2 save"
+    fi
+else
+    echo ""
+    echo -e "${YELLOW}⚠️  .env Datei MUSS konfiguriert werden bevor Backend startet!${NC}"
+    echo ""
+    echo "Führe später aus:"
+    echo "  nano /var/www/apebrain/backend/.env"
+    echo "  pm2 start /var/www/apebrain/backend/ecosystem.config.js"
+    echo "  pm2 save"
+fi
+
 echo ""
 echo -e "${GREEN}🔧 NÜTZLICHE BEFEHLE:${NC}"
 echo "=================================="
@@ -537,8 +614,3 @@ echo "Vollständiges Log: ${LOGFILE}"
 echo ""
 echo -e "${GREEN}🎉 VIEL ERFOLG MIT APEBRAIN.CLOUD! 🍄🧠${NC}"
 echo ""
-
-# Health Check am Ende
-echo -e "${GREEN}Führe abschließenden Health Check aus...${NC}"
-sleep 3
-/root/apebrain-health.sh
