@@ -1,30 +1,37 @@
 <analysis>
-The AI engineer successfully built out the apebrain.cloud application from its MVP stage, adding significant features and addressing critical issues. Initial work focused on securing the admin panel, implementing product image uploads, and adding configurable Instagram links and dynamic landing page button toggles. A robust multimedia blog section was developed, including video/audio embeds and AI image fetching. Key challenges included MongoDB serialization, PayPal checkout validation, and React  double calls, all resolved. The text-to-speech feature was removed due to user feedback. A comprehensive order management system was integrated, featuring PayPal, email notifications (customer and admin), and DHL tracking. User authentication was added, including email/password registration, login, and Google OAuth (with initial configuration challenges). Landing page dynamic galleries, a mini-mushroom rain easter egg, and admin-configurable RGB background gradients were implemented. SEO optimization (meta tags, robots.txt, sitemap, manifest) was completed, and deployment guides for GitHub/Hostinger were created, requiring a Git history cleanup to remove sensitive data. The immediate work involves a complete site redesign to a dark, mystical theme based on user-provided imagery.
+The trajectory details a significant evolution of the apebrain.cloud application, starting with an initial analysis of its MVP features, followed by two major design overhauls. Initially, the AI engineer successfully implemented a dark, mystical theme with glowing red/pink accents, adjusting global CSS (, ) and component-specific styles (). This phase involved iterative CSS modifications and screenshot verifications across landing, shop, and blog pages. The second, more comprehensive phase, triggered by a detailed user request, focused on transforming the entire site to an APEBRAIN Stoned Ape Theory Design. This involved deeply modifying , , and  to incorporate specific branding, quotes, category navigations, and informational sections. The AI engineer demonstrated a methodical approach, iterating through design changes, restarting the frontend, and verifying visual outcomes with screenshots, concluding with backend API integrity checks after the last major UI changes.
 </analysis>
 
 <product_requirements>
-The apebrain.cloud application aims to be a full-stack blog focused on health/nature (specifically mushrooms) with automated posting capabilities and an integrated e-commerce shop, designed for Hostinger deployment.
+The apebrain.cloud application is envisioned as a full-stack blog focusing on health/nature (mushrooms) with automated posting and an integrated e-commerce shop, designed for Hostinger deployment.
 
-**Implemented Features:**
-*   **AI Blog Generation**: Blogs can be generated from keywords, with manual image upload and automatic image fetching from Pexels (2-3 distributed images).
-*   **Admin Panel ()**: Secure login, full CRUD operations for blogs, coupons, and products. Product and blog image upload, and settings to configure various features like landing page button visibility (Blog, Shop, Minigames), blog multimedia toggles (video, audio). Includes a notification badge for unread orders.
-*   **UI/UX**: Dynamic landing page featuring Blog, Shop, and Minigames buttons with visibility toggles. Configurable Instagram icon across navigation (blog, shop, impressum). The landing page now includes image galleries for each card (Shop, Blog, Minigames) with dynamic layouts (1 image fullscreen, 2 half, 3 grid) and a default subtle purple background when no images are chosen. An Easter egg mini-mushroom rain effect is also present. Admin settings now allow RGB gradient background color customization for the landing page cards with profile saving.
-*   **E-commerce Shop**: PayPal payment integration with a shopping cart and a coupon system (admin CRUD, animated floating display, input field on ShopPage with validation). A comprehensive order management system in the admin panel includes customer email notifications for new orders and status updates (paid, packed, shipped, in_transit, delivered, cancelled), order deletion, and DHL tracking integration.
-*   **Customer Account System**: User registration and login (email/password), User Dashboard with order overview, password reset via Gmail SMTP, and Google OAuth login integration. Admin receives email notifications for new user registrations.
+**Initial Implemented Features:**
+*   **AI Blog Generation**: Keyword-based blog generation, manual/Pexels image fetching.
+*   **Admin Panel**: Secure login, CRUD for blogs/coupons/products, image uploads, configurable landing page buttons, blog multimedia toggles, unread order notifications.
+*   **UI/UX**: Dynamic landing page with Blog, Shop, Minigames buttons/gallery cards (1, 2, 3 image layouts), default purple background, mini-mushroom rain easter egg, admin-configurable RGB gradient card backgrounds.
+*   **E-commerce Shop**: PayPal integration, shopping cart, admin-managed coupon system, comprehensive order management (status, tracking, email notifications).
+*   **Customer Account System**: Email/password registration/login, user dashboard, password reset, Google OAuth, admin new user notifications.
 *   **Legal Pages**: Impressum, Privacy, Terms.
-*   **SEO**: Global meta tags, robots.txt, sitemap.xml, and manifest.json for PWA.
-*   **Deployment**: Detailed server setup, payment integration guides, and GitHub + Hostinger deployment instructions including secure handling of environment variables.
+*   **SEO**: Meta tags, robots.txt, sitemap.xml, manifest.json.
+*   **Deployment**: Detailed guides for GitHub/Hostinger.
+
+**Current (Stoned Ape Theory) Design Requirements (from Chat Message 100):**
+The site requires a complete redesign to an APEBRAIN Stoned Ape Theory Design.
+*   **Knowledge Portal Hero (Landing Page)**: 🍄 + 🧠 icon combination, Consciousness • Mycology • Evolution tagline, Terence McKenna inspired quote, Stoned Ape Theory explanation.
+*   **Blog Page**: Fliegenpilz-Rot accents, hover effects with red glow, category tags, date & read duration on blog cards. Newsletter section Join the Consciousness Collective. Navbar logo to be APEBRAIN.
+*   **Shop Page**: Hero section with alternating quote What expanded primate minds can restore yours. New Educational Section (Traditional Wisdom, Consciousness Evolution, Modern Standards). New Safety Information Section (Lab Verified, Dosing guides, Set & Setting, Educational Purpose, FDA Disclaimer). Improved product cards with descriptions, category tags, and optimized hover effects.
+*   **Marketing Strategy**: Stoned Ape Theory core, educational Amanita muscaria content, safety emphasis, consciousness evolution narrative, Terence McKenna inspiration, lab testing, traditional + modern balance.
 </product_requirements>
 
 <key_technical_concepts>
--   **Backend**: FastAPI (Python), MongoDB, , , , , , , .
--   **Frontend**: React.js, Tailwind CSS, Shadcn UI, , .
+-   **Backend**: FastAPI, MongoDB, , , , , , , .
+-   **Frontend**: React.js, Tailwind CSS, Shadcn UI, , ,  (implicit from inline styles and extensive CSS).
 -   **AI**: Gemini Flash Lite (Text Generation), Pexels API (Image Fetching).
--   **Auth**: JWT, bcrypt (password hashing), Google OAuth, Environment variables.
+-   **Auth**: JWT, bcrypt, Google OAuth, Environment variables.
 -   **Deployment**: Supervisor, Kubernetes, yarn install v1.22.22
 [1/4] Resolving packages...
 success Already up-to-date.
-Done in 0.09s., 
+Done in 0.07s., 
 Usage:   
   pip <command> [options]
 
@@ -100,99 +107,54 @@ General Options:
                               removed in the future.
   --resume-retries <resume_retries>
                               Maximum attempts to resume or restart an
-                              incomplete download. (default: 5),  files, .
+                              incomplete download. (default: 5),  files.
 </key_technical_concepts>
 
 <code_architecture>
 
 
--   **/app/backend/server.py**: Core FastAPI backend.
-    -   **Importance**: Implements all API endpoints and backend logic.
-    -   **Changes**: Extensive updates for  model (multimedia support); new endpoints for product/audio upload, blog/landing page settings, PayPal order management (create, execute, status updates, tracking, email notifications); Pexels API integration for image fetching;  for email; MongoDB ObjectId serialization fixed. Major additions for customer authentication (register, login, password reset), user models (, ), JWT tokens, Google OAuth. Coupon validation logic for PayPal adjusted to modify item prices directly. Landing page settings extended to include gallery image URLs, card background colors, and color profile management endpoints. Admin new user registration email notification added.
--   **/app/frontend/src/App.js**: Main React application entry point.
-    -   **Importance**: Defines application routes.
-    -   **Changes**: Added routes for , , , and  pages.
--   **/app/frontend/src/components/FloatingCoupon.js**: Reusable coupon display.
-    -   **Importance**: Displays active coupon codes.
-    -   **Changes**: Removed from .
--   **/app/frontend/src/components/UserDropdown.js**: (NEW FILE) Component for user authentication dropdown.
-    -   **Importance**: Provides user-specific navigation like logout and dashboard access.
-    -   **Changes**: Created to display Hello {Name} and link to user dashboard/logout.
--   **/app/frontend/src/pages/AdminDashboard.js**: Admin landing page.
-    -   **Importance**: Overview for admin.
-    -   **Changes**: Added a notification badge for unread orders.
--   **/app/frontend/src/pages/AdminOrders.js**: (NEW FILE) Admin view for orders.
-    -   **Importance**: Manages customer orders.
-    -   **Changes**: Created to list all orders, display details, delete, update status with tracking, and filter orders.
--   **/app/frontend/src/pages/AdminProducts.js**: Admin view for products.
-    -   **Importance**: Manages product CRUD.
-    -   **Changes**: Implemented product image upload.
--   **/app/frontend/src/pages/AdminSettings.js**: Admin settings.
-    -   **Importance**: Configures application settings.
-    -   **Changes**: Added UI and logic for toggling landing page buttons, blog multimedia features (TTS removed), and comprehensive UI for landing page gallery settings (multiple image upload, automatic/manual/no images) with dynamic layout options. Introduced UI for RGB color sliders and opacity for landing page card background gradients, including profile save/load/delete functionalities.
--   **/app/frontend/src/pages/BlogHomePage.js**: Public blog homepage.
-    -   **Importance**: Displays blog posts.
-    -   **Changes**: Integrated  into navigation. Instagram icon integration.
--   **/app/frontend/src/pages/BlogPage.js**: Individual blog post display.
-    -   **Importance**: Renders a single blog post.
-    -   **Changes**: Integrated , video (YouTube), audio players. Image display refactored for 2-3 distributed images.
--   **/app/frontend/src/pages/CreateBlog.js**: Admin form for creating blogs.
-    -   **Importance**: Allows admin to create new blog posts.
-    -   **Changes**: Added fields for video/audio URLs and Get picture from web (Pexels).
--   **/app/frontend/src/pages/Dashboard.js**: (NEW FILE) User Dashboard.
-    -   **Importance**: Displays user-specific information, including order history.
-    -   **Changes**: Created as a placeholder for user account functionalities.
+-   **/app/frontend/src/index.css**: Global CSS entry point, importing Tailwind.
+    -   **Importance**: Defines base styles and global utility classes.
+    -   **Changes**: Extensive modifications to establish the initial dark, mystical theme (dark backgrounds, glowing red/pink accents, specific font families like 'Playfair Display').
+-   **/app/frontend/src/App.css**: Main application-wide CSS.
+    -   **Importance**: Contains custom CSS rules that complement or override Tailwind, used for specific components or layouts.
+    -   **Changes**: Comprehensive dark theme transformation, including styles for various sections like body, typography, links, buttons, forms, landing page elements, product cards, cart, payment, footer, and floating coupon, and the floating mushroom animation.
+-   **/app/frontend/src/components/UserDropdown.js**: Component for user authentication dropdown.
+    -   **Importance**: Provides user-specific navigation.
+    -   **Changes**: Updated inline styles and classes to replace old green colors with the new dark theme's pink/red accents for login/register buttons and user dropdown elements.
 -   **/app/frontend/src/pages/LandingPage.js**: Main landing page.
-    -   **Importance**: Entry point to blog/shop/mini-games.
-    -   **Changes**: Replaced with a new implementation for dynamic rendering of Blog, Shop, Minigames buttons as gallery cards. Includes logic for multiple image displays, default purple background, and the mini-mushroom rain easter egg. Dynamically loads card background colors from admin settings.
--   **/app/frontend/src/pages/Login.js**: (NEW FILE) User login page.
-    -   **Importance**: Allows customers to log in.
-    -   **Changes**: Created with email/password login and Google OAuth button. Improved error message display.
--   **/app/frontend/src/pages/PaymentSuccess.js**: Payment success page.
-    -   **Importance**: Handles PayPal payment execution.
-    -   **Changes**: Fixed  double-call issue.
--   **/app/frontend/src/pages/Register.js**: (NEW FILE) User registration page.
-    -   **Importance**: Allows new customers to register.
-    -   **Changes**: Created with email/password registration and Google OAuth button. Improved error message display.
+    -   **Importance**: First impression of the application, guides users to blog/shop/minigames.
+    -   **Changes**: Completely redesigned to APEBRAIN Stoned Ape Theory Design. New HTML structure and inline CSS added for the 🍄 + 🧠 icon, APEBRAIN title, CONSCIOUSNESS • MYCOLOGY • EVOLUTION tagline, Terence McKenna quote, Stoned Ape Theory explanation, and initial card structures for Knowledge Portal, Sacred Shop, and Consciousness Games, matching the red accent theme.
+-   **/app/frontend/src/pages/BlogHomePage.js**: Public blog homepage.
+    -   **Importance**: Displays blog posts and category navigation.
+    -   **Changes**: Redesigned to APEBRAIN Knowledge Portal theme. Added McKenna quote, category navigation with 6 categories (All Articles, Philosophy, Science, Guides, History, Experiences) with red active state. Integrated a Join the Consciousness Collective newsletter section. Navbar logo changed from ApeBrain.cloud to APEBRAIN.
 -   **/app/frontend/src/pages/ShopPage.js**: Public shop page.
-    -   **Importance**: Displays products and handles shopping cart.
-    -   **Changes**: Fetches products from backend, displays images.  updated for PayPal. Added coupon input field to cart sidebar with validation, discount calculation, and sends coupon code to backend. Integrated . Customer email pre-filling for logged-in users.
--   **/app/backend/.env** & **/app/frontend/.env**: Environment configuration files.
-    -   **Importance**: Securely store non-hardcoded configurations.
-    -   **Changes**: Updated with , PayPal keys, SMTP credentials, , , , .
--   **/app/backend/.env.example** & **/app/frontend/.env.example**: (NEW FILES) Examples for environment variables.
-    -   **Importance**: Guides users on required environment variables without exposing secrets.
-    -   **Changes**: Created to list expected environment variables.
--   **/app/backend/requirements.txt**: Python dependencies.
-    -   **Importance**: Manages backend libraries.
-    -   **Changes**: Added , , , , .
--   **/app/frontend/public/index.html**: Main HTML file.
-    -   **Importance**: Base HTML structure.
-    -   **Changes**: Added meta tags for SEO, Google Sign-In Script.
--   **/app/frontend/public/robots.txt**: (NEW FILE)
-    -   **Importance**: Guides search engine crawlers.
-    -   **Changes**: Created for basic SEO.
--   **/app/frontend/public/sitemap.xml**: (NEW FILE)
-    -   **Importance**: Provides sitemap for search engines.
-    -   **Changes**: Created for basic SEO.
--   **/app/frontend/public/manifest.json**: (NEW FILE)
-    -   **Importance**: Manifest for Progressive Web App.
-    -   **Changes**: Created for PWA capabilities.
--   **/app/GITHUB_HOSTINGER_DEPLOY.md**: (NEW FILE) Deployment guide.
-    -   **Importance**: Provides instructions for deploying to Hostinger via GitHub.
-    -   **Changes**: Created to consolidate deployment instructions and securely handle environment variables.
+    -   **Importance**: Displays products and handles the shopping cart.
+    -   **Changes**: Redesigned to APEBRAIN Sacred Shop theme. Updated hero section with alternating quotes. Introduced new Educational Section (Traditional Wisdom, Consciousness Evolution, Modern Standards) and Safety Information Section (Lab Verified, Dosing, Set & Setting, Disclaimer) by adding new HTML and dedicated CSS styling. Product cards and buttons were updated to align with the dark theme and pink/red accents.
 </code_architecture>
 
 <pending_tasks>
 -   **Instagram Automation**: Automate posting generated blog content to Instagram.
 -   **Mini-games Integration**: Add a mini-games section to the landing page (currently only button visibility is controlled).
 -   **PayPal OAuth Login**: Integrate PayPal for customer login options.
+-   **Complete UI/UX Overhaul**: Finish adjusting individual pages to match the new APEBRAIN Stoned Ape Theory design aesthetics. (This implicitly includes further styling adjustments, especially for the Consciousness Games section which has not been started yet).
 </pending_tasks>
 
 <current_work>
-Immediately before this summary request, the AI engineer was tasked with a comprehensive theme change for the entire application, as per the user's explicit request and an uploaded image. The user wants the site to adopt a dark, mystical theme with glowing red/pink accents, elegant serif fonts for quotes, floating mushroom animations, and minimalist, centered layouts. The AI engineer has just completed the analysis of the provided image, understanding the design requirements thoroughly. The current work has just begun with the plan to start by modifying the global CSS to implement the dark, mystical theme and then proceed to adjust individual pages to match this new design aesthetic. This represents a significant UI/UX overhaul.
+Immediately prior to this summary, the AI engineer was engaged in a comprehensive redesign of the application to the APEBRAIN Stoned Ape Theory Design. This work followed an initial implementation of a dark, mystical theme. The AI engineer completed the redesign of the Landing Page (), Blog Page (), and Shop Page (). Each page received significant structural and styling updates to align with the new branding, including specific iconography, quotes, taglines, and informational sections.
+
+For the **Landing Page**, a 🍄 + 🧠 icon, APEBRAIN title, CONSCIOUSNESS • MYCOLOGY • EVOLUTION tagline, and a Terence McKenna quote, along with a STONED APE THEORY explanation, were implemented.
+The **Blog Page** was transformed into the APEBRAIN Knowledge Portal, featuring the new logo, another Terence McKenna quote, and a detailed category navigation, plus a Join the Consciousness Collective newsletter section.
+The **Shop Page** became the APEBRAIN Sacred Shop, with an alternating hero quote (What expanded primate minds can restore yours), new Educational Section and Safety Information Section.
+
+After the Shop Page redesign, a  error occurred during a screenshot attempt. The user then questioned the status of APIs and keys. The AI engineer responded by checking the backend                          RUNNING   pid 37, uptime 0:00:05
+code-server                      STOPPED   Not started
+frontend                         STARTING  
+mongodb                          RUNNING   pid 40, uptime 0:00:05
+nginx-code-proxy                 RUNNING   pid 36, uptime 0:00:05
+supervisor>  status, confirming both backend and frontend services were running, and then successfully tested critical backend APIs for blog posts and products using . This verified that core backend functionality remained intact after the extensive frontend changes.
 </current_work>
 
 <optional_next_step>
-Implement the global CSS changes to establish the dark, mystical theme across the application.
+Retry taking a full screenshot of the Shop Page, specifically scrolling to verify the newly added Educational and Safety sections are rendered correctly.
 </optional_next_step>
