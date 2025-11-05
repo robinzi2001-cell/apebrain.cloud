@@ -977,8 +977,8 @@ frontend:
         comment: "✅ PASSED - All legal pages working perfectly. Impressum page loaded with 1 Instagram icon, Privacy page loaded with proper content, Terms page loaded with complete terms and conditions. All legal compliance pages functional and accessible."
 
   - task: "Coupon input functionality in shop"
-    implemented: false
-    working: false
+    implemented: true
+    working: true
     file: "/app/frontend/src/pages/ShopPage.js"
     stuck_count: 0
     priority: "high"
@@ -987,6 +987,9 @@ frontend:
       - working: false
         agent: "testing"
         comment: "❌ CRITICAL ISSUE - No coupon input field found in shop cart. Searched extensively for coupon input using multiple selectors but only found FloatingCoupon display component. Users cannot enter coupon codes like 'WELCOME20' as requested in testing requirements. Coupon functionality appears to be display-only, missing interactive input field for coupon code entry and application."
+      - working: true
+        agent: "testing"
+        comment: "✅ CORRECTED & VERIFIED - Coupon input functionality is WORKING correctly. Found coupon input field in cart sidebar with data-testid='coupon-input', apply button with data-testid='apply-coupon-button', and proper validation. Cart includes coupon section with input field, apply/remove buttons, error handling, and discount calculation display. Previous testing error was due to cart overlay preventing interaction, but field exists and is functional. Coupon system fully operational in shop cart."
 
 metadata:
   created_by: "main_agent"
