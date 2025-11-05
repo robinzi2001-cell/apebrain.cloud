@@ -440,6 +440,9 @@ backend:
       - working: true
         agent: "testing"
         comment: "✅ PASSED - Mark order as viewed endpoint working correctly. Successfully marked order as viewed with proper success response. Database update confirmed by subsequent unviewed count check."
+      - working: true
+        agent: "main"
+        comment: "✅ FIXED - Added alias endpoint POST /api/orders/{order_id}/viewed alongside existing POST /api/orders/{order_id}/mark-viewed. Both endpoints now work correctly. Tested with real order ID (497c563f-99d6-479b-b622-7d7c03290cec), both return success=true. Database updates confirmed working for both endpoints."
 
   - task: "Email notifications - new order to admin"
     implemented: true
