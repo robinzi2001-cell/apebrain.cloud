@@ -134,57 +134,47 @@ nano /var/www/apebrain/backend/.env
 
 ```env
 # ============================================
+# WICHTIG: Werte OHNE Anführungszeichen!
+# ============================================
+
 # DATABASE
-# ============================================
-MONGO_URL="mongodb://localhost:27017"
-DB_NAME="apebrain_blog"
+MONGO_URL=mongodb://localhost:27017
+DB_NAME=apebrain_blog
 
-# ============================================
 # SECURITY & CORS
-# ============================================
-JWT_SECRET_KEY="your-random-secret-key-here"
-FRONTEND_URL="https://yourdomain.com"
-CORS_ORIGINS="https://yourdomain.com,https://www.yourdomain.com"
+JWT_SECRET_KEY=your-random-secret-key-here
+FRONTEND_URL=https://yourdomain.com
+CORS_ORIGINS=https://yourdomain.com,https://www.yourdomain.com
 
-# ============================================
 # ADMIN ACCOUNT (ÄNDERN!)
-# ============================================
-ADMIN_USERNAME="admin"
-ADMIN_PASSWORD="your-secure-password-123"
+ADMIN_USERNAME=admin
+ADMIN_PASSWORD=your-secure-password-123
 
-# ============================================
 # AI INTEGRATION
-# ============================================
-GEMINI_API_KEY="AIzaSy..."
-EMERGENT_LLM_KEY="sk-emergent-..."  # Optional
+GEMINI_API_KEY=AIzaSy...
+EMERGENT_LLM_KEY=sk-emergent-...
 
-# ============================================
 # IMAGE API
-# ============================================
-PEXELS_API_KEY="yXxO4WF..."
+PEXELS_API_KEY=yXxO4WF...
 
-# ============================================
 # PAYMENT PROCESSING
-# ============================================
-PAYPAL_MODE="live"  # oder "sandbox" für Tests
-PAYPAL_CLIENT_ID="AWjyyJV..."
-PAYPAL_CLIENT_SECRET="EFD-znj..."
+PAYPAL_MODE=live
+PAYPAL_CLIENT_ID=AWjyyJV...
+PAYPAL_CLIENT_SECRET=EFD-znj...
 
-# ============================================
 # EMAIL CONFIGURATION
-# ============================================
-SMTP_HOST="smtp.gmail.com"
-SMTP_PORT="587"
-SMTP_USER="your-email@gmail.com"
-SMTP_PASSWORD="xxxx xxxx xxxx xxxx"  # Gmail App Password!
-NOTIFICATION_EMAIL="your-email@gmail.com"
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=your-email@gmail.com
+SMTP_PASSWORD=xxxx-xxxx-xxxx-xxxx
+NOTIFICATION_EMAIL=your-email@gmail.com
 
-# ============================================
 # GOOGLE OAUTH
-# ============================================
-GOOGLE_CLIENT_ID="843038928917-....apps.googleusercontent.com"
-GOOGLE_CLIENT_SECRET="GOCSPX-..."
+GOOGLE_CLIENT_ID=843038928917-....apps.googleusercontent.com
+GOOGLE_CLIENT_SECRET=GOCSPX-...
 ```
+
+**⚠️ WICHTIG:** Alle Werte OHNE Anführungszeichen! Das ist ein häufiger Fehler.
 
 **Speichern:** `Strg+X` → `Y` → `Enter`
 
