@@ -276,15 +276,15 @@ cat > ecosystem.config.js << 'EOFPM2'
 module.exports = {
   apps: [{
     name: 'apebrain-backend',
-    script: 'venv/bin/uvicorn',
-    args: 'server:app --host 0.0.0.0 --port 8001 --workers 2',
+    script: './venv/bin/python',
+    args: '-m uvicorn server:app --host 0.0.0.0 --port 8001 --workers 2',
     cwd: '/var/www/apebrain/backend',
     instances: 1,
     autorestart: true,
     watch: false,
     max_memory_restart: '1G',
     env: {
-      NODE_ENV: 'production'
+      PYTHONUNBUFFERED: '1'
     },
     error_file: '/var/log/apebrain-backend-error.log',
     out_file: '/var/log/apebrain-backend-out.log',
