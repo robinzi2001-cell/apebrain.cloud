@@ -1321,6 +1321,54 @@ async def fetch_images_from_web(keywords: str, count: int = 3):
         logging.error(f"Error fetching images from web: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Failed to fetch images from web: {str(e)}")
 
+
+# Fetch single image from web (using Pexels)
+@api_router.get("/fetch-image")
+async def fetch_single_image_from_web(keywords: str = "nature"):
+    try:
+        pexels_api_key = os.environ.get('PEXELS_API_KEY')
+        if not pexels_api_key:
+            raise HTTPException(status_code=500, detail="Pexels API key not configured")
+        
+        # Search Pexels for one image
+        search_url = "https://api.pexels.com/v1/search"
+        headers = {
+            "Authorization": pexels_api_key
+        }
+        params = {
+            "query": keywords,
+            "per_page": 1,
+            "orientation": "landscape"
+        }
+        
+        async with httpx.AsyncClient(timeout=30.0) as client:
+            response = await client.get(search_url, headers=headers, params=params)
+            
+            if response.status_code == 200:
+                data = response.json()
+                photos = data.get('photos', [])
+                
+                if photos:
+                    photo = photos[0]
+                    img_url = photo.get('src', {}).get('medium')
+                    
+                    if img_url:
+                        # Download and convert to base64
+                        img_response = await client.get(img_url)
+                        if img_response.status_code == 200:
+                            image_base64 = base64.b64encode(img_response.content).decode('utf-8')
+                            image_data_url = f"data:image/jpeg;base64,{image_base64}"
+                            return {"success": True, "image_url": image_data_url}
+                
+                raise HTTPException(status_code=404, detail="No image found")
+            else:
+                raise HTTPException(status_code=response.status_code, detail="Failed to fetch from Pexels")
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error fetching image from web: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to fetch image from web: {str(e)}")
+
 # Create/Save blog post
 @api_router.post("/blogs", response_model=BlogPost)
 async def create_blog(blog: BlogPost):
