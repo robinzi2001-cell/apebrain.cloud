@@ -202,6 +202,7 @@ echo -e "${GREEN}[11/12] Nginx wird konfiguriert...${NC}"
 cat > /etc/nginx/sites-available/apebrain << 'EOFNGINX'
 server {
     listen 80;
+    listen [::]:80;
     server_name apebrain.cloud www.apebrain.cloud;
 
     root /var/www/apebrain/frontend/build;
