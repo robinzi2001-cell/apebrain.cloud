@@ -951,6 +951,9 @@ frontend:
       - working: true
         agent: "testing"
         comment: "✅ PASSED - Admin login working perfectly. Successfully authenticated with credentials (admin/apebrain2024) and redirected to dashboard. Login form functional, authentication flow working correctly. Admin access control operational."
+      - working: true
+        agent: "testing"
+        comment: "✅ RE-VERIFIED - Admin login continues to work perfectly in comprehensive testing. Correct admin route is /shroomsadmin (not /admin). Login form loads correctly with username/password fields, authentication with admin/apebrain2024 successful, automatic redirect to /shroomsadmin/dashboard working. Admin authentication system fully operational."
 
   - task: "Coupon display on shop"
     implemented: true
