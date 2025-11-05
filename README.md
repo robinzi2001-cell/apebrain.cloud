@@ -87,78 +87,122 @@ chmod +x ULTIMATE-SETUP.sh
 
 ## 🔑 API Keys Konfiguration
 
-### Benötigte API Keys
+### Benötigte API Keys beschaffen
 
 1. **Gemini AI** (Blog-Generierung)
-   - Holen: https://makersuite.google.com/app/apikey
-   - Kostenlos verfügbar
+   - 🔗 https://makersuite.google.com/app/apikey
+   - ✅ Kostenlos verfügbar
 
 2. **Pexels API** (Bilder)
-   - Holen: https://www.pexels.com/api/
-   - Kostenlos verfügbar
+   - 🔗 https://www.pexels.com/api/
+   - ✅ Kostenlos verfügbar
 
 3. **PayPal** (Zahlungen)
-   - Holen: https://developer.paypal.com/
-   - Live Credentials für Production
+   - 🔗 https://developer.paypal.com/
+   - Sandbox (Test) & Live Credentials
 
 4. **Gmail App Password** (Email-Versand)
-   - Holen: https://myaccount.google.com/apppasswords
-   - Nicht normales Gmail-Passwort!
+   - 🔗 https://myaccount.google.com/apppasswords
+   - ⚠️ **Nicht** normales Gmail-Passwort! App-spezifisches Passwort erstellen!
 
 5. **Google OAuth** (Social Login)
-   - Holen: https://console.cloud.google.com/apis/credentials
+   - 🔗 https://console.cloud.google.com/apis/credentials
    - OAuth 2.0 Client ID erstellen
+   - Authorized redirect URI: `https://yourdomain.com/auth/google/callback`
 
-### API Keys einfügen
+---
 
+### .env Datei erstellen
+
+**Nach der Installation wird das Setup-Script dich automatisch fragen, ob du die .env Datei konfigurieren möchtest.**
+
+**Option A - Interaktiv während Installation:**
+Das Script öffnet automatisch den Editor nach der Installation.
+
+**Option B - Manuell später:**
 ```bash
-# Nach Installation:
+# Vorlage kopieren
+cp /var/www/apebrain/backend/.env.example /var/www/apebrain/backend/.env
+
+# Bearbeiten
 nano /var/www/apebrain/backend/.env
 ```
 
-**Beispiel `.env` Datei:**
+---
+
+### 📄 .env Beispiel-Datei
+
 ```env
-# MongoDB
+# ============================================
+# DATABASE
+# ============================================
 MONGO_URL="mongodb://localhost:27017"
 DB_NAME="apebrain_blog"
 
-# Security
+# ============================================
+# SECURITY & CORS
+# ============================================
 JWT_SECRET_KEY="your-random-secret-key-here"
+FRONTEND_URL="https://yourdomain.com"
+CORS_ORIGINS="https://yourdomain.com,https://www.yourdomain.com"
 
-# AI Integration
-GEMINI_API_KEY="your-gemini-api-key-here"
-
-# Pexels (Bilder)
-PEXELS_API_KEY="your-pexels-api-key-here"
-
-# Admin Credentials (ÄNDERN!)
+# ============================================
+# ADMIN ACCOUNT (ÄNDERN!)
+# ============================================
 ADMIN_USERNAME="admin"
-ADMIN_PASSWORD="your-secure-password-here"
+ADMIN_PASSWORD="your-secure-password-123"
 
-# PayPal
+# ============================================
+# AI INTEGRATION
+# ============================================
+GEMINI_API_KEY="AIzaSy..."
+EMERGENT_LLM_KEY="sk-emergent-..."  # Optional
+
+# ============================================
+# IMAGE API
+# ============================================
+PEXELS_API_KEY="yXxO4WF..."
+
+# ============================================
+# PAYMENT PROCESSING
+# ============================================
 PAYPAL_MODE="live"  # oder "sandbox" für Tests
-PAYPAL_CLIENT_ID="your-paypal-client-id"
-PAYPAL_CLIENT_SECRET="your-paypal-client-secret"
+PAYPAL_CLIENT_ID="AWjyyJV..."
+PAYPAL_CLIENT_SECRET="EFD-znj..."
 
-# Email (Gmail)
+# ============================================
+# EMAIL CONFIGURATION
+# ============================================
 SMTP_HOST="smtp.gmail.com"
 SMTP_PORT="587"
 SMTP_USER="your-email@gmail.com"
-SMTP_PASSWORD="your-gmail-app-password"
+SMTP_PASSWORD="xxxx xxxx xxxx xxxx"  # Gmail App Password!
 NOTIFICATION_EMAIL="your-email@gmail.com"
 
-# Google OAuth
-GOOGLE_CLIENT_ID="your-google-client-id.apps.googleusercontent.com"
-GOOGLE_CLIENT_SECRET="your-google-client-secret"
-
-# URLs
-FRONTEND_URL="https://yourdomain.com"
-CORS_ORIGINS="https://yourdomain.com,https://www.yourdomain.com"
+# ============================================
+# GOOGLE OAUTH
+# ============================================
+GOOGLE_CLIENT_ID="843038928917-....apps.googleusercontent.com"
+GOOGLE_CLIENT_SECRET="GOCSPX-..."
 ```
 
-**Backend neu starten:**
+**Speichern:** `Strg+X` → `Y` → `Enter`
+
+---
+
+### Backend starten
+
 ```bash
-pm2 restart apebrain-backend
+# Nach .env Konfiguration:
+cd /var/www/apebrain/backend
+pm2 start ecosystem.config.js
+pm2 save
+
+# Status prüfen
+pm2 status
+
+# Logs ansehen
+pm2 logs apebrain-backend
 ```
 
 ---
