@@ -331,7 +331,8 @@ h1, h2, h3, h4, h5, h6 {
   outline: none;
   border-color: #ff1744;
   box-shadow: 0 0 15px rgba(255, 23, 68, 0.4);
-  background: rgba(30, 15, 35, 0.8);
+  background: rgba(30, 15, 35, 0.95);
+  color: #ffffff;
 }
 
 .form-group textarea {
