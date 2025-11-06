@@ -17,6 +17,7 @@ import AdminSettings from '@/pages/AdminSettings';
 import AdminCoupons from '@/pages/AdminCoupons';
 import AdminProducts from '@/pages/AdminProducts';
 import AdminOrders from '@/pages/AdminOrders';
+import CommunityProjectsPage from '@/pages/CommunityProjectsPage';
 import CreateBlog from '@/pages/CreateBlog';
 import EditBlog from '@/pages/EditBlog';
 import Login from '@/pages/Login';
