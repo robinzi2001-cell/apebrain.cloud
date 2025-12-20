@@ -11,7 +11,7 @@ from typing import List, Optional
 import uuid
 from datetime import datetime, timezone, timedelta
 import asyncio
-from emergentintegrations.llm.chat import LlmChat, UserMessage
+import google.generativeai as genai
 import base64
 import re
 import paypalrestsdk
@@ -574,22 +574,16 @@ async def register_customer(user_data: UserCreate):
         
         # Create access token
         access_token = create_access_token(data={"sub": user_doc["id"]})
+# Generate blog content using Google Gemini API
+        genai.configure(api_key=gemini_api_key)
+        model = genai.GenerativeModel('gemini-2.0-flash-exp')
         
-        return {
-            "success": True,
-            "access_token": access_token,
-            "token_type": "bearer",
-            "user": {
-                "id": user_doc["id"],
-                "email": user_doc["email"],
-                "first_name": user_doc.get("first_name"),
-                "last_name": user_doc.get("last_name")
-            }
-        }
-    except HTTPException:
-        raise
-    except Exception as e:
-        logging.error(f"Error registering user: {str(e)}")
+        prompt = f"""You are an expert writer specializing in health, nature, consciousness, spirituality, and holistic wellness.
+
+Write a comprehensive blog post about: {input.keywords}. Include an engaging title, detailed content with sections covering the main topic, benefits, scientific research (if applicable), practical applications, and important considerations. Make it around 800-1200 words. Format with proper headings using markdown."""
+        
+        response = model.generate_content(prompt)
+        blog_content = response.text        
         raise HTTPException(status_code=500, detail="Registration failed")
 
 # Customer login
