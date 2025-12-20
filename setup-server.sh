@@ -2,6 +2,7 @@
 #############################################
 # APEBRAIN.CLOUD - Automatisches Server Setup
 # Ubuntu 24.04 LTS - Hostinger VPS
+# FIXED VERSION - Production Ready
 #############################################
 
 set -e  # Exit bei Fehler
@@ -24,15 +25,8 @@ GITHUB_REPO="robinzi2001-cell/apebrain.cloud"
 APP_DIR="/var/www/apebrain"
 BACKEND_PORT=8001
 
-# Domain abfragen
-echo -e "${YELLOW}Bitte geben Sie Ihre Domain ein (z.B. apebrain.cloud):${NC}"
-read -p "Domain: " DOMAIN
-
-if [ -z "$DOMAIN" ]; then
-    echo -e "${RED}❌ Fehler: Domain erforderlich!${NC}"
-    exit 1
-fi
-
+# Domain als Parameter oder Standard (KEIN read -p!)
+DOMAIN="${1:-apebrain.cloud}"
 echo -e "${GREEN}✅ Domain: $DOMAIN${NC}"
 echo ""
 
@@ -40,17 +34,19 @@ echo ""
 # 1. SYSTEM UPDATE
 #############################################
 echo -e "${GREEN}📦 System wird aktualisiert...${NC}"
-apt update && apt upgrade -y
-apt install -y curl wget git ufw fail2ban htop vim nano software-properties-common
+export DEBIAN_FRONTEND=noninteractive
+apt-get update -qq
+apt-get upgrade -y -qq
+apt-get install -y -qq curl wget git ufw fail2ban htop vim nano software-properties-common
 
 #############################################
 # 2. FIREWALL SETUP
 #############################################
 echo -e "${GREEN}🔥 Firewall wird konfiguriert...${NC}"
-ufw allow OpenSSH
+ufw --force enable
+ufw allow 22/tcp
 ufw allow 80/tcp
 ufw allow 443/tcp
-ufw --force enable
 echo -e "${GREEN}✅ Firewall aktiv${NC}"
 
 #############################################
@@ -58,19 +54,20 @@ echo -e "${GREEN}✅ Firewall aktiv${NC}"
 #############################################
 echo -e "${GREEN}📦 Node.js 20.x wird installiert...${NC}"
 curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
-apt install -y nodejs
-npm install -g yarn
+apt-get install -y -qq nodejs
+npm install -g yarn pm2
 
 echo "Node.js Version: $(node --version)"
 echo "NPM Version: $(npm --version)"
 echo "Yarn Version: $(yarn --version)"
-echo -e "${GREEN}✅ Node.js installiert${NC}"
+echo "PM2 Version: $(pm2 --version)"
+echo -e "${GREEN}✅ Node.js & PM2 installiert${NC}"
 
 #############################################
 # 4. PYTHON 3.12 INSTALLIEREN
 #############################################
 echo -e "${GREEN}🐍 Python 3.12 wird installiert...${NC}"
-apt install -y python3 python3-pip python3-venv python3-dev build-essential
+apt-get install -y -qq python3 python3-pip python3-venv python3-dev build-essential
 
 echo "Python Version: $(python3 --version)"
 echo "Pip Version: $(pip3 --version)"
@@ -80,17 +77,19 @@ echo -e "${GREEN}✅ Python installiert${NC}"
 # 5. MONGODB 7.0 INSTALLIEREN
 #############################################
 echo -e "${GREEN}🍃 MongoDB 7.0 wird installiert...${NC}"
-curl -fsSL https://www.mongodb.org/static/pgp/server-7.0.asc | \
-  gpg --dearmor -o /usr/share/keyrings/mongodb-server-7.0.gpg
+if ! systemctl is-active --quiet mongod; then
+    curl -fsSL https://www.mongodb.org/static/pgp/server-7.0.asc | \
+      gpg --dearmor -o /usr/share/keyrings/mongodb-server-7.0.gpg
 
-echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-7.0.gpg ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/7.0 multiverse" | \
-  tee /etc/apt/sources.list.d/mongodb-org-7.0.list
+    echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-7.0.gpg ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/7.0 multiverse" | \
+      tee /etc/apt/sources.list.d/mongodb-org-7.0.list
 
-apt update
-apt install -y mongodb-org
+    apt-get update -qq
+    apt-get install -y -qq mongodb-org
 
-systemctl start mongod
-systemctl enable mongod
+    systemctl start mongod
+    systemctl enable mongod
+fi
 
 if systemctl is-active --quiet mongod; then
     echo -e "${GREEN}✅ MongoDB läuft${NC}"
@@ -103,7 +102,10 @@ fi
 # 6. NGINX INSTALLIEREN
 #############################################
 echo -e "${GREEN}🌐 Nginx wird installiert...${NC}"
-apt install -y nginx
+apt-get install -y -qq nginx
+
+systemctl start nginx
+systemctl enable nginx
 
 if systemctl is-active --quiet nginx; then
     echo -e "${GREEN}✅ Nginx läuft${NC}"
@@ -116,29 +118,20 @@ fi
 # 7. CERTBOT (Let's Encrypt SSL)
 #############################################
 echo -e "${GREEN}🔒 Certbot wird installiert...${NC}"
-apt install -y certbot python3-certbot-nginx
+apt-get install -y -qq certbot python3-certbot-nginx
 echo -e "${GREEN}✅ Certbot installiert${NC}"
 
 #############################################
-# 8. PM2 INSTALLIEREN
-#############################################
-echo -e "${GREEN}⚙️  PM2 wird installiert...${NC}"
-npm install -g pm2
-echo "PM2 Version: $(pm2 --version)"
-echo -e "${GREEN}✅ PM2 installiert${NC}"
-
-#############################################
-# 9. APPLICATION DEPLOYEN
+# 8. APPLICATION DEPLOYEN
 #############################################
 echo -e "${GREEN}📥 GitHub Repository wird geklont...${NC}"
 
 # Verzeichnis erstellen und bereinigen
 rm -rf ${APP_DIR}
 mkdir -p ${APP_DIR}
-cd ${APP_DIR}
 
 # Repository klonen
-git clone https://github.com/${GITHUB_REPO}.git .
+git clone https://github.com/${GITHUB_REPO}.git ${APP_DIR}
 
 if [ ! -f "${APP_DIR}/backend/server.py" ]; then
     echo -e "${RED}❌ Repository-Klonen fehlgeschlagen oder falsche Struktur${NC}"
@@ -148,10 +141,15 @@ fi
 echo -e "${GREEN}✅ Repository geklont${NC}"
 
 #############################################
-# 10. BACKEND SETUP
+# 9. BACKEND SETUP
 #############################################
 echo -e "${GREEN}🐍 Backend wird eingerichtet...${NC}"
 cd ${APP_DIR}/backend
+
+# FIX: emergentintegrations aus requirements.txt entfernen
+echo -e "${YELLOW}🔧 Fixe requirements.txt (emergentintegrations entfernen)...${NC}"
+grep -v "emergentintegrations" requirements.txt > requirements.tmp.txt
+mv requirements.tmp.txt requirements.txt
 
 # Virtual Environment erstellen
 python3 -m venv venv
@@ -161,42 +159,44 @@ source venv/bin/activate
 pip install --upgrade pip
 pip install -r requirements.txt
 
-# .env Datei erstellen (mit Platzhaltern)
-cat > .env << EOF
-MONGO_URL="mongodb://localhost:27017"
-DB_NAME="apebrain_blog"
-CORS_ORIGINS="https://${DOMAIN},https://www.${DOMAIN}"
-FRONTEND_URL="https://${DOMAIN}"
-JWT_SECRET_KEY="$(openssl rand -hex 32)"
+deactivate
+
+# .env Datei erstellen (OHNE EMERGENT_LLM_KEY!)
+if [ ! -f ".env" ]; then
+    cat > .env << EOF
+MONGO_URL=mongodb://localhost:27017
+DB_NAME=apebrain_blog
+CORS_ORIGINS=https://${DOMAIN},https://www.${DOMAIN}
+FRONTEND_URL=https://${DOMAIN}
+JWT_SECRET_KEY=$(openssl rand -hex 32)
 
 # ⚠️ WICHTIG: Ersetzen Sie diese Platzhalter mit echten Werten!
-GEMINI_API_KEY="YOUR_GEMINI_API_KEY"
-EMERGENT_LLM_KEY="YOUR_EMERGENT_LLM_KEY"
-PEXELS_API_KEY="YOUR_PEXELS_API_KEY"
+GEMINI_API_KEY=YOUR_GEMINI_API_KEY
+PEXELS_API_KEY=YOUR_PEXELS_API_KEY
 
-ADMIN_USERNAME="admin"
-ADMIN_PASSWORD="CHANGE_THIS_PASSWORD"
+ADMIN_USERNAME=admin
+ADMIN_PASSWORD=CHANGE_THIS_PASSWORD
 
-PAYPAL_MODE="sandbox"
-PAYPAL_CLIENT_ID="YOUR_PAYPAL_CLIENT_ID"
-PAYPAL_CLIENT_SECRET="YOUR_PAYPAL_CLIENT_SECRET"
+PAYPAL_MODE=sandbox
+PAYPAL_CLIENT_ID=YOUR_PAYPAL_CLIENT_ID
+PAYPAL_CLIENT_SECRET=YOUR_PAYPAL_CLIENT_SECRET
 
-SMTP_HOST="smtp.gmail.com"
-SMTP_PORT="587"
-SMTP_USER="YOUR_EMAIL@gmail.com"
-SMTP_PASSWORD="YOUR_GMAIL_APP_PASSWORD"
-NOTIFICATION_EMAIL="YOUR_EMAIL@gmail.com"
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=YOUR_EMAIL@gmail.com
+SMTP_PASSWORD=YOUR_GMAIL_APP_PASSWORD
+NOTIFICATION_EMAIL=YOUR_EMAIL@gmail.com
 
-GOOGLE_CLIENT_ID="YOUR_GOOGLE_CLIENT_ID"
-GOOGLE_CLIENT_SECRET="YOUR_GOOGLE_CLIENT_SECRET"
+GOOGLE_CLIENT_ID=YOUR_GOOGLE_CLIENT_ID
+GOOGLE_CLIENT_SECRET=YOUR_GOOGLE_CLIENT_SECRET
 EOF
+fi
 
-deactivate
 echo -e "${GREEN}✅ Backend konfiguriert${NC}"
 echo -e "${YELLOW}⚠️  WICHTIG: Bearbeiten Sie ${APP_DIR}/backend/.env mit Ihren API Keys!${NC}"
 
 #############################################
-# 11. FRONTEND SETUP
+# 10. FRONTEND SETUP
 #############################################
 echo -e "${GREEN}⚛️  Frontend wird eingerichtet...${NC}"
 cd ${APP_DIR}/frontend
@@ -210,7 +210,7 @@ REACT_APP_BACKEND_URL=https://${DOMAIN}
 EOF
 
 # Frontend bauen
-echo -e "${GREEN}🏗️  Frontend wird gebaut (dauert 3-5 Min)...${NC}"
+echo -e "${GREEN}🏗️  Frontend wird gebaut (dauert 5-10 Min)...${NC}"
 yarn build
 
 if [ ! -d "${APP_DIR}/frontend/build" ]; then
@@ -221,14 +221,15 @@ fi
 echo -e "${GREEN}✅ Frontend gebaut${NC}"
 
 #############################################
-# 12. NGINX KONFIGURIEREN
+# 11. NGINX KONFIGURIEREN
 #############################################
 echo -e "${GREEN}🌐 Nginx wird konfiguriert...${NC}"
 
 cat > /etc/nginx/sites-available/apebrain << EOF
 server {
     listen 80;
-    server_name ${DOMAIN} www.${DOMAIN};
+    listen [::]:80;
+    server_name ${DOMAIN} www.${DOMAIN} _;
 
     root ${APP_DIR}/frontend/build;
     index index.html;
@@ -257,6 +258,10 @@ server {
         expires 1y;
         add_header Cache-Control "public, immutable";
     }
+
+    # Gzip Compression
+    gzip on;
+    gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
 }
 EOF
 
@@ -276,34 +281,16 @@ else
 fi
 
 #############################################
-# 13. PM2 BACKEND STARTEN
+# 12. PM2 BACKEND STARTEN
 #############################################
 echo -e "${GREEN}⚙️  Backend wird mit PM2 gestartet...${NC}"
 cd ${APP_DIR}/backend
 
-cat > ecosystem.config.js << 'EOF'
-module.exports = {
-  apps: [{
-    name: 'apebrain-backend',
-    script: 'venv/bin/uvicorn',
-    args: 'server:app --host 0.0.0.0 --port 8001',
-    cwd: '/var/www/apebrain/backend',
-    instances: 1,
-    autorestart: true,
-    watch: false,
-    max_memory_restart: '1G',
-    env: {
-      NODE_ENV: 'production'
-    }
-  }]
-};
-EOF
-
 # Alten Process stoppen (falls vorhanden)
 pm2 delete apebrain-backend 2>/dev/null || true
 
-# Backend starten
-pm2 start ecosystem.config.js
+# Backend mit Python starten (NICHT uvicorn!)
+pm2 start venv/bin/python --name "apebrain-backend" -- server.py
 pm2 save
 
 # PM2 beim Systemstart starten
@@ -312,28 +299,78 @@ pm2 startup systemd -u root --hp /root
 echo -e "${GREEN}✅ Backend läuft${NC}"
 
 #############################################
-# 14. SSL EINRICHTEN
+# 13. HELPER SCRIPTS ERSTELLEN
 #############################################
-echo -e "${GREEN}🔒 SSL-Zertifikat wird eingerichtet...${NC}"
-echo -e "${YELLOW}Stellen Sie sicher, dass Ihre DNS-Records auf diesen Server zeigen!${NC}"
+echo -e "${GREEN}📝 Helper Scripts werden erstellt...${NC}"
+
+# Health Check Script
+cat > /root/apebrain-health.sh << 'HEALTH_EOF'
+#!/bin/bash
+echo "=== ApeBrain Health Check ==="
 echo ""
+echo "MongoDB:"
+systemctl status mongod --no-pager | grep Active || echo "❌ MongoDB nicht aktiv"
+echo ""
+echo "Nginx:"
+systemctl status nginx --no-pager | grep Active || echo "❌ Nginx nicht aktiv"
+echo ""
+echo "Backend (PM2):"
+pm2 list | grep apebrain-backend || echo "❌ Backend nicht aktiv"
+echo ""
+echo "API Test:"
+curl -s http://localhost:8001/api/health 2>/dev/null && echo " ✅" || echo "⚠️  API antwortet nicht (API Keys konfigurieren!)"
+echo ""
+echo "Frontend Test:"
+curl -s -o /dev/null -w "HTTP Status: %{http_code}\n" http://localhost/
+echo ""
+HEALTH_EOF
+chmod +x /root/apebrain-health.sh
 
-read -p "Möchten Sie jetzt SSL einrichten? (y/n) " -n 1 -r
-echo
+# Update Script
+cat > /root/apebrain-update.sh << 'UPDATE_EOF'
+#!/bin/bash
+echo "🔄 ApeBrain Update..."
+cd /var/www/apebrain
+git pull
+cd backend
+source venv/bin/activate
+pip install -r requirements.txt
+deactivate
+cd ../frontend
+yarn install
+yarn build
+pm2 restart apebrain-backend
+systemctl reload nginx
+echo "✅ Update abgeschlossen!"
+UPDATE_EOF
+chmod +x /root/apebrain-update.sh
 
-if [[ $REPLY =~ ^[Yy]$ ]]; then
-    certbot --nginx -d ${DOMAIN} -d www.${DOMAIN} --non-interactive --agree-tos --register-unsafely-without-email
-    
-    if [ $? -eq 0 ]; then
-        echo -e "${GREEN}✅ SSL erfolgreich eingerichtet${NC}"
-    else
-        echo -e "${YELLOW}⚠️  SSL-Setup fehlgeschlagen. Versuchen Sie es später manuell:${NC}"
-        echo "certbot --nginx -d ${DOMAIN} -d www.${DOMAIN}"
-    fi
-else
-    echo -e "${YELLOW}⚠️  SSL übersprungen. Führen Sie später aus:${NC}"
-    echo "certbot --nginx -d ${DOMAIN} -d www.${DOMAIN}"
-fi
+# Logs Script
+cat > /root/apebrain-logs.sh << 'LOGS_EOF'
+#!/bin/bash
+echo "📋 ApeBrain Logs"
+echo ""
+echo "=== Backend Logs (PM2) ==="
+pm2 logs apebrain-backend --lines 50 --nostream
+echo ""
+echo "=== Nginx Error Log ==="
+tail -30 /var/log/nginx/error.log
+LOGS_EOF
+chmod +x /root/apebrain-logs.sh
+
+echo -e "${GREEN}✅ Helper Scripts erstellt:${NC}"
+echo "  - /root/apebrain-health.sh"
+echo "  - /root/apebrain-update.sh"
+echo "  - /root/apebrain-logs.sh"
+
+#############################################
+# 14. SSL INFO (KEINE INTERACTIVE PROMPTS!)
+#############################################
+echo ""
+echo -e "${YELLOW}🔒 SSL-Zertifikat Setup:${NC}"
+echo "Nach DNS-Konfiguration ausführen:"
+echo "  certbot --nginx -d ${DOMAIN} -d www.${DOMAIN}"
+echo ""
 
 #############################################
 # 15. ABSCHLUSS
@@ -345,22 +382,34 @@ echo "║   ✅ SETUP ERFOLGREICH ABGESCHLOSSEN!    ║"
 echo "╚═══════════════════════════════════════════╝"
 echo -e "${NC}"
 echo ""
-echo -e "${GREEN}🌐 Ihre Website:${NC} https://${DOMAIN}"
+echo -e "${GREEN}🌐 Ihre Website:${NC} http://$(curl -s ifconfig.me) (IP)"
+echo -e "${GREEN}🌐 Nach DNS:${NC} https://${DOMAIN}"
 echo ""
 echo -e "${YELLOW}📋 Wichtige nächste Schritte:${NC}"
-echo "1. API Keys konfigurieren:"
-echo "   nano ${APP_DIR}/backend/.env"
 echo ""
-echo "2. Backend neu starten nach .env Änderungen:"
+echo "1. API Keys konfigurieren (PFLICHT!):"
+echo "   nano ${APP_DIR}/backend/.env"
+echo "   Mindestens: GEMINI_API_KEY, PEXELS_API_KEY, ADMIN_PASSWORD"
+echo ""
+echo "2. Backend neu starten:"
 echo "   pm2 restart apebrain-backend"
 echo ""
-echo "3. Status prüfen:"
-echo "   pm2 status"
-echo "   systemctl status nginx"
-echo "   systemctl status mongod"
+echo "3. Health Check:"
+echo "   /root/apebrain-health.sh"
 echo ""
-echo "4. Logs anzeigen:"
-echo "   pm2 logs apebrain-backend"
+echo "4. DNS A-Records konfigurieren:"
+echo "   @ → $(curl -s ifconfig.me)"
+echo "   www → $(curl -s ifconfig.me)"
+echo ""
+echo "5. SSL einrichten (nach DNS):"
+echo "   certbot --nginx -d ${DOMAIN} -d www.${DOMAIN}"
+echo ""
+echo -e "${YELLOW}📚 Nützliche Befehle:${NC}"
+echo "   pm2 status              - Backend Status"
+echo "   pm2 logs apebrain-backend - Backend Logs"
+echo "   /root/apebrain-health.sh - System Health"
+echo "   /root/apebrain-update.sh - App Update"
+echo "   /root/apebrain-logs.sh   - Alle Logs"
 echo ""
 echo -e "${GREEN}🎉 Viel Erfolg mit APEBRAIN.CLOUD! 🍄🧠${NC}"
 echo ""
